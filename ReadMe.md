@@ -10,10 +10,10 @@ An imitation of the classics 90's game 'Chips Challenge'.
 | -------------- | --------- | ------------------------|
 |Giancarlo Cigaral| cigaragian1 | App |
 |Frank Irinco| irincofran | Persistancy |
-|Vedaanth Kannan| kannanveda | Recorder |
+|Vedaanth Kannan| kannanveda | Fuzz |
 |Benjamin McEvoy| mcevoybenj | Renderer |
 |Adam Roddick| roddicadam | Domain |
-|Ethan Windle| windleetha | Fuzz |
+|Ethan Windle| windleetha | Recorder |
 
 ## Theme 
 
