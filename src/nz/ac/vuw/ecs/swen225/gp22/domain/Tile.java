@@ -8,8 +8,11 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 public abstract class Tile{
 
 	// Fields
-	private Location location;
+	private Maze maze;
+	//private Location location;
+	//private int x, y;
 	protected boolean walkable = true;
+	protected boolean moveable = false;
 
 
 	/**
@@ -20,23 +23,46 @@ public abstract class Tile{
 	 *
 	 * */
 	Tile(int x, int y){
-		this.location = new Location(this,x,y);
+		maze.setTile(this, x, y);
 	}
 
 	public void moveUp() {
-		location.move(location.getRow(), location.getColumn()-1);
+		maze.moveTile(this, getX(),getY()-1);
 	}
 
 	public void moveDown() {
-		location.move(location.getRow(), location.getColumn()+1);
+		maze.moveTile(this, getX(),getY()+1);
 	}
 
 	public void moveLeft() {
-		location.move(location.getRow()-1, location.getColumn());
+		maze.moveTile(this, getX()-1,getY());
 	}
 
 	public void moveRight() {
-		location.move(location.getRow()+1, location.getColumn());
+		maze.moveTile(this, getX()+1,getY());
+	}
+	
+	
+	//getters
+	
+	public Maze getMaze() {
+		return maze;
+	}
+	
+	public int getX() {
+		return maze.getTileX(this);
+	}
+	
+	public int getY() {
+		return maze.getTileY(this);
+	}
+	
+	public boolean isWalkable() {
+		return walkable;
+	}
+	
+	public boolean isMoveable() {
+		return moveable;
 	}
 	
 	//will call this method to draw the tile
