@@ -32,6 +32,9 @@ public class Maze {
 	
 	public void moveTile(Tile t, int x, int y) {
 		
+		if (!(t instanceof ChapTile) || !(t.equals(chap))) return;
+		//ChapTile tile = (ChapTile) t;
+		
 		Tile target = board[x][y];
 		//boolean allowMove = 
 		
@@ -49,15 +52,44 @@ public class Maze {
 					return;
 				}
 			}
+			else if (target instanceof TreasureTile) {
+				//TreasureTile treasure = (TreasureTile) target;
+				target = null;
+			}
+			else if (target instanceof ExitLockTile) {
+				ExitLockTile lock = (ExitLockTile) target;
+				if (checkTreasures()) {
+					target = null;
+				}
+				else {
+					return;
+				}
+			}
+			
+			
+			
+			
+			
+			/*else if (target instanceof InfoTile) {
+				
+			}*/
 			
 			//all Tile subclasses will added to later
 		}
+		
 			
-		board[t.getX()][t.getY()] = null;
-		board[x][y] = t;
+		board[chap.getX()][chap.getY()] = chap.getStandingOn();
+		chap.setStandingOn(target);
+		target = chap;
 		
 	}
 	
+	private boolean checkTreasures() {
+		for (Tile t : this.getAllTiles()) {
+			if (t instanceof TreasureTile) return false;
+		}		
+		return true;
+	}
 	
 	
 	

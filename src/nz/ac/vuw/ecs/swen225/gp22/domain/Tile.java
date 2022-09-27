@@ -8,7 +8,7 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 public abstract class Tile{
 
 	// Fields
-	private Maze maze;
+	protected Maze maze;
 	//private Location location;
 	//private int x, y;
 	protected boolean walkable = true;
