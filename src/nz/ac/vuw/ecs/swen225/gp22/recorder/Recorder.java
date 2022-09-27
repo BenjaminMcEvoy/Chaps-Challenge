@@ -1,7 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp22.recorder;
 
 public class Recorder {
-
+	static int playbackSpeed = 10;
 	public void SaveGame() {
 		
 	}
