@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
-
+import java.util.HashSet;
+import java.util.Set;
 
 public class Maze {
 	
@@ -94,6 +95,23 @@ public class Maze {
 			}
 		}
 		return null;
+	}
+	
+	
+	
+	/*
+	 * Getter method to return a collection of all the tiles in this maze object
+	 */
+	public Set<Tile> getAllTiles() {
+		
+		Set<Tile> tiles = new HashSet<Tile>();
+		for (int x = 0; x < board.length; x++) {
+			for (int y = 0; y < board[x].length; y++) {
+				tiles.add(board[x][y]);
+			}
+		}	
+		return tiles;
+		
 	}
 
 }
