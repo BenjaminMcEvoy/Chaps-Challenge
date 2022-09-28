@@ -9,10 +9,12 @@ public class WallTile extends Tile {
 		walkable = false;
 	}
 
+	
+
+	public void draw() {}
+	
 	@Override
 	public String toString() {
 		return "wall";
 	}
-
-	public void draw() {}
 }

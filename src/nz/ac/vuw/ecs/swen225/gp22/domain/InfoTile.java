@@ -31,5 +31,9 @@ public class InfoTile extends Tile {
 		}
 	}
 	
+	@Override
+	public String toString() {
+		return "Info";
+	}
 
 }

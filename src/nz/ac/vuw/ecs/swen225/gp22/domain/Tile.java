@@ -69,8 +69,10 @@ public abstract class Tile{
 	
 	public abstract void draw();
 
-
-
+	public abstract String toString();
+		
+	
+	
 
 
 }

@@ -8,6 +8,7 @@ public class Maze {
 	//fields
 	private Tile[][] board = new Tile[10][10];
 	private ChapTile chap;
+	//private int totalTreasureCount;
 	//private Set<Key> availableKeys = new HashSet<Key>();
 	
 	/*
@@ -36,25 +37,28 @@ public class Maze {
 		//ChapTile tile = (ChapTile) t;
 		
 		Tile target = board[x][y];
-		//boolean allowMove = 
+		boolean collect = false; 
 		
 		if (target != null) {
 			if (target instanceof WallTile) {
-				return;
+				throw new IllegalArgumentException("cannot move chap into a wall tile.");
+				
 			}
 			else if (target instanceof KeyTile) {
 				
 				chap.addKey(((KeyTile) target).getColor());
+				collect = true;
 			}
 			else if (target instanceof LockedDoorTile) {
 				LockedDoorTile door = (LockedDoorTile) target;
 				if (!chap.hasKey(door.getColor())) {
-					return;
+					throw new IllegalArgumentException("cannot move chap into a locked door tile.");
 				}
 			}
 			else if (target instanceof TreasureTile) {
 				//TreasureTile treasure = (TreasureTile) target;
-				target = null;
+				//target = null;
+				collect = true;
 			}
 			else if (target instanceof ExitLockTile) {
 				ExitLockTile lock = (ExitLockTile) target;
@@ -62,7 +66,7 @@ public class Maze {
 					target = null;
 				}
 				else {
-					return;
+					throw new IllegalArgumentException("cannot move chap into a exit locked tile.");
 				}
 			}
 			
@@ -79,7 +83,7 @@ public class Maze {
 		
 			
 		board[chap.getX()][chap.getY()] = chap.getStandingOn();
-		chap.setStandingOn(target);
+		if (!collect) chap.setStandingOn(target);
 		target = chap;
 		
 	}
@@ -144,6 +148,17 @@ public class Maze {
 		}	
 		return tiles;
 		
+	}
+	
+	@Override
+	public String toString() {
+		String output = "";		
+		for (int x = 0; x < board.length; x++) {
+			for (int y = 0; y < board[x].length; y++) {
+				output += board[x][y].toString() + " ";
+			}
+		}
+		return output;
 	}
 
 }

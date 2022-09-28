@@ -39,5 +39,10 @@ public class ChapTile extends Tile{
 		
 		
 	}
+	
+	@Override
+	public String toString() {
+		return "Chap";
+	}
 
 }

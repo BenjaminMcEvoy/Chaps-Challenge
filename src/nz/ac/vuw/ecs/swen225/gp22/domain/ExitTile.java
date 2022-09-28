@@ -12,5 +12,10 @@ public class ExitTile extends Tile{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public String toString() {
+		return "Exit";
+	}
 
 }
