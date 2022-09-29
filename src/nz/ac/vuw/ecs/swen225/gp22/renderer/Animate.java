@@ -13,12 +13,12 @@ public class Animate{
 	
 	
 	// No need for enum, decided to use tile with x and y
-	/*
+	
 	public enum direction{
 		UP,
 		DOWN,
 		LEFT,
 		RIGHT
-	}*/
+	}
 	
 }

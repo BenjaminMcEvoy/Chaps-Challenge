@@ -1,4 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.recorder;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.Animate.direction;
+import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 
 import java.io.*;
 import javax.xml.parsers.*;
@@ -27,12 +29,12 @@ public class Recorder {
 				Node current = characters.item(i);
 				if (current.getNodeType() == Node.ELEMENT_NODE) {
 					String name = current.getAttributes().getNamedItem("name").getTextContent();
-					Character chara;
-					for(Character c: m.getCharacters()) {
+					CharacterTile chara = null;
+					for(CharacterTile c: m.getCharacters()) {
 						if(c.getName().equals(name)) {chara = c;}
 					}
 					String text = "";
-					Stack<direction> moves = new Stack<direction>(chara.getPrevMoves());
+					Stack<direction> moves = (Stack<direction>) chara.getPrevMoves().clone();
 					if(!moves.isEmpty()) {text += moves.pop().toString();}
 					while(!moves.isEmpty()) {text += ", " + moves.pop().toString();}
 					Node move = current.getLastChild();
@@ -54,17 +56,17 @@ public class Recorder {
 	
 	public void Next(Maze m) {
 		auto = false;
-		m.getCharaters().stream().forEach(i->i.nextMove());
+		m.getCharacters().stream().forEach(i->i.nextMove());
 	}
 	public void Back(Maze m) {
 		auto = false;
-		m.getCharaters().stream().forEach(i->i.prevMove());
+		m.getCharacters().stream().forEach(i->i.previousMove());
 	}
-	public void AutoPlay(Maze m) {
+	public void AutoPlay(Maze m) throws InterruptedException {
 		auto = true;
-		while(!m.get(0).getNextMoves().isEmpty() && auto) {
-			m.getCharaters().stream().forEach(i->i.nextMove());
-			wait(1/playbackSpeed);
+		while(!m.getCharacters().get(0).getNextMoves().isEmpty() && auto) {
+			m.getCharacters().stream().forEach(i->i.nextMove());
+			wait(2000/playbackSpeed);
 		}
 	}
 }
