@@ -2,6 +2,10 @@ package nz.ac.vuw.ecs.swen225.gp22.recorder;
 
 import java.io.*;
 import javax.xml.parsers.*;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.*;
+
 import org.w3c.dom.*;
 import java.util.Stack;
 
@@ -9,7 +13,7 @@ public class Recorder {
 	static int playbackSpeed = 10;
 	static File file;
 	
-	public void SaveGame(Model m) {
+	public void SaveGame(Map m, String newFileName) {
 		if(file == null) {System.out.println("Nothing to be saved");}
 		try {
 			InputStream oldFile = new FileInputStream(file);
@@ -20,29 +24,44 @@ public class Recorder {
 			NodeList characters = newFile.getElementsByTagName("character");
 			for(int i=0; i<characters.getLength(); i++) {
 				Node current = characters.item(i);
-				String name = current.getAttributes().getNamedItem("name").getTextContent();
+				if (current.getNodeType() == Node.ELEMENT_NODE) {
+					String name = current.getAttributes().getNamedItem("name").getTextContent();
+					Character chara;
+					for(Character c: m.getCharacters()) {
+						if(c.getName().equals(name)) {chara = c;}
+					}
+					String text = "";
+					Stack<direction> moves = new Stack<direction>(chara.getPrevMoves());
+					if(!moves.isEmpty()) {text += moves.pop().toString();}
+					while(!moves.isEmpty()) {text += ", " + moves.pop().toString();}
+					Node move = current.getLastChild();
+					move.setTextContent(text);
+				}
 			}
-			
-		}catch(Exception e) {}
+			FileOutputStream outputFile = new FileOutputStream(newFileName+"xml");
+			TransformerFactory tf = TransformerFactory.newInstance();
+			Transformer t = tf.newTransformer(new StreamSource(new File(newFileName+".xslt")));
+			t.setOutputProperty(OutputKeys.INDENT, "yes");
+	        t.setOutputProperty(OutputKeys.STANDALONE, "no");
+	        DOMSource source = new DOMSource(newFile);
+	        StreamResult result = new StreamResult(outputFile);
+	        t.transform(source, result);
+	        
+		}catch(Exception e) {e.printStackTrace();}
 	}
 	
 	
-	public void Next(Model m) {
+	public void Next(Map m) {
 		m.charaters.stream().forEach(i->i.nextMove());
 	}
-	public void Back(Model m) {
+	public void Back(Map m) {
 		m.charaters.stream().forEach(i->i.nextMove());
 	}
-	public void AutoPlay(Model m) {
+	public void AutoPlay(Map m) {
 		while(true) {
 			wait(1/playbackSpeed);
 			next(m);
 			if(m.get(0).getNextMoves().isEmpty()){break;}
 		}
-	}
-	
-	public character getCharacter(Model m, String profile) {
-		//String name = 
-		m.getCharacters().stream().forEach(i->{if(i.getName().equals(name)) {return i;}});
 	}
 }
