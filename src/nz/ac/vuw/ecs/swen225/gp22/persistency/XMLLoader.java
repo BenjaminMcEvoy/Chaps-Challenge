@@ -1,6 +1,5 @@
 package nz.ac.vuw.ecs.swen225.gp22.persistency;
 
-import org.dom4j.Node;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
@@ -29,6 +28,7 @@ public class XMLLoader {
 			parseChap(rootNode);
 			parseBoard(rootNode);
 		}
+		catch(Exception e) {}
 	}
 	
 	private void parseChap(Element e) {
@@ -43,9 +43,11 @@ public class XMLLoader {
 		boolean parsing = true;
 		List<Element> tiles = e.getChildren();
 		for (Element f:tiles) {
-			Element currTile = f.getChild("tile").getChildText("class");
-			int x = currTile.getChildText("xpos");
-			int y = currTile.getChildText("ypos");
+			String tile = f.getChild("tile").getChildText("class");
+			List<Element> currTiles = f.getChildren();
+			Element currTile = ((Element) currTiles).getChild("tile");
+			int x = Integer.valueOf(currTile.getChildText("xpos"));
+			int y = Integer.valueOf(currTile.getChildText("ypos"));
 			if (currTile.toString().equals("wall")) {
 				maze.setTile(new WallTile(x, y), x, y);
 			} else if(currTile.toString().equals("free")) {
