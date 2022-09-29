@@ -1,7 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import nz.ac.vuw.ecs.swen225.gp22.persistency.XMLLoader;
 
@@ -12,6 +11,7 @@ public class Maze {
 	private ChapTile chap;
 	private XMLLoader loader;
 	private Set<Tile> entities = new HashSet<Tile>();
+	private List<CharacterTile> characters = new ArrayList<CharacterTile>();
 	//private int totalTreasureCount;
 	//private Set<Key> availableKeys = new HashSet<Key>();
 	
@@ -22,7 +22,7 @@ public class Maze {
 	 * 
 	 */
 	
-	Maze(XMLLoader loader) {
+	public Maze(XMLLoader loader) {
 		this.loader = loader;
 	}
 	
@@ -151,6 +151,9 @@ public class Maze {
 	
 	public Set<Tile> getAllEntities() {
 		return entities;
+	}
+	public List<CharacterTile> getCharacters(){
+		return characters;
 	}
 	
 	@Override

@@ -1,6 +1,6 @@
-package App;
+package nz.ac.vuw.ecs.swen225.gp22.app;
 
-import src.nz.ac.vuw.ecs.swen225.gp22.persistency;
+import nz.ac.vuw.ecs.swen225.gp22.persistency.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

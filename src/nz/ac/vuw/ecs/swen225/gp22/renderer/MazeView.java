@@ -102,9 +102,9 @@ public class MazeView extends JPanel implements ActionListener{
 				// to see if it contains any entities or objects at the start
 				
 				// if there is che	ck all entities/containables
-			}
+			//}
 			
-		}
+		//}
 		
 	}
 
