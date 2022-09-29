@@ -20,7 +20,7 @@ public class Game extends JFrame implements ActionListener{
 		assert SwingUtilities.isEventDispatchThread();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
-		new Loader().loadFile(new File("blankLevel.xml"));
+		new XMLLoader().loadFile(new File("blankLevel.xml"));
 		gui();
 		setVisible(true);
 	}
