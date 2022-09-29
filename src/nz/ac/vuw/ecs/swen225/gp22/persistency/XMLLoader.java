@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.persistency;
 
+import org.dom4j.Node;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
@@ -34,7 +35,7 @@ public class XMLLoader {
 		int x = Integer.parseInt(e.getChild("player").getChild("location").getChildText("xpos"));
 		int y = Integer.parseInt(e.getChild("player").getChild("location").getChildText("ypos"));
 		this.chap = new ChapTile(x, y);
-		map.setTile(this.chap, x, y);
+		maze.setTile(this.chap, x, y);
 		
 	}
 	
