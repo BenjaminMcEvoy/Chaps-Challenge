@@ -10,10 +10,11 @@ import org.w3c.dom.*;
 import java.util.Stack;
 
 public class Recorder {
+	static boolean auto = false;
 	static int playbackSpeed = 10;
 	static File file;
 	
-	public void SaveGame(Map m, String newFileName) {
+	public void SaveGame(Maze m, String newFileName) {
 		if(file == null) {System.out.println("Nothing to be saved");}
 		try {
 			InputStream oldFile = new FileInputStream(file);
@@ -51,17 +52,19 @@ public class Recorder {
 	}
 	
 	
-	public void Next(Map m) {
-		m.charaters.stream().forEach(i->i.nextMove());
+	public void Next(Maze m) {
+		auto = false;
+		m.getCharaters().stream().forEach(i->i.nextMove());
 	}
-	public void Back(Map m) {
-		m.charaters.stream().forEach(i->i.nextMove());
+	public void Back(Maze m) {
+		auto = false;
+		m.getCharaters().stream().forEach(i->i.prevMove());
 	}
-	public void AutoPlay(Map m) {
-		while(true) {
+	public void AutoPlay(Maze m) {
+		auto = true;
+		while(!m.get(0).getNextMoves().isEmpty() && auto) {
+			m.getCharaters().stream().forEach(i->i.nextMove());
 			wait(1/playbackSpeed);
-			next(m);
-			if(m.get(0).getNextMoves().isEmpty()){break;}
 		}
 	}
 }
