@@ -1,8 +1,8 @@
 package nz.ac.vuw.ecs.swen225.gp22.recorder;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
+import javax.xml.parsers.*;
+import org.w3c.dom.*;
 import java.util.Stack;
 
 public class Recorder {
@@ -12,24 +12,21 @@ public class Recorder {
 	public void SaveGame(Model m) {
 		if(file == null) {System.out.println("Nothing to be saved");}
 		try {
-			BufferedReader oldFile = new BufferedReader(new FileReader(file));
-			StringBuffer newFile = new StringBuffer();
-			String line;
-			while((line = oldFile.readLine()) != null) {
-				if(line.contains("Character")) {
-					//override any previously stored moves
-					String moves = String.join(", ", getCharacter(m, line).getPrevMoves());
-					
-				}else {
-					newFile.append(line+"\n");
-				}
+			InputStream oldFile = new FileInputStream(file);
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			Document newFile = db.parse(oldFile);
+			
+			NodeList characters = newFile.getElementsByTagName("character");
+			for(int i=0; i<characters.getLength(); i++) {
+				Node current = characters.item(i);
+				String name = current.getAttributes().getNamedItem("name").getTextContent();
 			}
 			
 		}catch(Exception e) {}
 	}
-	public void LoadGame() {
-		
-	}
+	
+	
 	public void Next(Model m) {
 		m.charaters.stream().forEach(i->i.nextMove());
 	}

@@ -1,4 +1,5 @@
 <Level level="test">
+	<character name="chap"><location xpos="1" ypos="1"><Moves>right, down, left</Moves></location></character>
 	<tile class="wall"><location xpos="0" ypos="0"></location></tile>
 	<tile class="wall"><location xpos="0" ypos="1"></location></tile>
 	<tile class="wall"><location xpos="0" ypos="2"></location></tile>
@@ -15,6 +16,5 @@
 	<tile class="free"><location xpos="1" ypos="1"></location></tile>
 	<tile class="free"><location xpos="1" ypos="2"></location></tile>
 	<tile class="key" colour="blue"><location xpos="2" ypos="1"></location></tile>
-	<tile class="door" colour="blue"><location xpos="2" ypos="2"></location></tile>
-	<character name="chap"><location xpos="1" ypos="1"><Moves>right, down, left</Moves></location></character>
+	<tile class="door" colour="blue"><location xpos="2" yp="2"></location></tile>
 </Level>
