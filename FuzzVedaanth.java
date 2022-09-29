@@ -22,7 +22,7 @@ public class FuzzVedaanth {
 		Location chap = gui.getMazePlaceholder().getChapPlaceholder().getLocationPlaceholder();
 		generateGraph(maze[chap.getRowPlaceholder()][chap.getColPlaceholder()]);
 		reset();
-		app.setIsTesting();
+		gui.setIsTesting();
 	}
 }
 
