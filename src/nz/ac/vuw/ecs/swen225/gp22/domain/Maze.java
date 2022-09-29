@@ -3,11 +3,15 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 import java.util.HashSet;
 import java.util.Set;
 
+import nz.ac.vuw.ecs.swen225.gp22.persistency.XMLLoader;
+
 public class Maze {
 	
 	//fields
 	private Tile[][] board = new Tile[10][10];
 	private ChapTile chap;
+	private XMLLoader loader;
+	private Set<Tile> entities = new HashSet<Tile>();
 	//private int totalTreasureCount;
 	//private Set<Key> availableKeys = new HashSet<Key>();
 	
@@ -18,13 +22,8 @@ public class Maze {
 	 * 
 	 */
 	
-	Maze(/*Persistency p*/) {
-		/*
-		chap = p.getChap(); 
-		 
-		 
-		  
-		 */
+	Maze(XMLLoader loader) {
+		this.loader = loader;
 	}
 	
 	/*
@@ -150,6 +149,10 @@ public class Maze {
 		
 	}
 	
+	public Set<Tile> getAllEntities() {
+		return entities;
+	}
+	
 	@Override
 	public String toString() {
 		String output = "";		
@@ -157,6 +160,7 @@ public class Maze {
 			for (int y = 0; y < board[x].length; y++) {
 				output += board[x][y].toString() + " ";
 			}
+			output += "/n";
 		}
 		return output;
 	}
