@@ -1,4 +1,4 @@
-package App;
+package nz.ac.vuw.ecs.swen225.gp22.app;
 
 import javax.swing.*;
 import java.awt.*;

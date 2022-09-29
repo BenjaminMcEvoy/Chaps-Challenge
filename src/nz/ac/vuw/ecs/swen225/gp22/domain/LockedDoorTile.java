@@ -4,7 +4,7 @@ public class LockedDoorTile extends Tile{
 	
 	private String color;
 
-	LockedDoorTile(int x, int y, String keyColor) {
+	public LockedDoorTile(int x, int y, String keyColor) {
 		super(x, y);
 		walkable = false;
 		color = keyColor;

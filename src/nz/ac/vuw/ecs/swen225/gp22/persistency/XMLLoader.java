@@ -4,7 +4,10 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 
+import nz.ac.vuw.ecs.swen225.gp22.domain.*;
+
 import java.io.File;
+import java.util.List;
 
 public class XMLLoader {
 	
@@ -20,7 +23,7 @@ public class XMLLoader {
 		try {
 			this.maze = new Maze(this);
 			SAXBuilder sax = new SAXBuilder();
-			Document doc = new sax.build(file);
+			Document doc = sax.build(file);
 			Element rootNode = doc.getRootElement();
 			parseChap(rootNode);
 			parseBoard(rootNode);
@@ -43,15 +46,15 @@ public class XMLLoader {
 			int x = currTile.getChildText("xpos");
 			int y = currTile.getChildText("ypos");
 			if (currTile.toString().equals("wall")) {
-				map.setTile(new WallTile(x, y), x, y);
+				maze.setTile(new WallTile(x, y), x, y);
 			} else if(currTile.toString().equals("free")) {
-				map.setTile(null, x, y);
+				maze.setTile(null, x, y);
 			} else if (currTile.toString().equals("door")) {
-				string colour = currTile.getChildText("colour");
-				map.setTile(new LockedDoorTile(x, y, colour), x, y);
+				String colour = currTile.getChildText("colour");
+				maze.setTile(new LockedDoorTile(x, y, colour), x, y);
 			} else if (currTile.toString().equals("key")) {
-				string colour = currTile.getChildText("colour");
-				map.setTile(new KeyTile(x, y, colour), x, y);
+				String colour = currTile.getChildText("colour");
+				maze.setTile(new KeyTile(x, y, colour), x, y);
 			}
 		}
 	}	

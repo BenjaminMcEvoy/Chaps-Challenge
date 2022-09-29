@@ -1,4 +1,4 @@
-package App;
+package nz.ac.vuw.ecs.swen225.gp22.app;
 
 /**
  * Execution of Chap's Challenge begins here, creates a new setup instance

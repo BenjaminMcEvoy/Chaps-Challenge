@@ -22,7 +22,7 @@ public class Maze {
 	 * 
 	 */
 	
-	Maze(XMLLoader loader) {
+	public Maze(XMLLoader loader) {
 		this.loader = loader;
 	}
 	

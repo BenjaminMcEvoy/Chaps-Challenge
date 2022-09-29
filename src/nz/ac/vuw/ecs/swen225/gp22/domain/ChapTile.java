@@ -7,7 +7,7 @@ public class ChapTile extends CharacterTile{
 	private Set<String> keys;
 	private boolean alive;
 
-	ChapTile(int x, int y) {
+	public ChapTile(int x, int y) {
 		super(x, y, "chap");
 		keys = new HashSet<String>();
 		alive = true;
