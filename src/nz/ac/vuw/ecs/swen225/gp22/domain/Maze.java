@@ -32,6 +32,7 @@ public class Maze {
 	
 	public void moveTile(Tile t, int x, int y) {
 		
+		
 		if (!(t instanceof ChapTile) || !(t.equals(chap))) return;
 		//ChapTile tile = (ChapTile) t;
 		
@@ -108,6 +109,10 @@ public class Maze {
 	/*public Set<Key> availableKeys() {
 		return Collections.unmodifiableSet(availableKeys);
 	}*/
+	
+	public Tile[][] getBoard() {
+		return board;
+	}
 	
 	
 	
