@@ -5,7 +5,16 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Users/epkwi/.m2/repository/org/jdom/jdom2/2.0.6/jdom2-2.0.6.jar" sourcepath="C:/Users/epkwi/.m2/repository/org/jdom/jdom2/2.0.6/jdom2-2.0.6-sources.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="maven.groupId" value="org.jdom"/>
+			<attribute name="maven.artifactId" value="jdom2"/>
+			<attribute name="maven.version" value="2.0.6"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
