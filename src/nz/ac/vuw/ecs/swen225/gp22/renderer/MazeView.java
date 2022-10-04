@@ -3,7 +3,9 @@ package nz.ac.vuw.ecs.swen225.gp22.renderer;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.awt.*;
 
@@ -28,6 +30,7 @@ public class MazeView extends JPanel implements ActionListener{
 	// Fields
 	private static final int indentWINDOW = 100;
 	private static final int indentGAP = 40;
+	private Map<String, Image> mapImages = new HashMap<String, Image>();
 
 	private Dimension currSDimension = new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width - indentWINDOW,
 	 Toolkit.getDefaultToolkit().getScreenSize().height - indentWINDOW);
@@ -111,35 +114,42 @@ public class MazeView extends JPanel implements ActionListener{
 	/** 
 	 * Image initialisation
 	 * 
-	 * Assigns all image fields to the files from resource folder.
-	 * @return
+	 * Assigns all image fields to the files from resource folder into the hashmap
+	 * 
+	 * TODO: Make an loop of the res folder and loop through to put in the map rather
+	 * than manually setting it. 
+	 * @return hash
 	 */
 	private void initImage(){
 		try {
 			String dir = "res/graphics/";
 
-			chap = ImageIO.read(new File(dir + "Chap.png"));
-			wallTile = ImageIO.read(new File(dir + "wallTile.png"));
-			treasureTile = ImageIO.read(new File(dir + "treasureTile.png"));
-			exitLock = ImageIO.read(new File(dir + "exitLock.png"));
-			exitTile = ImageIO.read(new File(dir + "exitTile.png"));
-			freeTile = ImageIO.read(new File(dir + "freeTile.png"));
-			infoTile = ImageIO.read(new File(dir + "infoTile.png"));
-			
-			keyTileB = ImageIO.read(new File(dir + "keyTile_blue.png"));
-			keyTileR = ImageIO.read(new File(dir + "keyTile_red.png"));
-			keyTileY = ImageIO.read(new File(dir + "keyTile_yellow.png"));
-			keyTileG = ImageIO.read(new File(dir + "keyTile_green.png"));
+			mapImages.put("chap", ImageIO.read(new File(dir + "Chap.png")));
+			mapImages.put("wallTile", ImageIO.read(new File(dir + "wallTile.png")));
+			mapImages.put("treasureTile", ImageIO.read(new File(dir + "treasureTile.png")));
+			mapImages.put("exitLock", ImageIO.read(new File(dir + "exitLock.png")));
+			mapImages.put("exitTile", ImageIO.read(new File(dir + "exitTile.png")));
+			mapImages.put("freeTile", ImageIO.read(new File(dir + "freeTile.png")));
+			mapImages.put("infoTile", ImageIO.read(new File(dir + "infoTile.png")));
 
-			lockedDoorB = ImageIO.read(new File(dir + "lockedDoor_blue.png"));
-			lockedDoorR = ImageIO.read(new File(dir + "lockedDoor_red.png"));
-			lockedDoorY = ImageIO.read(new File(dir + "lockedDoor_yellow.png"));
-			lockedDoorG = ImageIO.read(new File(dir + "lockedDoor_green.png"));
+			mapImages.put("keyTileR", ImageIO.read(new File(dir + "keyTileR.png")));
+			mapImages.put("keyTileG", ImageIO.read(new File(dir + "keyTileG.png")));
+			mapImages.put("keyTileB", ImageIO.read(new File(dir + "keyTileB.png")));
+			mapImages.put("keyTileY", ImageIO.read(new File(dir + "keyTileY.png")));
 
+			mapImages.put("lockedDoorR", ImageIO.read(new File(dir + "lockedDoorR.png")));
+			mapImages.put("lockedDoorG", ImageIO.read(new File(dir + "lockedDoorG.png")));
+			mapImages.put("lockedDoorB", ImageIO.read(new File(dir + "lockedDoorB.png")));
+			mapImages.put("lockedDoorY", ImageIO.read(new File(dir + "lockedDoorY.png")));
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void drawImage(String fileName){
+		Image fileImage = mapImages.get(fileName);
+
 	}
 
 	private void findChap() {
@@ -213,6 +223,9 @@ public class MazeView extends JPanel implements ActionListener{
 		}
 
 		for (Tile til : m) {
+			//Image img = mapImages.get(til.getClass());
+			System.out.println(til.getClass());
+			//g.drawImage(img, til.getX(), til.getY(), null);
 			tX = til.getX();
 			tY = til.getY();	
 		}
