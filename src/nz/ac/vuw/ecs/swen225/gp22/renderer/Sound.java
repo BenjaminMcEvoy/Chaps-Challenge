@@ -1,4 +1,4 @@
-spackage nz.ac.vuw.ecs.swen225.gp22.renderer;
+package nz.ac.vuw.ecs.swen225.gp22.renderer;
 
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 import java.io.*;
