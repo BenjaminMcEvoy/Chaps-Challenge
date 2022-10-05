@@ -15,9 +15,7 @@ import javax.imageio.spi.ImageReaderWriterSpi;
 import javax.swing.*;
 import java.io.*;
 
-import nz.ac.vuw.ecs.swen225.gp22.domain.ChapTile;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
+import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 
 /** 
  * Maze View class to update and render the maze whenever
@@ -25,34 +23,36 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
  * 
  * 
  * */
-public class MazeView extends JPanel implements ActionListener{
+public class MazeView extends JPanel{
 	
 	// Fields
-	private static final int indentWINDOW = 100;
-	private static final int indentGAP = 40;
+	private static final int INDENT_WINDOW = 100;
+	private static final int INDENT_GAP = 40;
 	private Map<String, Image> mapImages = new HashMap<String, Image>();
 
-	private Dimension currSDimension = new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width - indentWINDOW,
-	 Toolkit.getDefaultToolkit().getScreenSize().height - indentWINDOW);
+	// Fetches the current screen dimension
+	private Dimension currSDimension = new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width - INDENT_WINDOW,
+	 Toolkit.getDefaultToolkit().getScreenSize().height - INDENT_WINDOW);
 
-	private int indentVIEW = currSDimension.height / 14;
-	private int bWidth = (currSDimension.width - (indentGAP + (indentVIEW * 2))) / 2;
+	// Get screen/board dimensions using a toolkit to fetch the screen size with static indents.
+	private int indentBoard = currSDimension.height / 14;
+	private int bWidth = (currSDimension.width - (INDENT_GAP + (indentBoard * 2))) / 2;
 	private int sWidHei = 9;
 
-	private int bHeight, tSize, tView, chapX, chapY;
-	private Maze maze;
+	private int chapX, chapY, indentSize, imageSize;
+	private Maze maze; 
 	private Tile[][] chapView, mazeArray;
 	private Set<Tile> tileSet;
 
-	private Image chap, exitLock, exitTile, freeTile, infoTile, keyTileB, keyTileY, keyTileR, keyTileG,
-	lockedDoorB, lockedDoorY, lockedDoorR, lockedDoorG, wallTile, treasureTile;
+	/*private Image chap, exitLock, exitTile, freeTile, infoTile, keyTileB, keyTileY, keyTileR, keyTileG,
+	lockedDoorB, lockedDoorY, lockedDoorR, lockedDoorG, wallTile, treasureTile;*/
 	
-	MazeView(Maze m){
-		init();
+	public MazeView(Maze m){
+		initialize();
 		this.maze = m;
 		this.tileSet = m.getAllTiles();
 		initImage();
-		findChap();
+		//findChap();
 
 
 		
@@ -66,11 +66,27 @@ public class MazeView extends JPanel implements ActionListener{
 		 * */
 	}
 	
-	private void init() {
-		bWidth = 850;
-		bHeight = 850;
-		tSize = 50;
-		tView = 5;
+	/**
+	 *  Initializes the indent and image size and
+	 *  any other field or variables that may need
+	 *  initialization.
+	 * 
+	 * */
+	private void initialize() {
+		//bWidth = 850;
+		//bHeight = 850;
+		indentSize = indentBoard;
+		imageSize = bWidth/sWidHei;
+	}
+	
+	
+	/**
+	 * 
+	 * 
+	 * 
+	 * */
+	private void updateMaze() {
+		mazeArray = maze.getBoard();
 	}
 
 	/**
@@ -123,7 +139,9 @@ public class MazeView extends JPanel implements ActionListener{
 	private void initImage(){
 		try {
 			String dir = "res/graphics/";
-
+			
+			Image test = ImageIO.read(new File(dir + "Chap.png"));
+			
 			mapImages.put("chap", ImageIO.read(new File(dir + "Chap.png")));
 			mapImages.put("wallTile", ImageIO.read(new File(dir + "wallTile.png")));
 			mapImages.put("treasureTile", ImageIO.read(new File(dir + "treasureTile.png")));
@@ -131,26 +149,26 @@ public class MazeView extends JPanel implements ActionListener{
 			mapImages.put("exitTile", ImageIO.read(new File(dir + "exitTile.png")));
 			mapImages.put("freeTile", ImageIO.read(new File(dir + "freeTile.png")));
 			mapImages.put("infoTile", ImageIO.read(new File(dir + "infoTile.png")));
+			
+			mapImages.put("keyTileR", ImageIO.read(new File(dir + "keyTile_red.png")));
+			mapImages.put("keyTileG", ImageIO.read(new File(dir + "keyTile_green.png")));
+			mapImages.put("keyTileB", ImageIO.read(new File(dir + "keyTile_blue.png")));
+			mapImages.put("keyTileY", ImageIO.read(new File(dir + "keyTile_yellow.png")));
 
-			mapImages.put("keyTileR", ImageIO.read(new File(dir + "keyTileR.png")));
-			mapImages.put("keyTileG", ImageIO.read(new File(dir + "keyTileG.png")));
-			mapImages.put("keyTileB", ImageIO.read(new File(dir + "keyTileB.png")));
-			mapImages.put("keyTileY", ImageIO.read(new File(dir + "keyTileY.png")));
-
-			mapImages.put("lockedDoorR", ImageIO.read(new File(dir + "lockedDoorR.png")));
-			mapImages.put("lockedDoorG", ImageIO.read(new File(dir + "lockedDoorG.png")));
-			mapImages.put("lockedDoorB", ImageIO.read(new File(dir + "lockedDoorB.png")));
-			mapImages.put("lockedDoorY", ImageIO.read(new File(dir + "lockedDoorY.png")));
+			mapImages.put("lockedDoorR", ImageIO.read(new File(dir + "lockedDoor_red.png")));
+			mapImages.put("lockedDoorG", ImageIO.read(new File(dir + "lockedDoor_green.png")));
+			mapImages.put("lockedDoorB", ImageIO.read(new File(dir + "lockedDoor_blue.png")));
+			mapImages.put("lockedDoorY", ImageIO.read(new File(dir + "lockedDoor_yellow.png")));
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void drawImage(String fileName){
+	/*public void drawImage(String fileName){
 		Image fileImage = mapImages.get(fileName);
 
-	}
+	}*/
 
 	private void findChap() {
 		for (Tile t: tileSet) {
@@ -182,54 +200,76 @@ public class MazeView extends JPanel implements ActionListener{
 		return bWidth;
 	}
 
+
 	/**
-	 *  Get the maze/board/pane height
-	 * @return bHeight
+	 * 
 	 * 
 	 * */
-	public int getbHeight() {
-		return bHeight;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
 	public void paintComponent(Graphics g){
-		super.paintComponent(g);
-		Graphics2D graph2d = (Graphics2D) g;
-		graph2d.setBackground(Color.BLACK);
-		graph2d.fillRect(0, 0, getWidth(), getHeight());
-
-		int tX, tY;
-		Set<Tile> m = maze.getAllTiles();
-		chapView = new Tile[sWidHei][sWidHei];
-		for (int x = 0; x < sWidHei; x++) {
-			for (int y = 0; y < sWidHei; y++) {
-
-
-				Tile tile2 = maze.getTileAt(x, y);
-				int posX = chapX /2 + x;
-				int posY = chapY /2 + y;
-				if (posX > mazeArray.length || posY > mazeArray[0].length || posX < 0 || posY < 0) {
-					chapView[x][y] = null;
-				}
-
-				//graph2d.drawImage(tile2, arg1, arg2, arg3, null);
-			}
-		}
-
-		for (Tile til : m) {
-			//Image img = mapImages.get(til.getClass());
-			System.out.println(til.getClass());
-			//g.drawImage(img, til.getX(), til.getY(), null);
-			tX = til.getX();
-			tY = til.getY();	
-		}
+		System.out.println("m");
+		mazeArray = maze.getBoard();
+		findChap();
+        super.paintComponent(g);
+        Dimension s = getSize();
+        Graphics2D graph2d = (Graphics2D) g;
+       // graph2d.setBackground(Color.BLACK);
+       // graph2d.fillRect(0, 0, 500, 500);
+        System.out.println("paint");
+        //int tX, tY;
+        //Set<Tile> m = maze.getAllTiles();
+        chapView = new Tile[sWidHei][sWidHei];
+        initImage();
+        for (int x = 0; x < sWidHei; x++) {
+            for (int y = 0; y < sWidHei; y++) {
+               // Tile tile2 = maze.getTileAt(x, y);
+                int posX = chapX /2 + x * 32;
+                int posY = chapY /2 + y * 32;
+               // mazeArray = maze.getBoard();
+                if (posX > mazeArray.length || posY > mazeArray[0].length || posX < 0 || posY < 0) {
+                    chapView[x][y] = null;
+                } else {
+                	chapView[x][y] = maze.getTileAt(posX, posY);
+                }
+            }
+        }
+        
+        for (int x = 0; x < sWidHei; x++) {
+            for (int y = 0; y < sWidHei; y++) {
+            	Tile curTile = chapView[x][y];
+            	if(curTile == null) {
+            		graph2d.setColor(Color.BLACK);
+            		graph2d.fillRect(indentSize+x*imageSize, indentSize+y*imageSize, imageSize, imageSize);
+            	}
+            	else if(curTile instanceof EmptyTile){
+            		graph2d.drawImage(mapImages.get("freeTile"), indentSize+x*imageSize, indentSize+y*imageSize, null);
+            	}
+            	else if(curTile instanceof InfoTile){
+            		graph2d.drawImage(mapImages.get("infoTile"), indentSize+x*imageSize, indentSize+y*imageSize, null);
+            	}
+            	else if(curTile instanceof WallTile){
+            		graph2d.drawImage(mapImages.get("wallTile"), indentSize+x*imageSize, indentSize+y*imageSize, null);
+            	}
+            	else if(curTile instanceof TreasureTile){
+            		graph2d.drawImage(mapImages.get("treasureTile"), indentSize+x*imageSize, indentSize+y*imageSize, null);
+            	}
+            	else if(curTile instanceof LockedDoorTile){
+            		graph2d.drawImage(mapImages.get("freeTile"), indentSize+x*imageSize, indentSize+y*imageSize, null);
+            	}
+            	else if(curTile instanceof ExitTile){
+            		graph2d.drawImage(mapImages.get("exitTile"), indentSize+x*imageSize, indentSize+y*imageSize, null);
+            	}
+            	else if(curTile instanceof ExitLockTile){
+            		graph2d.drawImage(mapImages.get("exitLock"), indentSize+x*imageSize, indentSize+y*imageSize, null);
+            	}
+            	else if(curTile instanceof ChapTile){
+            		graph2d.drawImage(mapImages.get("Chap"), indentSize+x*imageSize, indentSize+y*imageSize, null);
+            	}
+            	else if(curTile instanceof EnemyTile){
+            		graph2d.drawImage(mapImages.get("infoTile"), indentSize+x*imageSize, indentSize+y*imageSize, null);
+            	}
+            }
+        }
+        
 		
 	}
-		
 }
