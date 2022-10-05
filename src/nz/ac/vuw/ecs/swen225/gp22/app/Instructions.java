@@ -7,6 +7,11 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Class to display instructions window - shows key binds
+ * @author CarloC
+ *
+ */
 public class Instructions extends JFrame implements ActionListener{
 
 	/**
@@ -21,6 +26,9 @@ public class Instructions extends JFrame implements ActionListener{
 		remove(panel);
 	};
 	
+	/**
+	 * Constructor for instructions - Initializes swing configurations
+	 */
 	public Instructions() {
 		assert SwingUtilities.isEventDispatchThread();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -37,44 +45,29 @@ public class Instructions extends JFrame implements ActionListener{
 			new Setup();
 		}		
 	}
-	
-	public void setupLabel(JButton button) {
-		button.setMaximumSize(new Dimension(150, 50));
-		button.setMinimumSize(new Dimension(100, 25));
-		button.setAlignmentX(CENTER_ALIGNMENT);
-		button.addActionListener(this);
-		panel.add(Box.createRigidArea(new Dimension(0, 10)));
-		panel.add(button);
-	}
-	
+
+	/**
+	 * Displays JLabels to show controls
+	 */
 	public void instructions() {
-		this.setMinimumSize(new Dimension(410, 210));
-		var up = new JLabel("Up = Up arrow key");
-		var down = new JLabel("Down = Down arrow key");
-		var left = new JLabel("Left = Left arrow key");
-		var right = new JLabel("Right = Right arrow key");
-		var pause = new JLabel("Pause = Space key");
-		var unpause = new JLabel("Unpause = Escape key");
-		var exit = new JLabel("Exit without saving = CTRL + X");
-		var exsv = new JLabel("Exit and save = CTRL + S");
-		var reload = new JLabel("Reload saved game = CTRL + R");
-		var gameOne = new JLabel("Start new game at Lvl 1 = CTRL + 1");
-		var gameTwo = new JLabel("Start new game at Lvl 2 = CTRL + 2");
+		this.setMinimumSize(new Dimension(440, 210));
 		panel = new JPanel(new GridLayout(6, 2));
+		panel.add(new JLabel("Up = Up arrow key"));
+		
+		panel.add(new JLabel("Up = Up arrow key"));
+		panel.add(new JLabel("Down = Down arrow key"));
+		panel.add(new JLabel("Left = Left arrow key"));
+		panel.add(new JLabel("Right = Right arrow key"));
+		panel.add(new JLabel("Pause = Space key"));
+		panel.add(new JLabel("Unpause = Escape key"));
+		panel.add(new JLabel("Exit without saving = CTRL + X"));
+		panel.add(new JLabel("Exit and save = CTRL + S"));
+		panel.add(new JLabel("Reload saved game = CTRL + R"));
+		panel.add(new JLabel("Start new game at Lvl 1 = CTRL + 1"));
+		panel.add(new JLabel("Start new game at Lvl 2 = CTRL + 2"));
+		
 		back = new JButton("Back");
 		back.addActionListener(this);
-
-		panel.add(up);
-		panel.add(down);
-		panel.add(left);
-		panel.add(right);
-		panel.add(pause);
-		panel.add(unpause);
-		panel.add(exit);
-		panel.add(exsv);
-		panel.add(reload);
-		panel.add(gameOne);
-		panel.add(gameTwo);
 		panel.add(back);
 		
 		add(BorderLayout.CENTER, panel);

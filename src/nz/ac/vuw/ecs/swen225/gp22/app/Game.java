@@ -1,6 +1,8 @@
 package nz.ac.vuw.ecs.swen225.gp22.app;
 
 import nz.ac.vuw.ecs.swen225.gp22.persistency.*;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.MazeView;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,19 +10,48 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Main class for running game
+ * @author CarloC
+ *
+ */
 public class Game extends JFrame implements ActionListener{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private Runnable stop = ()->{};
+	private MazeView mv;
+	private JPanel panel;
 
 
+	/**
+	 * Constructor for a new blank level
+	 */
 	public Game() {
 		assert SwingUtilities.isEventDispatchThread();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
-		new XMLLoader().loadFile(new File("blankLevel.xml"));
+		XMLLoader loader = new XMLLoader();
+		loader.loadFile(new File("blankLevel.xml"));
+		mv = new MazeView(loader.getMaze());
+		gui();
+		setVisible(true);
+	}
+	
+	/**
+	 * Constructor for loading a particular level - Not working atm?
+	 * @param file specified level to be loaded
+	 */
+	
+	public Game(File file) {
+		assert SwingUtilities.isEventDispatchThread();
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setLocationRelativeTo(null);
+		XMLLoader loader = new XMLLoader();
+		loader.loadFile(file);
+		mv = new MazeView(loader.getMaze());
 		gui();
 		setVisible(true);
 	}
@@ -32,8 +63,29 @@ public class Game extends JFrame implements ActionListener{
 		
 	}
 
+	/**
+	 * Creates window for the main GUI
+	 */
 	public void gui() {
-		
+		panel = new JPanel();
+		Timer timer = new Timer(34, unused -> {
+            assert SwingUtilities.isEventDispatchThread();
+            System.out.println("T");
+            mv.repaint();
+      });
+      stop  = ()->{
+    	  timer.stop();
+    	  this.dispose();
+    	  new Setup();
+      };
+      JButton stopbutton = new JButton("stop");
+      stopbutton.addActionListener(e->stop.run());
+      add(BorderLayout.NORTH, stopbutton);
+      add(BorderLayout.CENTER, mv);
+      setPreferredSize(new Dimension(300, 300));
+      pack();
+      mv.requestFocus();
+      timer.start();
 	}
 	
 }

@@ -79,11 +79,6 @@ public class Setup extends JFrame implements ActionListener{
 		//user clicks on newGame
 		if (e.getSource().equals(newGame)) {
 			System.out.println("New Game");
-			// TO DO :
-			//		- Create new game from level selected using xml files
-			// 		- Would create a new instance of some persistency object like a "GameLoader" object
-			//		- Ideally "GameLoader" object should parse a given file, create instances of each
-			//		  tile and 
 			this.dispose();
 			new Game();
 			
@@ -92,8 +87,9 @@ public class Setup extends JFrame implements ActionListener{
 		//user clicks on loadGame
 		else if (e.getSource().equals(loadGame)) {
 			System.out.println("Load Game");
-			// TO DO :
-			//		- Load either a new game at level 1/2 or load a saved game using xml files
+			this.dispose();
+			//replace this with a file selector eventually
+			new Game(new File("blankLevel.xml"));
 		}
 		
 		//user clicks on instructions
