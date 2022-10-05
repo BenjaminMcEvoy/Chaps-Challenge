@@ -17,4 +17,12 @@ public class WallTile extends Tile {
 	public String toString() {
 		return "wall";
 	}
+
+
+
+	@Override
+	public String getFileName() {
+		// TODO Auto-generated method stub
+		return "wallTile";
+	}
 }

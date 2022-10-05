@@ -7,7 +7,8 @@ import nz.ac.vuw.ecs.swen225.gp22.persistency.XMLLoader;
 public class Maze {
 	
 	//fields
-	private Tile[][] board = new Tile[10][10];
+	private Tile[][] board;
+	//private Tile[][] board = new Tile[10][10];
 	private ChapTile chap;
 	private XMLLoader loader;
 	private Set<Tile> entities = new HashSet<Tile>();
@@ -22,8 +23,9 @@ public class Maze {
 	 * 
 	 */
 	
-	public Maze(XMLLoader loader) {
-		this.loader = loader;
+	public Maze(int width, int height) {
+		assert width > 0 && height > 0;
+		board = new Tile[width][height];
 	}
 	
 	/*
