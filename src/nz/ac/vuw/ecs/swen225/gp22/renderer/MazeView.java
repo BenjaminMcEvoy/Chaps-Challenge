@@ -205,7 +205,77 @@ public class MazeView extends JPanel{
 	 * 
 	 * 
 	 * */
-	public void paintComponent(Graphics g){
+	
+    /*findChap();
+    chapView = [][]
+    String dir = "res/graphics/";
+for(int col = -4; col < 4; col++){
+    for(int row = -4; row < 4; row++) {
+        chapView[x][y] = mazeArray[chapx + col][chapy + row];
+        y++;
+    }
+    x++;
+}
+    for(int col = 0; col < 9; col++){
+        for(int row = 0; row < 9; row++) {
+            graph2d.drawImage(dir + chapView[col][row].getFileName(), whatever, whatever, null);
+        }*/
+        
+	
+    /**
+     *  Draws all tiles in a focus area
+     *  @param Tile[][] board - Board array/camera view
+     *  @param Graphics2D g - Graphics Pane
+     * */    
+    private void focusArea(Tile[][] board, Graphics2D g) {
+    	for(int col = -4; col < 4; col++){
+    	    for(int row = -4; row < 4; row++) {
+    	        if(chapX + row >= 0 && chapY + col >=0 && chapX + row < board.length && chapY + col <board[0].length
+    	        		&& board[chapX + row][chapY + col] != null) {
+    	        	g.drawImage(mapImages.get(board[chapX+row][chapY+col].getFileName()), (row+4) * imageSize, (col+4)* imageSize, this);
+    	        }
+    	    }
+    	}
+    }
+    
+    /**
+     *  Draws all tiles in a focus area
+     *  @param int posX - Chap X position
+     *  @param int posY - Chap Y position
+     *  @param Tile[][] board - Board array/camera view
+     *  @param Graphics2D g - Graphics pane
+     * */  
+    private void focusArea2(int posX, int posY, Tile[][] board, Graphics2D g) {
+    	for(int col = -4; col < 4; col++){
+    	    for(int row = -4; row < 4; row++) {
+                if (posX > mazeArray.length || posY > mazeArray[0].length || posX < 0 || posY < 0) {
+                    board[col][row] = null;
+                } else {
+                	board[col][row] = mazeArray[posX + col][posY + row];
+                }
+    	    }
+    	}
+        for(int col = 0; col < 9; col++){
+            for(int row = 0; row < 9; row++) {
+                g.drawImage(mapImages.get(board[col][row].getFileName()), (col+4) * imageSize, (col+4)*imageSize, null);
+            }
+        }
+    }
+    
+    public void paintComponent(Graphics g) {
+    	super.paintComponent(g);
+    	findChap();
+    	Graphics2D graph2d = (Graphics2D) g;
+    	Tile[][] cameraView = maze.getBoard();
+    	//int cameraX = chapX;
+    	//int cameraY = chapY;
+    	focusArea(cameraView, graph2d);		
+    	graph2d.drawImage(mapImages.get(cameraView[chapX][chapY].getFileName()), 4*imageSize, 4*imageSize, this);
+    	
+    	Tile prevChap = new ChapTile(chapX, chapY); // to do with animations if we get to it
+    }
+    
+	/*public void paintComponent(Graphics g){
 		System.out.println("m");
 		mazeArray = maze.getBoard();
 		findChap();
@@ -269,7 +339,5 @@ public class MazeView extends JPanel{
             	}
             }
         }
-        
-		
-	}
+	}*/
 }
