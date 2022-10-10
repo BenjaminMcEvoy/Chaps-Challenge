@@ -51,7 +51,7 @@ public class XMLLoader {
 			if (currTile.toString().equals("wall")) {
 				maze.setTile(new WallTile(x, y), x, y);
 			} else if(currTile.toString().equals("free")) {
-				maze.setTile(null, x, y);
+				maze.setTile(new EmptyTile(x, y), x, y);
 			} else if (currTile.toString().equals("door")) {
 				String colour = currTile.getChildText("colour");
 				maze.setTile(new LockedDoorTile(x, y, colour), x, y);
