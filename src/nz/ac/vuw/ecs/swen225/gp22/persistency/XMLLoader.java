@@ -21,7 +21,7 @@ public class XMLLoader {
 	
 	public void loadFile(File file) {
 		try {
-			this.maze = new Maze(this);
+			this.maze = new Maze(10, 10);
 			SAXBuilder sax = new SAXBuilder();
 			Document doc = sax.build(file);
 			Element rootNode = doc.getRootElement();
