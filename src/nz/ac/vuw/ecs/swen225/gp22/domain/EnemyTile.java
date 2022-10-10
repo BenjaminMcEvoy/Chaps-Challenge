@@ -37,4 +37,10 @@ public class EnemyTile extends CharacterTile{
 		return "Enemy";
 	}
 
+	@Override
+	public String getFileName() {
+		// TODO Auto-generated method stub
+		return "";
+	}
+
 }

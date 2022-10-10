@@ -33,4 +33,10 @@ public class ChapTile extends CharacterTile{
 		return "Chap";
 	}
 
+	@Override
+	public String getFileName() {
+		// TODO Auto-generated method stub
+		return "Chap";
+	}
+
 }

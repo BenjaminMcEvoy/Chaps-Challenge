@@ -26,4 +26,10 @@ public class KeyTile extends Tile{
 		return "Key";
 	}
 
+	@Override
+	public String getFileName() {
+		// TODO Auto-generated method stub
+		return "keyTile_" + color;
+	}
+
 }

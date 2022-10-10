@@ -71,8 +71,7 @@ public abstract class Tile{
 
 	public abstract String toString();
 		
-	
-	
+	public abstract String getFileName();
 
 
 }
