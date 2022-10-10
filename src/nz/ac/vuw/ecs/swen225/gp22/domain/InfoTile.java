@@ -36,4 +36,10 @@ public class InfoTile extends Tile {
 		return "Info";
 	}
 
+	@Override
+	public String getFileName() {
+		// TODO Auto-generated method stub
+		return "infoTile";
+	}
+
 }

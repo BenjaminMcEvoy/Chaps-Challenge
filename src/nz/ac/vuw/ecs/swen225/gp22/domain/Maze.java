@@ -11,11 +11,16 @@ public class Maze {
 
 	
 	//fields
+<<<<<<< src/nz/ac/vuw/ecs/swen225/gp22/domain/Maze.java
 
 	private Tile[][] board;
 
 	//private Tile[][] board = new Tile[10][10];
 
+=======
+	private Tile[][] board;
+	//private Tile[][] board = new Tile[10][10];
+>>>>>>> src/nz/ac/vuw/ecs/swen225/gp22/domain/Maze.java
 	private ChapTile chap;
 
 	private XMLLoader loader;
@@ -43,11 +48,16 @@ public class Maze {
 
 	
 	public Maze(int width, int height) {
+<<<<<<< src/nz/ac/vuw/ecs/swen225/gp22/domain/Maze.java
 
 		assert width > 0 && height > 0;
 
 		board = new Tile[width][height];
 
+=======
+		assert width > 0 && height > 0;
+		board = new Tile[width][height];
+>>>>>>> src/nz/ac/vuw/ecs/swen225/gp22/domain/Maze.java
 	}
 
 	
@@ -60,6 +70,7 @@ public class Maze {
 	
 	public void moveTile(Tile t, int x, int y) {
 
+		
 		
 		
 		if (!(t instanceof ChapTile) || !(t.equals(chap))) return;
@@ -201,6 +212,10 @@ public class Maze {
 
 	}
 
+	
+	public Tile[][] getBoard() {
+		return board;
+	}
 	
 	
 	

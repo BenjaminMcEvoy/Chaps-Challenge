@@ -18,4 +18,10 @@ public class EmptyTile extends Tile{
 		return "Empty";
 	}
 
+	@Override
+	public String getFileName() {
+		// TODO Auto-generated method stub
+		return "freeTile";
+	}
+
 }

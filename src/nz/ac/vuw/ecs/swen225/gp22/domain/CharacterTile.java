@@ -3,7 +3,7 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.Animate.direction;
 
 import java.util.Stack;
 
-public class CharacterTile extends Tile{
+public abstract class CharacterTile extends Tile{
 	private Tile standingOn;
 	private final String name;
 	
@@ -51,13 +51,11 @@ public class CharacterTile extends Tile{
 	}
 
 	@Override
-	public void draw() {
-		
-	}
+	public abstract void draw();
 
 	@Override
-	public String toString() {
-		return null;
-	}
+	public abstract String toString();
+	@Override
+	public abstract String getFileName();
 
 }

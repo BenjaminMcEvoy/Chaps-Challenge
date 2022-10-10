@@ -18,4 +18,10 @@ public class ExitTile extends Tile{
 		return "Exit";
 	}
 
+	@Override
+	public String getFileName() {
+		// TODO Auto-generated method stub
+		return "exitTile";
+	}
+
 }
