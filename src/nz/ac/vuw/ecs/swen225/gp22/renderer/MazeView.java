@@ -52,18 +52,6 @@ public class MazeView extends JPanel{
 		this.maze = m;
 		this.tileSet = m.getAllTiles();
 		initImage();
-		//findChap();
-
-
-		
-		//width = m;
-		//height = m.;
-		
-		/* Initialization of fields possibly
-		 * set the parameters of the view
-		 * possibly initialize the sound and animations too
-		 * 
-		 * */
 	}
 	
 	/**
@@ -87,44 +75,6 @@ public class MazeView extends JPanel{
 	 * */
 	private void updateMaze() {
 		mazeArray = maze.getBoard();
-	}
-
-	/**
-	 * Draws the main character with coordinates recorded by
-	 * the character itself
-	 * 
-	 * 
-	 * */
-	public void renderChap() {return;}
-	
-	/**
-	 * Draws the mobs with coordinates recorded by
-	 * the maze/board/mob itself
-	 * 
-	 * 
-	 * */
-	public void renderEnemies() {return;}
-	
-	/**
-	 * Draws the tiles with coordinates recorded by
-	 * the maze/board itself
-	 * 
-	 * 
-	 * */
-	public void renderTiles(Graphics graph) {
-		//for(int x = 0; x < sHeight; x++) {
-		//	for(int y = 0; y< sWidth; y++) {
-		//		Tile tile = maze.getTileAt(x, y);
-				//graph.drawImage();// fill here
-				
-				// maybe check instance of tile or use use a tile precheck
-				// to see if it contains any entities or objects at the start
-				
-				// if there is che	ck all entities/containables
-			//}
-			
-		//}
-		
 	}
 
 	/** 
@@ -199,28 +149,7 @@ public class MazeView extends JPanel{
 	public int getbWidth() {
 		return bWidth;
 	}
-
-
-	/**
-	 * 
-	 * 
-	 * */
-	
-    /*findChap();
-    chapView = [][]
-    String dir = "res/graphics/";
-for(int col = -4; col < 4; col++){
-    for(int row = -4; row < 4; row++) {
-        chapView[x][y] = mazeArray[chapx + col][chapy + row];
-        y++;
-    }
-    x++;
-}
-    for(int col = 0; col < 9; col++){
-        for(int row = 0; row < 9; row++) {
-            graph2d.drawImage(dir + chapView[col][row].getFileName(), whatever, whatever, null);
-        }*/
-        
+   
 	
     /**
      *  Draws all tiles in a focus area
@@ -274,70 +203,4 @@ for(int col = -4; col < 4; col++){
     	
     	Tile prevChap = new ChapTile(chapX, chapY); // to do with animations if we get to it
     }
-    
-	/*public void paintComponent(Graphics g){
-		System.out.println("m");
-		mazeArray = maze.getBoard();
-		findChap();
-        super.paintComponent(g);
-        Dimension s = getSize();
-        Graphics2D graph2d = (Graphics2D) g;
-       // graph2d.setBackground(Color.BLACK);
-       // graph2d.fillRect(0, 0, 500, 500);
-        System.out.println("paint");
-        //int tX, tY;
-        //Set<Tile> m = maze.getAllTiles();
-        chapView = new Tile[sWidHei][sWidHei];
-        initImage();
-        for (int x = 0; x < sWidHei; x++) {
-            for (int y = 0; y < sWidHei; y++) {
-               // Tile tile2 = maze.getTileAt(x, y);
-                int posX = chapX /2 + x * 32;
-                int posY = chapY /2 + y * 32;
-               // mazeArray = maze.getBoard();
-                if (posX > mazeArray.length || posY > mazeArray[0].length || posX < 0 || posY < 0) {
-                    chapView[x][y] = null;
-                } else {
-                	chapView[x][y] = maze.getTileAt(posX, posY);
-                }
-            }
-        }
-        
-        for (int x = 0; x < sWidHei; x++) {
-            for (int y = 0; y < sWidHei; y++) {
-            	Tile curTile = chapView[x][y];
-            	if(curTile == null) {
-            		graph2d.setColor(Color.BLACK);
-            		graph2d.fillRect(indentSize+x*imageSize, indentSize+y*imageSize, imageSize, imageSize);
-            	}
-            	else if(curTile instanceof EmptyTile){
-            		graph2d.drawImage(mapImages.get("freeTile"), indentSize+x*imageSize, indentSize+y*imageSize, null);
-            	}
-            	else if(curTile instanceof InfoTile){
-            		graph2d.drawImage(mapImages.get("infoTile"), indentSize+x*imageSize, indentSize+y*imageSize, null);
-            	}
-            	else if(curTile instanceof WallTile){
-            		graph2d.drawImage(mapImages.get("wallTile"), indentSize+x*imageSize, indentSize+y*imageSize, null);
-            	}
-            	else if(curTile instanceof TreasureTile){
-            		graph2d.drawImage(mapImages.get("treasureTile"), indentSize+x*imageSize, indentSize+y*imageSize, null);
-            	}
-            	else if(curTile instanceof LockedDoorTile){
-            		graph2d.drawImage(mapImages.get("freeTile"), indentSize+x*imageSize, indentSize+y*imageSize, null);
-            	}
-            	else if(curTile instanceof ExitTile){
-            		graph2d.drawImage(mapImages.get("exitTile"), indentSize+x*imageSize, indentSize+y*imageSize, null);
-            	}
-            	else if(curTile instanceof ExitLockTile){
-            		graph2d.drawImage(mapImages.get("exitLock"), indentSize+x*imageSize, indentSize+y*imageSize, null);
-            	}
-            	else if(curTile instanceof ChapTile){
-            		graph2d.drawImage(mapImages.get("Chap"), indentSize+x*imageSize, indentSize+y*imageSize, null);
-            	}
-            	else if(curTile instanceof EnemyTile){
-            		graph2d.drawImage(mapImages.get("infoTile"), indentSize+x*imageSize, indentSize+y*imageSize, null);
-            	}
-            }
-        }
-	}*/
 }
