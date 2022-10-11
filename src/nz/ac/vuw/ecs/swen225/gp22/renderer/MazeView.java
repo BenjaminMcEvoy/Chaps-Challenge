@@ -61,7 +61,7 @@ public class MazeView extends JPanel{
 	 * */
 	private void initialize() {
 		chapView = new Tile[vRange][vRange];
-		indentSize = 150;
+		indentSize = 168;
 		
 	}
 	
@@ -139,8 +139,8 @@ public class MazeView extends JPanel{
      *  @param Graphics2D g - Graphics Pane
      * */    
     private void focusArea(Tile[][] board, Graphics2D g) {
-    	for(int col = -4; col < 4; col++){
-    	    for(int row = -4; row < 4; row++) {
+    	for(int col = -5; col < 5; col++){
+    	    for(int row = -5; row < 5; row++) {
     	        if(chapX + row >= 0 && chapY + col >=0 && chapX + row < board.length && chapY + col <board[0].length) {
     	        	if(board[chapX + row][chapY + col] != null) {
     	        	g.drawImage(mapImages.get(board[chapX+row][chapY+col].getFileName()), indentSize + row*imageSize, indentSize +col* imageSize, this);
