@@ -61,7 +61,7 @@ public class MazeView extends JPanel{
 	 * */
 	private void initialize() {
 		chapView = new Tile[vRange][vRange];
-		indentSize = indentBoard;
+		indentSize = 150;
 		
 	}
 	
@@ -99,15 +99,15 @@ public class MazeView extends JPanel{
 			mapImages.put("freeTile", ImageIO.read(new File(dir + "freeTile.png")));
 			mapImages.put("infoTile", ImageIO.read(new File(dir + "infoTile.png")));
 			
-			mapImages.put("keyTileR", ImageIO.read(new File(dir + "keyTile_red.png")));
-			mapImages.put("keyTileG", ImageIO.read(new File(dir + "keyTile_green.png")));
-			mapImages.put("keyTileB", ImageIO.read(new File(dir + "keyTile_blue.png")));
-			mapImages.put("keyTileY", ImageIO.read(new File(dir + "keyTile_yellow.png")));
+			mapImages.put("keyTile_red", ImageIO.read(new File(dir + "keyTile_red.png")));
+			mapImages.put("keyTile_green", ImageIO.read(new File(dir + "keyTile_green.png")));
+			mapImages.put("keyTile_blue", ImageIO.read(new File(dir + "keyTile_blue.png")));
+			mapImages.put("keyTile_yellow", ImageIO.read(new File(dir + "keyTile_yellow.png")));
 
-			mapImages.put("lockedDoorR", ImageIO.read(new File(dir + "lockedDoor_red.png")));
-			mapImages.put("lockedDoorG", ImageIO.read(new File(dir + "lockedDoor_green.png")));
-			mapImages.put("lockedDoorB", ImageIO.read(new File(dir + "lockedDoor_blue.png")));
-			mapImages.put("lockedDoorY", ImageIO.read(new File(dir + "lockedDoor_yellow.png")));
+			mapImages.put("lockedDoor_red", ImageIO.read(new File(dir + "lockedDoor_red.png")));
+			mapImages.put("lockedDoor_green", ImageIO.read(new File(dir + "lockedDoor_green.png")));
+			mapImages.put("lockedDoor_blue", ImageIO.read(new File(dir + "lockedDoor_blue.png")));
+			mapImages.put("lockedDoor_yellow", ImageIO.read(new File(dir + "lockedDoor_yellow.png")));
 
 		} catch (Exception e) {
 			e.printStackTrace();
