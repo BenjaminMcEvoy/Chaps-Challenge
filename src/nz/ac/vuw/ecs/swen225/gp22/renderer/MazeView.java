@@ -33,19 +33,18 @@ public class MazeView extends JPanel{
 	// Fetches the current screen dimension
 	private Dimension currSDimension = new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width - INDENT_WINDOW,
 	 Toolkit.getDefaultToolkit().getScreenSize().height - INDENT_WINDOW);
+	private Dimension dim;
 
 	// Get screen/board dimensions using a toolkit to fetch the screen size with static indents.
 	private int indentBoard = currSDimension.height / 14;
 	private int bWidth = (currSDimension.width - (INDENT_GAP + (indentBoard * 2))) / 2;
-	private int sWidHei = 9;
+	private int vRange = 9; //range of vision
 
-	private int chapX, chapY, indentSize, imageSize;
+	private int chapX, chapY, indentSize;
+	private int imageSize = 42;
 	private Maze maze; 
 	private Tile[][] chapView, mazeArray;
 	private Set<Tile> tileSet;
-
-	/*private Image chap, exitLock, exitTile, freeTile, infoTile, keyTileB, keyTileY, keyTileR, keyTileG,
-	lockedDoorB, lockedDoorY, lockedDoorR, lockedDoorG, wallTile, treasureTile;*/
 	
 	public MazeView(Maze m){
 		initialize();
@@ -61,10 +60,9 @@ public class MazeView extends JPanel{
 	 * 
 	 * */
 	private void initialize() {
-		//bWidth = 850;
-		//bHeight = 850;
+		chapView = new Tile[vRange][vRange];
 		indentSize = indentBoard;
-		imageSize = bWidth/sWidHei;
+		
 	}
 	
 	
@@ -90,9 +88,10 @@ public class MazeView extends JPanel{
 		try {
 			String dir = "res/graphics/";
 			
-			Image test = ImageIO.read(new File(dir + "Chap.png"));
 			
 			mapImages.put("chap", ImageIO.read(new File(dir + "Chap.png")));
+			mapImages.put("chapLeft", ImageIO.read(new File(dir + "chap_left.png")));
+			mapImages.put("chapRight", ImageIO.read(new File(dir + "chap_right.png")));
 			mapImages.put("wallTile", ImageIO.read(new File(dir + "wallTile.png")));
 			mapImages.put("treasureTile", ImageIO.read(new File(dir + "treasureTile.png")));
 			mapImages.put("exitLock", ImageIO.read(new File(dir + "exitLock.png")));
@@ -115,22 +114,14 @@ public class MazeView extends JPanel{
 		}
 	}
 
-	/*public void drawImage(String fileName){
-		Image fileImage = mapImages.get(fileName);
-
-	}*/
-
 	private void findChap() {
 		for (Tile t: tileSet) {
 			if (t instanceof ChapTile) {
-				chapX = t.getX();
-				chapY = t.getY();
+				chapX = t.getX(maze);
+				chapY = t.getY(maze);
 			}
 		}
 	}
-	
-	
-	
 	
 	/**
 	 *  Get the maze/board/pane
@@ -139,15 +130,6 @@ public class MazeView extends JPanel{
 	 * */
 	public Maze getMaze() {
 		return maze;
-	}
-
-	/**
-	 *  Get the maze/board/pane width
-	 * @return bWidth
-	 * 
-	 * */
-	public int getbWidth() {
-		return bWidth;
 	}
    
 	
@@ -159,47 +141,22 @@ public class MazeView extends JPanel{
     private void focusArea(Tile[][] board, Graphics2D g) {
     	for(int col = -4; col < 4; col++){
     	    for(int row = -4; row < 4; row++) {
-    	        if(chapX + row >= 0 && chapY + col >=0 && chapX + row < board.length && chapY + col <board[0].length
-    	        		&& board[chapX + row][chapY + col] != null) {
-    	        	g.drawImage(mapImages.get(board[chapX+row][chapY+col].getFileName()), (row+4) * imageSize, (col+4)* imageSize, this);
-    	        }
+    	        if(chapX + row >= 0 && chapY + col >=0 && chapX + row < board.length && chapY + col <board[0].length) {
+    	        	if(board[chapX + row][chapY + col] != null) {
+    	        	g.drawImage(mapImages.get(board[chapX+row][chapY+col].getFileName()), indentSize + row*imageSize, indentSize +col* imageSize, this);
+
+    	        }}
     	    }
     	}
-    }
-    
-    /**
-     *  Draws all tiles in a focus area
-     *  @param int posX - Chap X position
-     *  @param int posY - Chap Y position
-     *  @param Tile[][] board - Board array/camera view
-     *  @param Graphics2D g - Graphics pane
-     * */  
-    private void focusArea2(int posX, int posY, Tile[][] board, Graphics2D g) {
-    	for(int col = -4; col < 4; col++){
-    	    for(int row = -4; row < 4; row++) {
-                if (posX > mazeArray.length || posY > mazeArray[0].length || posX < 0 || posY < 0) {
-                    board[col][row] = null;
-                } else {
-                	board[col][row] = mazeArray[posX + col][posY + row];
-                }
-    	    }
-    	}
-        for(int col = 0; col < 9; col++){
-            for(int row = 0; row < 9; row++) {
-                g.drawImage(mapImages.get(board[col][row].getFileName()), (col+4) * imageSize, (col+4)*imageSize, null);
-            }
-        }
     }
     
     public void paintComponent(Graphics g) {
     	super.paintComponent(g);
     	findChap();
     	Graphics2D graph2d = (Graphics2D) g;
-    	Tile[][] cameraView = maze.getBoard();
-    	//int cameraX = chapX;
-    	//int cameraY = chapY;
-    	focusArea(cameraView, graph2d);		
-    	graph2d.drawImage(mapImages.get(cameraView[chapX][chapY].getFileName()), 4*imageSize, 4*imageSize, this);
+    	Tile[][] cView = maze.getBoard();
+    	chapView = cView;
+    	focusArea(cView, graph2d);
     	
     	Tile prevChap = new ChapTile(chapX, chapY); // to do with animations if we get to it
     }
