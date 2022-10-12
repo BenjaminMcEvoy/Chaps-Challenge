@@ -28,7 +28,7 @@ public class Recorder {
 		try {
 			//create  root node
 			Element root = new Element("save");
-			root.setAttribute("level", maze.getLevel());
+			root.setAttribute("level", maze.getLevel()+"");
 			
 			//crate each character element and add to root node
 			Element character =  new Element("character");
