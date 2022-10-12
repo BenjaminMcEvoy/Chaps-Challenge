@@ -101,7 +101,7 @@ public class Maze {
 		} 
 		else if (target instanceof ExitLockTile) {
 			ExitLockTile lock = (ExitLockTile) target;
-			if (checkTreasures() && isChap) {
+			if (checkTreasures() < 1 && isChap) {
 				target = new EmptyTile();
 			}
 			else {
