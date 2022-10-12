@@ -12,6 +12,11 @@ import java.awt.*;
 import javax.swing.JPanel;
 import javax.imageio.ImageIO;
 import javax.imageio.spi.ImageReaderWriterSpi;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.io.*;
 
@@ -33,11 +38,9 @@ public class MazeView extends JPanel{
 	// Fetches the current screen dimension
 	private Dimension currSDimension = new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width - INDENT_WINDOW,
 	 Toolkit.getDefaultToolkit().getScreenSize().height - INDENT_WINDOW);
-	private Dimension dim;
 
 	// Get screen/board dimensions using a toolkit to fetch the screen size with static indents.
-	private int indentBoard = currSDimension.height / 14;
-	private int bWidth = (currSDimension.width - (INDENT_GAP + (indentBoard * 2))) / 2;
+	//private int indentBoard = currSDimension.height / 9;
 	private int vRange = 9; //range of vision
 
 	private int chapX, chapY, indentSize;
@@ -45,12 +48,17 @@ public class MazeView extends JPanel{
 	private Maze maze; 
 	private Tile[][] chapView, mazeArray;
 	private Set<Tile> tileSet;
+	private Sound sound;
+
 	
 	public MazeView(Maze m){
 		initialize();
 		this.maze = m;
 		this.tileSet = m.getAllTiles();
+		this.sound = new Sound(this.maze);
 		initImage();
+		sound.playAmbient();
+
 	}
 	
 	/**
@@ -62,9 +70,7 @@ public class MazeView extends JPanel{
 	private void initialize() {
 		chapView = new Tile[vRange][vRange];
 		indentSize = 168;
-		
 	}
-	
 	
 	/**
 	 * 
@@ -88,10 +94,9 @@ public class MazeView extends JPanel{
 		try {
 			String dir = "res/graphics/";
 			
+			Image test = ImageIO.read(new File(dir + "Chap.png"));
 			
 			mapImages.put("chap", ImageIO.read(new File(dir + "Chap.png")));
-			mapImages.put("chapLeft", ImageIO.read(new File(dir + "chap_left.png")));
-			mapImages.put("chapRight", ImageIO.read(new File(dir + "chap_right.png")));
 			mapImages.put("wallTile", ImageIO.read(new File(dir + "wallTile.png")));
 			mapImages.put("treasureTile", ImageIO.read(new File(dir + "treasureTile.png")));
 			mapImages.put("exitLock", ImageIO.read(new File(dir + "exitLock.png")));
@@ -104,10 +109,10 @@ public class MazeView extends JPanel{
 			mapImages.put("keyTile_blue", ImageIO.read(new File(dir + "keyTile_blue.png")));
 			mapImages.put("keyTile_yellow", ImageIO.read(new File(dir + "keyTile_yellow.png")));
 
-			mapImages.put("lockedDoor_red", ImageIO.read(new File(dir + "lockedDoor_red.png")));
-			mapImages.put("lockedDoor_green", ImageIO.read(new File(dir + "lockedDoor_green.png")));
-			mapImages.put("lockedDoor_blue", ImageIO.read(new File(dir + "lockedDoor_blue.png")));
-			mapImages.put("lockedDoor_yellow", ImageIO.read(new File(dir + "lockedDoor_yellow.png")));
+			mapImages.put("lockedDoorR", ImageIO.read(new File(dir + "lockedDoor_red.png")));
+			mapImages.put("lockedDoorG", ImageIO.read(new File(dir + "lockedDoor_green.png")));
+			mapImages.put("lockedDoorB", ImageIO.read(new File(dir + "lockedDoor_blue.png")));
+			mapImages.put("lockedDoorY", ImageIO.read(new File(dir + "lockedDoor_yellow.png")));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -117,8 +122,8 @@ public class MazeView extends JPanel{
 	private void findChap() {
 		for (Tile t: tileSet) {
 			if (t instanceof ChapTile) {
-				chapX = t.getX(maze);
-				chapY = t.getY(maze);
+				chapX = maze.getTileX(t);
+				chapY = maze.getTileY(t);
 			}
 		}
 	}
@@ -131,6 +136,22 @@ public class MazeView extends JPanel{
 	public Maze getMaze() {
 		return maze;
 	}
+	
+	
+	/**
+	 * 
+	 * */
+	private void initVision() {
+		// Possible implementation for animation if we get to it
+		for(int col = chapX - (vRange / 2), x = 0; x <= chapX + (vRange/2); col++, x++) {
+			for(int row = chapY - (vRange / 2), y = 0; x <= chapY + (vRange/2); row++, y++) {
+				if((x > 0 && y > 0) && (x < maze.getWidth() && y < maze.getHeight())) {
+					System.out.println(maze.getTileAt(x, y).toString());
+					chapView[col][row] = maze.getTileAt(x, y);
+				}
+			}
+		}
+	}
    
 	
     /**
@@ -139,25 +160,26 @@ public class MazeView extends JPanel{
      *  @param Graphics2D g - Graphics Pane
      * */    
     private void focusArea(Tile[][] board, Graphics2D g) {
-    	for(int col = -5; col < 5; col++){
+    	for(int col = -5; col <5; col++){
     	    for(int row = -5; row < 5; row++) {
     	        if(chapX + row >= 0 && chapY + col >=0 && chapX + row < board.length && chapY + col <board[0].length) {
     	        	if(board[chapX + row][chapY + col] != null) {
     	        	g.drawImage(mapImages.get(board[chapX+row][chapY+col].getFileName()), indentSize + row*imageSize, indentSize +col* imageSize, this);
-
-    	        }}
+    	        	}
+    	        }
     	    }
     	}
     }
     
+    
+    @Override
     public void paintComponent(Graphics g) {
     	super.paintComponent(g);
     	findChap();
     	Graphics2D graph2d = (Graphics2D) g;
     	Tile[][] cView = maze.getBoard();
-    	chapView = cView;
     	focusArea(cView, graph2d);
     	
-    	Tile prevChap = new ChapTile(chapX, chapY); // to do with animations if we get to it
+    	//Tile prevChap = new ChapTile(chapX, chapY); // to do with animations if we get to it
     }
 }
