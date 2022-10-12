@@ -108,10 +108,13 @@ public class Recorder {
 		}catch(Exception e){throw e;}
 	}
 	
+	//play next move 
 	public void Next(Maze m) {
 		auto = false;
 		m.getCharacters().stream().forEach(i->i.nextMove());
 	}
+	
+	//auto play through all moves
 	public void AutoPlay(Maze m) throws InterruptedException {
 		auto = true;
 		while(!m.getCharacters().get(0).getNextMoves().isEmpty() && auto) {
