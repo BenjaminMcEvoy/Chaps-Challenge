@@ -31,15 +31,14 @@ public class Recorder {
 			root.setAttribute("level", maze.getLevel());
 			
 			//crate each character element and add to root node
-			for(CharacterTile c: maze.getCharacters()) {
-				Element character =  new Element("character");
-				character.setAttribute("name", c.getName());
-				String str = "";
-				c.getPrevMoves().stream().forEach(m -> str += m + ", ");
-				character.addContent(str);
-				root.addContent(character);
-			}
+			Element character =  new Element("character");
+			character.setAttribute("name", "chap");
+			String str = "";
+			maze.getChap().getPrevMoves().stream().forEach(m -> str += m + ", ");
+			character.addContent(str);
+			root.addContent(character);
 			
+			//Save as doc
 			Document doc = new Document();
 		    doc.setRootElement(root);
 		    XMLOutputter xmlOutputter = new XMLOutputter();
