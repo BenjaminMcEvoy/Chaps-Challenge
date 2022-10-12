@@ -61,33 +61,27 @@ public class Recorder {
 			
 			//update characters future movement
 			Maze maze = levelLoader.getMaze();
-			List<Element> elements = root.getChildren();
+			Element element = root.getChild("character");
 			
-			//go through each element
-			for(Element e: elements) {
-				//find the right character
-				String name = e.getAttributeValue("name");
-				for(CharacterTile c: maze.getCharacters()) {
-					if(c.getName().equals(name)){
-						String[] moves = e.getChild("moves").getText().split(", ");
-						//push moves on to characters next moves stack
-						for(String str: moves) {
-							switch(str) {
-								case "up":
-									c.getNextMoves().push(direction.UP);
-									break;
-								case "left":
-									c.getNextMoves().push(direction.LEFT);
-									break;
-								case "down":
-									c.getNextMoves().push(direction.DOWN);
-									break;
-								case "right":
-									c.getNextMoves().push(direction.RIGHT);
-									break;
-							}
-						}
-					}
+			//find the right character
+			String[] moves = element.getChild("moves").getText().split(", ");
+			
+			ChapTile chap = maze.getChap();
+			//push moves on to characters next moves stack
+			for(String str: moves) {
+				switch(str) {
+					case "up":
+						chap.addNextMove(direction.UP);
+						break;
+					case "left":
+						chap.addNextMove(direction.LEFT);
+						break;
+					case "down":
+						chap.addNextMove(direction.DOWN);
+						break;
+					case "right":
+						chap.addNextMove(direction.RIGHT);
+						break;
 				}
 			}
 			return maze;
