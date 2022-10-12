@@ -57,12 +57,7 @@ public class Maze {
 	 * 
 	 */
 
-	public void moveTile(Tile t, int x, int y) {
-
-		if (!(t instanceof CharacterTile)) {
-			throw new IllegalArgumentException("Only chap or enemy tile type can be moved");
-		}
-		CharacterTile character = (CharacterTile) t;
+	public void moveTile(CharacterTile t, int x, int y) {
 
 		Tile target = board[x][y];
 
@@ -79,15 +74,20 @@ public class Maze {
 
 		else if (target instanceof KeyTile) {		
 			if (isChap) {
-				chap.addKey(((KeyTile) target).getColor());
+				((ChapTile) t).addKey(((KeyTile) target).getColor());
 				collect = true;
 			}
 		}
 
 		else if (target instanceof LockedDoorTile) {
 			LockedDoorTile door = (LockedDoorTile) target;
-			if (!chap.hasKey(door.getColor())) {
-				throw new IllegalArgumentException("cannot move chap into a locked door tile.");
+			if (isChap) {
+				if (!((ChapTile) t).hasKey(door.getColor())) {
+					throw new IllegalArgumentException("cannot move chap into a locked door tile.");
+				}
+				else {
+					((ChapTile) t).removeKey(door.getColor());
+				}
 			}
 		}
 
@@ -115,14 +115,14 @@ public class Maze {
 			}
 		}
 
-		board[getTileX(character)][getTileY(character)] = character.getStandingOn();
+		board[getTileX(t)][getTileY(t)] = t.getStandingOn();
 		if (!collect) {
-			character.setStandingOn(target);
+			t.setStandingOn(target);
 		}
 		else {
-			character.setStandingOn(new EmptyTile());
+			t.setStandingOn(new EmptyTile());
 		}
-		setTile(character, x, y);
+		setTile(t, x, y);
 
 	}
 	

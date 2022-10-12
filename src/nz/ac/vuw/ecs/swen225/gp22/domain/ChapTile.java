@@ -4,12 +4,12 @@ import java.util.*;
 
 public class ChapTile extends CharacterTile{
 	
-	private Set<String> keys;
+	private ArrayList<String> keys;
 	private boolean alive;
 
 	public ChapTile() {
 		super("chap");
-		keys = new HashSet<String>();
+		keys = new ArrayList<String>();
 		alive = true;
 	}
 	
@@ -17,11 +17,15 @@ public class ChapTile extends CharacterTile{
 		keys.add(k);
 	}
 	
+	public void removeKey(String k) {
+		keys.remove(k);
+	}
+	
 	public boolean hasKey(String k) {
 	    return keys.contains(k);
 	}
 	
-	public Set<String> getKeys() {
+	public ArrayList<String> getKeys() {
 		return keys;
 	}
 	
