@@ -22,19 +22,22 @@ public class Game extends JFrame implements ActionListener{
 	 */
 	private static final long serialVersionUID = 1L;
 	private Runnable stop = ()->{};
+	private Runnable restart = ()->{};
 	private MazeView mv;
 	private JPanel container;
 	private Controller controller;
 	private Maze maze;
-
+	
 	private Timer timer;
-	private long startTime = -1;
-	private long duration = 100000;
+	private long startTime;
+	private long duration;
+	
 
 	/**
 	 * Constructor for a new blank level 1
 	 */
 	public Game() {
+		
 		assert SwingUtilities.isEventDispatchThread();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -43,6 +46,10 @@ public class Game extends JFrame implements ActionListener{
 		mv = new MazeView(loader.getMaze());
 		controller = new Controller(loader.getMaze());
 		mv.addKeyListener(controller);
+		
+		duration = 100000;
+		startTime = -1;
+		
 		gui();
 		setVisible(true);
 	}
@@ -59,6 +66,10 @@ public class Game extends JFrame implements ActionListener{
 		XMLLoader loader = new XMLLoader();
 		loader.loadFile(file);
 		mv = new MazeView(loader.getMaze());
+		
+		duration = 100000;
+		startTime = -1;
+		
 		gui();
 		setVisible(true);
 	}
@@ -74,7 +85,7 @@ public class Game extends JFrame implements ActionListener{
 	 * Creates window for the main GUI
 	 */
 	public void gui() {
-			
+		
 		JMenuBar tools = new JMenuBar();
 		
 		container = new JPanel();
@@ -91,6 +102,10 @@ public class Game extends JFrame implements ActionListener{
 		stop  = ()->{
 			this.dispose();
 			new Setup();
+		};
+		restart  = ()->{
+			this.dispose();
+			new Game();
 		};
 		
 		JMenuItem stopbutton = new JMenuItem("stop");
@@ -115,6 +130,18 @@ public class Game extends JFrame implements ActionListener{
 				if (clockTime >= duration) {
 					clockTime = duration;
 					timer.stop();
+					
+					String[] confirm = {"Quit", "Restart"};
+					JPanel panel = new JPanel();
+					JLabel label = new JLabel("You Lose!");
+					panel.add(label);
+					int choice = JOptionPane.showOptionDialog(null, panel, "", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, confirm, confirm[1]);
+					if(choice == 0) {
+						System.exit(0);
+					} else {
+						restart.run();
+					}
+					
 				}
 				cd.setText(" " + (int)((duration-clockTime)/1000));
 				
@@ -123,7 +150,7 @@ public class Game extends JFrame implements ActionListener{
 			}
 			
 		});
-		
+
 		if(!timer.isRunning()) {
 			timer.start();
 		}
@@ -147,8 +174,6 @@ public class Game extends JFrame implements ActionListener{
       	mv.requestFocus();
 		
 	}
-	
-	
 	
 	
 	
