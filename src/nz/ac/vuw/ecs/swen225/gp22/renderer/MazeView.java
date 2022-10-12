@@ -23,7 +23,7 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.*;
  * 
  * 
  * */
-public class MazeView extends JPanel{
+public class MazeView extends JComponent{
 	
 	// Fields
 	private static final int INDENT_WINDOW = 100;
@@ -40,6 +40,7 @@ public class MazeView extends JPanel{
 
 	private int chapX, chapY, indentSize;
 	private int imageSize = 42;
+	private int cameraSize = 378;
 	private Maze maze; 
 	private Tile[][] chapView, mazeArray;
 	private Set<Tile> tileSet;
@@ -65,6 +66,7 @@ public class MazeView extends JPanel{
 	private void initialize() {
 		chapView = new Tile[vRange][vRange];
 		indentSize = 168;
+		setPreferredSize(new Dimension(cameraSize, cameraSize));
 	}
 	
 	/**
