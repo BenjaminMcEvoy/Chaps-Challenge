@@ -2,10 +2,14 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import java.util.*;
 
+
 public class ChapTile extends CharacterTile{
 	
 	private ArrayList<KeyTile> keys;
 	private boolean alive;
+	
+	private Stack<Direction> previousMoves = new Stack<Direction>();
+	private Stack<Direction> nextMoves = new Stack<Direction>();
 
 	public ChapTile() {
 		super("chap");
@@ -37,6 +41,23 @@ public class ChapTile extends CharacterTile{
 	public ArrayList<KeyTile> getKeys() {
 		return keys;
 	}
+	
+	public void addPreviousMove(Direction d) {
+		previousMoves.push(d);
+	}
+	
+	public void addNextMove(Direction d) {
+		nextMoves.push(d);
+	}
+	
+	public Stack<Direction> getPreviousMoves() {
+		return previousMoves;
+	}
+	
+	public Stack<Direction> getNextMoves() {
+		return nextMoves;
+	}
+	
 	
 	@Override
 	public void draw() {

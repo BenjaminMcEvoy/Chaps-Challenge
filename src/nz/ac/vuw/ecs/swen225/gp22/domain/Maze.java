@@ -15,6 +15,8 @@ public class Maze {
 	private ChapTile chap;
 
 	private XMLLoader loader;
+	
+	private int level;
 
 	private Set<Tile> entities = new HashSet<Tile>();
 
@@ -40,10 +42,11 @@ public class Maze {
 	 * 
 	 */
 
-	public Maze(int width, int height) {
+	public Maze(int width, int height, int level) {
 
 		this.width = width;
 		this.height = height;
+		this.level = level;
 
 		assert width > 0 && height > 0;
 
@@ -311,6 +314,10 @@ public class Maze {
 
 	public int getHeight() {
 		return height;
+	}
+	
+	public int getLevel() {
+		return level;
 	}
 	
 	public void setChap(ChapTile c) {
