@@ -6,6 +6,7 @@ public class ChapTile extends CharacterTile{
 	
 	private Set<String> keys;
 	private boolean alive;
+	private String file = "chap";
 
 	public ChapTile(int x, int y) {
 		super(x, y, "chap");
@@ -21,7 +22,22 @@ public class ChapTile extends CharacterTile{
 	    return keys.contains(k);
 	}
 	
+	public void getFLeft() {
+		file = "chap_left";
+	}
 	
+	public void getFRight() {
+		file = "chap_right";
+	}
+	
+	public void getFUp() {
+		file = "chap";
+	}
+	
+	public void getFDown() {
+		file = "chap";
+	}
+		
 	@Override
 	public void draw() {
 		
@@ -36,7 +52,7 @@ public class ChapTile extends CharacterTile{
 	@Override
 	public String getFileName() {
 		// TODO Auto-generated method stub
-		return "Chap";
+		return file;
 	}
 
 }

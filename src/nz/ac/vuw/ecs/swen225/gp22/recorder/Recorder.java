@@ -1,5 +1,4 @@
 package nz.ac.vuw.ecs.swen225.gp22.recorder;
-import nz.ac.vuw.ecs.swen225.gp22.renderer.Animate.direction;
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 
 import java.io.*;
@@ -34,7 +33,7 @@ public class Recorder {
 						if(c.getName().equals(name)) {chara = c;}
 					}
 					String text = "";
-					Stack<direction> moves = (Stack<direction>) chara.getPrevMoves().clone();
+					Stack<Maze.direction> moves = (Stack<Maze.direction>) chara.getPrevMoves().clone();
 					if(!moves.isEmpty()) {text += moves.pop().toString();}
 					while(!moves.isEmpty()) {text += ", " + moves.pop().toString();}
 					Node move = current.getLastChild();
