@@ -50,7 +50,9 @@ public class Instructions extends JFrame implements ActionListener{
 	 * Displays JLabels to show controls
 	 */
 	public void instructions() {
-		this.setMinimumSize(new Dimension(440, 210));
+		setResizable(false);
+		setSize(new Dimension(650, 442));
+		setMinimumSize(new Dimension(650, 442));
 		panel = new JPanel(new GridLayout(6, 2));
 		panel.add(new JLabel("Up = Up arrow key"));
 		

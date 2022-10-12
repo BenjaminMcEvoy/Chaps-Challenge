@@ -24,7 +24,7 @@ public class Game extends JFrame implements ActionListener{
 	private Runnable stop = ()->{};
 	private MazeView mv;
 	private JPanel panel;
-
+	private Controller controller;
 
 	/**
 	 * Constructor for a new blank level
@@ -34,8 +34,10 @@ public class Game extends JFrame implements ActionListener{
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		XMLLoader loader = new XMLLoader();
-		loader.loadFile(new File("blankLevel.xml"));
+		loader.loadFile(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/1.xml"));
 		mv = new MazeView(loader.getMaze());
+		controller = new Controller(loader.getMaze());
+		mv.addKeyListener(controller);
 		gui();
 		setVisible(true);
 	}
@@ -68,9 +70,11 @@ public class Game extends JFrame implements ActionListener{
 	 */
 	public void gui() {
 		panel = new JPanel();
+		setResizable(false);
+		setSize(new Dimension(650, 442));
+		setMinimumSize(new Dimension(650, 442));
 		Timer timer = new Timer(34, unused -> {
             assert SwingUtilities.isEventDispatchThread();
-            System.out.println("T");
             mv.repaint();
       });
       stop  = ()->{
