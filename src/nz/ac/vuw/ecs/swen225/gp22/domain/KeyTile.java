@@ -4,8 +4,8 @@ public class KeyTile extends Tile{
 	
 	private String color;
 
-	public KeyTile(int x, int y, String keyColor) {
-		super(x, y);
+	public KeyTile(String keyColor) {
+		super();
 		color = keyColor;
 	}
 	

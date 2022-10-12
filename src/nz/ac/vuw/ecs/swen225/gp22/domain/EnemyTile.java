@@ -1,13 +1,14 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.Animate.direction;
 
 import java.util.*;
 
 public class EnemyTile extends CharacterTile{
-	List<Maze.direction> pattern = new ArrayList<Maze.direction>();
+	List<direction> pattern = new ArrayList<direction>();
 	int patternLocation = 0;
 	
-	public EnemyTile(int x, int y, String name, List<Maze.direction> pattern) {
-		super(x, y, name);
+	public EnemyTile(String name, List<direction> pattern) {
+		super(name);
 		this.pattern = pattern;
 	}
 	
