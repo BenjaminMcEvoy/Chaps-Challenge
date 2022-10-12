@@ -75,7 +75,7 @@ public class XMLLoader {
 				maze.setTile(new ExitTile(x, y), x, y);
 			} else if (f.getAttributeValue("class").equals("info")) {
 				String info = f.getChild("info");
-				maze.setTile(new InfoTile(x, y), x, y);
+				maze.setTile(new InfoTile(x, y, info), x, y);
 			}
 		}
 		
