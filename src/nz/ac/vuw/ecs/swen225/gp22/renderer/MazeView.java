@@ -12,11 +12,6 @@ import java.awt.*;
 import javax.swing.JPanel;
 import javax.imageio.ImageIO;
 import javax.imageio.spi.ImageReaderWriterSpi;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.io.*;
 
@@ -93,10 +88,13 @@ public class MazeView extends JPanel{
 	private void initImage(){
 		try {
 			String dir = "res/graphics/";
-			
-			Image test = ImageIO.read(new File(dir + "Chap.png"));
-			
+
 			mapImages.put("chap", ImageIO.read(new File(dir + "Chap.png")));
+			mapImages.put("chap_left", ImageIO.read(new File(dir + "chap_left.png")));
+			mapImages.put("chap_right", ImageIO.read(new File(dir + "chap_right.png")));
+			mapImages.put("chap_up", ImageIO.read(new File(dir + "chap_up.png")));
+			mapImages.put("chap_down", ImageIO.read(new File(dir + "chap_down.png")));
+
 			mapImages.put("wallTile", ImageIO.read(new File(dir + "wallTile.png")));
 			mapImages.put("treasureTile", ImageIO.read(new File(dir + "treasureTile.png")));
 			mapImages.put("exitLock", ImageIO.read(new File(dir + "exitLock.png")));
@@ -109,10 +107,10 @@ public class MazeView extends JPanel{
 			mapImages.put("keyTile_blue", ImageIO.read(new File(dir + "keyTile_blue.png")));
 			mapImages.put("keyTile_yellow", ImageIO.read(new File(dir + "keyTile_yellow.png")));
 
-			mapImages.put("lockedDoorR", ImageIO.read(new File(dir + "lockedDoor_red.png")));
-			mapImages.put("lockedDoorG", ImageIO.read(new File(dir + "lockedDoor_green.png")));
-			mapImages.put("lockedDoorB", ImageIO.read(new File(dir + "lockedDoor_blue.png")));
-			mapImages.put("lockedDoorY", ImageIO.read(new File(dir + "lockedDoor_yellow.png")));
+			mapImages.put("lockedDoor_red", ImageIO.read(new File(dir + "lockedDoor_red.png")));
+			mapImages.put("lockedDoor_green", ImageIO.read(new File(dir + "lockedDoor_green.png")));
+			mapImages.put("lockedDoor_blue", ImageIO.read(new File(dir + "lockedDoor_blue.png")));
+			mapImages.put("lockedDoor_yellow", ImageIO.read(new File(dir + "lockedDoor_yellow.png")));
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -31,11 +31,11 @@ public class ChapTile extends CharacterTile{
 	}
 	
 	public void getFUp() {
-		file = "chap";
+		file = "chap_up";
 	}
 	
 	public void getFDown() {
-		file = "chap";
+		file = "chap_down";
 	}
 		
 	@Override
