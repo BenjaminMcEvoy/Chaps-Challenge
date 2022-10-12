@@ -30,7 +30,7 @@ public class Recorder {
 			Element root = new Element("save");
 			root.setAttribute("level", maze.getLevel());
 			
-			//vrate each character element and add to root node
+			//crate each character element and add to root node
 			for(CharacterTile c: maze.getCharacters()) {
 				Element character =  new Element("character");
 				character.setAttribute("name", c.getName());
@@ -58,7 +58,7 @@ public class Recorder {
 			Element root = doc.getRootElement();
 			String level = root.getAttributeValue("level");
 			XMLLoader levelLoader = new XMLLoader();
-			levelLoader.loadFile(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + level));
+			levelLoader.loadFile(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + level + ".xml"));
 			
 			//update characters future movement
 			Maze maze = levelLoader.getMaze();
