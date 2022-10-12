@@ -6,10 +6,9 @@ public class ChapTile extends CharacterTile{
 	
 	private Set<String> keys;
 	private boolean alive;
-	private String file = "chap";
 
-	public ChapTile(int x, int y) {
-		super(x, y, "chap");
+	public ChapTile() {
+		super("chap");
 		keys = new HashSet<String>();
 		alive = true;
 	}
@@ -22,22 +21,10 @@ public class ChapTile extends CharacterTile{
 	    return keys.contains(k);
 	}
 	
-	public void getFLeft() {
-		file = "chap_left";
+	public Set<String> getKeys() {
+		return keys;
 	}
 	
-	public void getFRight() {
-		file = "chap_right";
-	}
-	
-	public void getFUp() {
-		file = "chap_up";
-	}
-	
-	public void getFDown() {
-		file = "chap_down";
-	}
-		
 	@Override
 	public void draw() {
 		
@@ -52,7 +39,8 @@ public class ChapTile extends CharacterTile{
 	@Override
 	public String getFileName() {
 		// TODO Auto-generated method stub
-		return file;
+		return "chap";
 	}
+	
 
 }

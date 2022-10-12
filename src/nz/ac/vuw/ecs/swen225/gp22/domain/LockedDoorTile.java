@@ -4,8 +4,8 @@ public class LockedDoorTile extends Tile{
 	
 	private String color;
 
-	public LockedDoorTile(int x, int y, String keyColor) {
-		super(x, y);
+	public LockedDoorTile(String keyColor) {
+		super();
 		walkable = false;
 		color = keyColor;
 	}
@@ -30,6 +30,6 @@ public class LockedDoorTile extends Tile{
 	@Override
 	public String getFileName() {
 		// TODO Auto-generated method stub
-		return "lockedDoor_" + color;
+		return "lockedDoorB";// + color;
 	}
 }
