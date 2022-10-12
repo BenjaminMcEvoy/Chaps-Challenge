@@ -165,8 +165,12 @@ public class MazeView extends JPanel{
     	        if(chapX + row >= 0 && chapY + col >=0 && chapX + row < board.length && chapY + col <board[0].length) {
     	        	if(board[chapX + row][chapY + col] != null) {
     	        	g.drawImage(mapImages.get(board[chapX+row][chapY+col].getFileName()), indentSize + row*imageSize, indentSize +col* imageSize, this);
+    	        	}else {
+    	        		g.drawImage(mapImages.get("freeTile"), indentSize + row*imageSize, indentSize +col* imageSize, this);
     	        	}
-    	        }
+    	        }else {
+    	        		g.drawImage(mapImages.get("freeTile"), indentSize + row*imageSize, indentSize +col* imageSize, this);
+    	        	}
     	    }
     	}
     }
