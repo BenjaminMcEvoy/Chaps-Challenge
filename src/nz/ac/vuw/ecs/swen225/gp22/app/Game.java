@@ -27,6 +27,10 @@ public class Game extends JFrame implements ActionListener{
 	private Controller controller;
 	private Maze maze;
 
+	private Timer timer;
+	private long startTime = -1;
+	private long duration = 100000;
+
 	/**
 	 * Constructor for a new blank level 1
 	 */
@@ -70,7 +74,7 @@ public class Game extends JFrame implements ActionListener{
 	 * Creates window for the main GUI
 	 */
 	public void gui() {
-		
+			
 		JMenuBar tools = new JMenuBar();
 		
 		container = new JPanel();
@@ -93,10 +97,36 @@ public class Game extends JFrame implements ActionListener{
 		stopbutton.addActionListener(e->stop.run());
 
 		JLabel cl = new JLabel("TIME");
-		JLabel cd = new JLabel("100");
+		JLabel cd = new JLabel("bruh");
 
 		JLabel pl = new JLabel("Patties Left");
 		JLabel pc = new JLabel("100");		
+		
+		timer = new Timer(10, new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(startTime < 0) {
+					startTime = System.currentTimeMillis();
+				}
+				long now = System.currentTimeMillis();
+				long clockTime = now - startTime;
+				if (clockTime >= duration) {
+					clockTime = duration;
+					timer.stop();
+				}
+				cd.setText(" " + (int)((duration-clockTime)/1000));
+				
+				mv.repaint();
+				
+			}
+			
+		});
+		
+		if(!timer.isRunning()) {
+			timer.start();
+		}
 		
 		tools.add(stopbutton);
 		add(tools);
