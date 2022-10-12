@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp22.recorder;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Animate.direction;
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
+import nz.ac.vuw.ecs.swen225.gp22.persistency.XMLLoader;
 
 import java.io.*;
 import javax.xml.parsers.*;
@@ -14,10 +15,9 @@ import java.util.Stack;
 public class Recorder {
 	static boolean auto = false;
 	static int playbackSpeed = 10;
-	static File file;
 	
-	public void SaveGame(Maze m, String newFileName) {
-		if(file == null) {System.out.println("Nothing to be saved");}
+	public void SaveGame(Maze maze, String newFileName) {
+		if(maze == null) {System.out.println("Nothing to be saved");}
 		try {
 			InputStream oldFile = new FileInputStream(file);
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -30,7 +30,7 @@ public class Recorder {
 				if (current.getNodeType() == Node.ELEMENT_NODE) {
 					String name = current.getAttributes().getNamedItem("name").getTextContent();
 					CharacterTile chara = null;
-					for(CharacterTile c: m.getCharacters()) {
+					for(CharacterTile c: maze.getCharacters()) {
 						if(c.getName().equals(name)) {chara = c;}
 					}
 					String text = "";
@@ -41,7 +41,9 @@ public class Recorder {
 					move.setTextContent(text);
 				}
 			}
-			FileOutputStream outputFile = new FileOutputStream(newFileName+"xml");
+			
+			//store new save file
+			FileOutputStream outputFile = new FileOutputStream(newFileName+".xml");
 			TransformerFactory tf = TransformerFactory.newInstance();
 			Transformer t = tf.newTransformer(new StreamSource(new File(newFileName+".xslt")));
 			t.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -53,6 +55,30 @@ public class Recorder {
 		}catch(Exception e) {e.printStackTrace();}
 	}
 	
+	public Maze LoadSave(File file) throws Exception {
+		try {
+			// load XML file document
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			Document doc = db.parse(file);
+			
+			//create level
+			Element root = doc.getDocumentElement();
+			String level = root.getAttribute("level");
+			XMLLoader levelLoader = new XMLLoader();
+			levelLoader.loadFile(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + level));
+			
+			//update characters possible movement
+			Maze maze = levelLoader.getMaze();
+			NodeList nodes = root.getChildNodes();
+			root.
+			for(int i=0; i<nodes.getLength(); i++) {
+				String name = nodes.item(i).
+				maze.getAllEntities().stream().forEach(n->{if(n.getFileName().equals(name)){addMove(n, moves);}};
+			}
+			return maze;
+		}catch(Exception e){throw e;}
+	}
 	
 	public void Next(Maze m) {
 		auto = false;
