@@ -30,7 +30,7 @@ public class Recorder {
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			Document newFile = db.parse(oldFile);
 			
-			NodeList characters = newFile.getElementsByTagName("character");
+			NodeList characters = ((org.w3c.dom.Document) newFile).getElementsByTagName("character");
 			for(int i=0; i<characters.getLength(); i++) {
 				Node current = characters.item(i);
 				if (current.getNodeType() == Node.ELEMENT_NODE) {
@@ -54,7 +54,7 @@ public class Recorder {
 			Transformer t = tf.newTransformer(new StreamSource(new File(newFileName+".xslt")));
 			t.setOutputProperty(OutputKeys.INDENT, "yes");
 	        t.setOutputProperty(OutputKeys.STANDALONE, "no");
-	        DOMSource source = new DOMSource(newFile);
+	        DOMSource source = new DOMSource();
 	        StreamResult result = new StreamResult(outputFile);
 	        t.transform(source, result);
 	        
