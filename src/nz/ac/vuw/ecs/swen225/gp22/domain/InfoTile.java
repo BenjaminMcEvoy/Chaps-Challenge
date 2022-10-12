@@ -5,7 +5,7 @@ public class InfoTile extends Tile {
 	private String text;
 	private boolean displayText;
 
-	InfoTile(String t) {
+	public InfoTile(String t) {
 		super();
 		text = t;
 		

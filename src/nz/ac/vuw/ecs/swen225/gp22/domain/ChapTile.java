@@ -4,28 +4,37 @@ import java.util.*;
 
 public class ChapTile extends CharacterTile{
 	
-	private ArrayList<String> keys;
+	private ArrayList<KeyTile> keys;
 	private boolean alive;
 
 	public ChapTile() {
 		super("chap");
-		keys = new ArrayList<String>();
+		keys = new ArrayList<KeyTile>();
 		alive = true;
 	}
 	
-	public void addKey(String k) {
+	public void addKey(KeyTile k) {
 		keys.add(k);
 	}
 	
-	public void removeKey(String k) {
+	public void removeKey(KeyTile k) {
 		keys.remove(k);
 	}
 	
-	public boolean hasKey(String k) {
-	    return keys.contains(k);
+	public void removeKey(String k) {
+		for (KeyTile key : keys) {
+	    	if (key.getColor().equals(k)) keys.remove(key);
+	    }
 	}
 	
-	public ArrayList<String> getKeys() {
+	public boolean hasKey(KeyTile k) {
+	    for (KeyTile key : keys) {
+	    	if (key.getColor().equals(k.getColor())) return true;
+	    }
+	    return false;
+	}
+	
+	public ArrayList<KeyTile> getKeys() {
 		return keys;
 	}
 	

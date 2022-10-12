@@ -74,7 +74,7 @@ public class Maze {
 
 		else if (target instanceof KeyTile) {		
 			if (isChap) {
-				((ChapTile) t).addKey(((KeyTile) target).getColor());
+				((ChapTile) t).addKey((KeyTile) target);
 				collect = true;
 			}
 		}
@@ -82,7 +82,7 @@ public class Maze {
 		else if (target instanceof LockedDoorTile) {
 			LockedDoorTile door = (LockedDoorTile) target;
 			if (isChap) {
-				if (!((ChapTile) t).hasKey(door.getColor())) {
+				if (!((ChapTile) t).hasKey(new KeyTile(door.getColor()))) {
 					throw new IllegalArgumentException("cannot move chap into a locked door tile.");
 				}
 				else {
@@ -101,7 +101,7 @@ public class Maze {
 		} 
 		else if (target instanceof ExitLockTile) {
 			ExitLockTile lock = (ExitLockTile) target;
-			if (checkTreasures() && isChap) {
+			if (checkTreasures() < 1 && isChap) {
 				target = new EmptyTile();
 			}
 			else {
@@ -126,14 +126,17 @@ public class Maze {
 
 	}
 	
+	/*
+	 * return count of tresures remaining instead of a boolean
+	 */
 	
-	
-	private boolean checkTreasures() {
+	private int checkTreasures() {
+		int count = 0;
 		for (Tile t : this.getAllTiles()) {
 			if (t instanceof TreasureTile)
-				return false;
+				count++;
 		}
-		return true;
+		return count;
 
 	}
 

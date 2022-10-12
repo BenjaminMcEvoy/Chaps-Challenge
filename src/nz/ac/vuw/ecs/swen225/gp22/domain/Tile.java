@@ -21,7 +21,7 @@ public abstract class Tile{
 	 * @param y - y coordinate
 	 *
 	 * */
-	Tile(){
+	public Tile(){
 
 	}
 
