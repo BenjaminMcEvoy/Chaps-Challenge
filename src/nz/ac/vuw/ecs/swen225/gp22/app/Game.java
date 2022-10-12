@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.app;
 
+import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.*;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.MazeView;
 
@@ -8,7 +9,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 
 /**
  * Main class for running game
@@ -23,11 +23,12 @@ public class Game extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private Runnable stop = ()->{};
 	private MazeView mv;
-	private JPanel panel;
+	private JPanel container;
 	private Controller controller;
+	private Maze maze;
 
 	/**
-	 * Constructor for a new blank level
+	 * Constructor for a new blank level 1
 	 */
 	public Game() {
 		assert SwingUtilities.isEventDispatchThread();
@@ -69,28 +70,57 @@ public class Game extends JFrame implements ActionListener{
 	 * Creates window for the main GUI
 	 */
 	public void gui() {
-		panel = new JPanel();
+		
+		JMenuBar tools = new JMenuBar();
+		
+		container = new JPanel();
+		JPanel camera = new JPanel();
+		JPanel info = new JPanel();
+		
+		info.setLayout(new GridLayout(10, 1));
+		container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
+		
 		setResizable(false);
-		setSize(new Dimension(650, 442));
-		setMinimumSize(new Dimension(650, 442));
-		Timer timer = new Timer(34, unused -> {
-            assert SwingUtilities.isEventDispatchThread();
-            mv.repaint();
-      });
-      stop  = ()->{
-    	  timer.stop();
-    	  this.dispose();
-    	  new Setup();
-      };
-      JButton stopbutton = new JButton("stop");
-      stopbutton.addActionListener(e->stop.run());
-      add(BorderLayout.NORTH, stopbutton);
-      add(BorderLayout.CENTER, mv);
-      setPreferredSize(new Dimension(300, 300));
-      pack();
-      mv.requestFocus();
-      timer.start();
+		setSize(new Dimension(650, 450));
+		setMinimumSize(new Dimension(650, 450));		
+		
+		stop  = ()->{
+			this.dispose();
+			new Setup();
+		};
+		
+		JMenuItem stopbutton = new JMenuItem("stop");
+		stopbutton.addActionListener(e->stop.run());
+
+		JLabel cl = new JLabel("TIME");
+		JLabel cd = new JLabel("100");
+
+		JLabel pl = new JLabel("Patties Left");
+		JLabel pc = new JLabel("100");		
+		
+		tools.add(stopbutton);
+		add(tools);
+		
+		info.add(cl);
+		info.add(cd);
+		info.add(pl);
+		info.add(pc);
+
+		getContentPane().add(tools, BorderLayout.PAGE_START);
+		camera.add(mv);	
+		container.add(camera);
+		container.add(info);
+		add(container);
+		this.setPreferredSize(new Dimension(300,300));
+		
+		pack();
+      	mv.requestFocus();
+		
 	}
+	
+	
+	
+	
 	
 }
 

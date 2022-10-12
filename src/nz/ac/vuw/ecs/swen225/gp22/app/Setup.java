@@ -41,8 +41,8 @@ public class Setup extends JFrame implements ActionListener{
 	
 	public void mainMenu() {
 		setResizable(false);
-		setSize(new Dimension(650, 442));
-		setMinimumSize(new Dimension(650, 442));
+		setSize(new Dimension(650, 450));
+		setMinimumSize(new Dimension(650, 450));
 		panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
