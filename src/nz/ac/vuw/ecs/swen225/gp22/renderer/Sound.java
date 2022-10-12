@@ -13,9 +13,15 @@ public class Sound {
 
 	//Fields
 	private Maze maze;
-
 	private Map<String, Clip> mapSounds = new HashMap<>();
 	private Set<Tile> tiles = new HashSet<>();
+	
+	private String amb = "res/audio/background2.wav";
+	private String move = "res/audio/move.wav";
+	private String lockedD = "res/audio/locked_door.wav";
+	private String keyPick = "res/audio/key_pickup.wav";
+	private String win = "res/audio/sci_fi_win.wav";
+	
 
 	/**
 	 *  Sound Constructor
@@ -26,23 +32,6 @@ public class Sound {
 	public Sound(Maze m) {
 		initialize();
 		this.maze = m;
-
-		// Gets current working directory and iterates through the directory of audio files
-		File[] fileArray =  new File(System.getProperty("user.dir")+ "/res/audio").listFiles();
-		if (fileArray != null) {
-			for (File file : fileArray) {
-				try {
-					AudioInputStream audio = AudioSystem.getAudioInputStream(file);
-					Clip clip = AudioSystem.getClip();
-					clip.open(audio);
-					String soundName = file.getName().substring(0 , file.getName().length()-4);
-					mapSounds.put(soundName, clip);
-				} catch ( LineUnavailableException| UnsupportedAudioFileException| IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
 	}
 
 	/**
@@ -56,6 +45,51 @@ public class Sound {
 		mapSounds.clear();
 		tiles.clear();
 	}
+	
+	
+	/** Plays the ambient background sound
+	 * 
+	 *  Calls the playBackground function instead of play as it must be looped
+	 * */
+	public void playAmbient() {
+		try {
+			playBackground(amb);
+		} catch (IOException | UnsupportedAudioFileException|LineUnavailableException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/** Plays the ambient background sound
+	 * 
+	 *  Calls the play function
+	 * */
+	public void playLockedDoor() {
+			play(lockedD);
+	}
+	
+	/** Plays the move sound
+	 * 
+	 *  Calls the play function
+	 * */
+	public void playMove() {
+		play(move);
+	}
+	
+	/** Plays the ambient background sound
+	 * 
+	 *  Calls the play function
+	 * */
+	public void playKeyPickup() {
+			play(keyPick);
+	}
+	
+	/** Plays the move sound
+	 * 
+	 *  Calls the play function
+	 * */
+	public void playWin() {
+		play(win);
+	}
 
 	/**
 	 * Play function
@@ -65,9 +99,34 @@ public class Sound {
 	 * @param soundName
 	 */
 	public void play(String soundName) {
-		Clip clip = mapSounds.get(soundName);
-		clip.setFramePosition(0);
-		clip.start();
+		//loads the sound file and plays it
+		try {
+			File f = new File("./" + soundName);
+		    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(f.toURI().toURL());  
+	        Clip clip = AudioSystem.getClip();
+	        clip.open(audioInputStream);
+	        clip.start();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	/**
+	 * 
+	 * */
+	public void playBackground(String soundName) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+		//loads the sound file and plays it
+		try {
+			File f = new File("./" + soundName);
+		    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(f.toURI().toURL());  
+	        Clip clip = AudioSystem.getClip();
+	        clip.open(audioInputStream);
+            FloatControl volume= (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            volume.setValue(-10.0f);
+	        clip.loop(Clip.LOOP_CONTINUOUSLY);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 
 	
