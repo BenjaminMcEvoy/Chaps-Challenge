@@ -1,5 +1,4 @@
 package nz.ac.vuw.ecs.swen225.gp22.recorder;
-import nz.ac.vuw.ecs.swen225.gp22.renderer.Animate.direction;
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.XMLLoader;
 

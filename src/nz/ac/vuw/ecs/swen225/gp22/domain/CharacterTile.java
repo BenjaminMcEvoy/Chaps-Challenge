@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
-import nz.ac.vuw.ecs.swen225.gp22.renderer.Animate.direction;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.Animate;
+import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 
 import java.util.Stack;
 
@@ -8,8 +9,8 @@ public abstract class CharacterTile extends Tile{
 	private final String name;
 	
 	//records moves
-	Stack<direction> prevMoves = new Stack<direction>();
-	Stack<direction> nextMoves = new Stack<direction>();
+	Stack<Maze.direction> prevMoves = new Stack<Maze.direction>();
+	Stack<Maze.direction> nextMoves = new Stack<Maze.direction>();
 	
 	public CharacterTile(int x, int y, String name) {
 		super(x, y);
@@ -42,11 +43,11 @@ public abstract class CharacterTile extends Tile{
 		return name;
 	}
 	
-	public Stack<direction> getPrevMoves(){
+	public Stack<Maze.direction> getPrevMoves(){
 		return prevMoves;
 	}
 	
-	public Stack<direction> getNextMoves(){
+	public Stack<Maze.direction> getNextMoves(){
 		return nextMoves;
 	}
 
