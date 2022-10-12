@@ -38,6 +38,12 @@ public class Game extends JFrame implements ActionListener{
 	 */
 	public Game() {
 		
+		this.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		});
+
 		assert SwingUtilities.isEventDispatchThread();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -60,6 +66,13 @@ public class Game extends JFrame implements ActionListener{
 	 */
 	
 	public Game(File file) {
+
+		this.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		});
+
 		assert SwingUtilities.isEventDispatchThread();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -112,10 +125,10 @@ public class Game extends JFrame implements ActionListener{
 		stopbutton.addActionListener(e->stop.run());
 
 		JLabel cl = new JLabel("TIME");
-		JLabel cd = new JLabel("bruh");
+		JLabel cd = new JLabel();
 
 		JLabel pl = new JLabel("Patties Left");
-		JLabel pc = new JLabel("100");		
+		JLabel pc = new JLabel();		
 		
 		timer = new Timer(10, new ActionListener() {
 
@@ -144,7 +157,8 @@ public class Game extends JFrame implements ActionListener{
 					
 				}
 				cd.setText(" " + (int)((duration-clockTime)/1000));
-				
+				pc.setText(" " + maze.checkTreasures());
+
 				mv.repaint();
 				
 			}
