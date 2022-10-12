@@ -94,6 +94,8 @@ public class MazeView extends JPanel{
 			mapImages.put("chap_right", ImageIO.read(new File(dir + "chap_right.png")));
 			mapImages.put("chap_up", ImageIO.read(new File(dir + "chap_up.png")));
 			mapImages.put("chap_down", ImageIO.read(new File(dir + "chap_down.png")));
+			mapImages.put("enemy_left", ImageIO.read(new File(dir + "enemy_left.png")));
+			mapImages.put("enemy_right", ImageIO.read(new File(dir + "enemy_right.png")));
 
 			mapImages.put("wallTile", ImageIO.read(new File(dir + "wallTile.png")));
 			mapImages.put("treasureTile", ImageIO.read(new File(dir + "treasureTile.png")));
