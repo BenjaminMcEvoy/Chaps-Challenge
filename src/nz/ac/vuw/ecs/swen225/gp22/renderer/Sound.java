@@ -17,7 +17,7 @@ public class Sound {
 	private Set<Tile> tiles = new HashSet<>();
 	
 	private String amb = "res/audio/background2.wav";
-	private String move = "res/audio/move_sound_1.wav";
+	private String move = "res/audio/move.wav";
 	private String lockedD = "res/audio/locked_door.wav";
 	private String keyPick = "res/audio/key_pickup.wav";
 	private String win = "res/audio/sci_fi_win.wav";
