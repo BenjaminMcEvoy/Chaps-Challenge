@@ -34,6 +34,7 @@
 		private Maze maze;
 		private File level;
 		private InventoryView iv;
+		private Sound sound = new Sound();
 	
 		private Timer timer;
 		private long startTime;
@@ -187,6 +188,7 @@
 					if (clockTime >= duration) {
 						clockTime = duration;
 						timer.stop();
+						sound.playStung();
 						
 						String[] confirm = {"Quit", "Restart"};
 						JPanel panel = new JPanel();
@@ -202,6 +204,7 @@
 					}
 	
 					if(maze.hasWon()) {
+						sound.playWin();
 						timer.stop();
 						nextLvl.run();
 					}
@@ -215,13 +218,13 @@
 					pc.setText(" " + maze.checkTreasures());
 	
 					
-					
 					mv.repaint();
 					iv.repaint();
 				}
 				
 			});
 			if(!timer.isRunning()) {
+				sound.playAmbient();
 				timer.start();
 			}
 			
