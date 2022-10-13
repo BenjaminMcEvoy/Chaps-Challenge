@@ -34,9 +34,8 @@ public class MazeView extends JComponent{
 	private int cameraSize = vRange * imageSize; // 9 * 42
 	
 	private Maze maze; 
-	private Tile[][] chapView, mazeArray;
+	private Tile[][] chapView, boardArray;
 	private Set<Tile> tileSet;
-	private Sound sound;
 
 	
 	/**
@@ -50,10 +49,7 @@ public class MazeView extends JComponent{
 		initialize();
 		this.maze = m;
 		this.tileSet = m.getAllTiles();
-		this.sound = new Sound();
 		initImage();
-		sound.playAmbient();
-
 	}
 	
 	/**
@@ -71,7 +67,7 @@ public class MazeView extends JComponent{
 	/** Updates the board
 	 * */
 	private void updateMaze() {
-		mazeArray = maze.getBoard();
+		boardArray = maze.getBoard();
 	}
 
 	/** 
