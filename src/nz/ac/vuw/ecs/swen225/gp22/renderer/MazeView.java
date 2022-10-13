@@ -21,7 +21,7 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.*;
  * Maze View class to update and render the maze whenever
  * the character moves or does an action, responsible for 
  * 
- * 
+ * @author Benjamin McEvoy - 300579954
  * */
 public class MazeView extends JComponent{
 	
