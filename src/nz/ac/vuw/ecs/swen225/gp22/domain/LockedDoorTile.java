@@ -30,6 +30,6 @@ public class LockedDoorTile extends Tile{
 	@Override
 	public String getFileName() {
 		// TODO Auto-generated method stub
-		return "lockedDoorB";// + color;
+		return "lockedDoor_" + color;
 	}
 }

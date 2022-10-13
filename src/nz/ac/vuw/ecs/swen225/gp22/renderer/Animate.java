@@ -19,7 +19,7 @@ public class Animate{
 		this.chap = chap;
 	}
 
-	private void Animation(){
+	public void Animation(){
 		if(toX == fromX-1){
 			chap.getFLeft();
 		} else if(toX == fromX+1){
