@@ -33,6 +33,7 @@ public class Maze {
 	private final int width, height;
 	
 	private boolean hasWon = false;
+	private boolean showInfo = false;
 
 	// private Set<Key> availableKeys = new HashSet<Key>();
 
@@ -131,9 +132,9 @@ public class Maze {
 				target = new EmptyTile();
 				sound.playKeyPickup();
 				collect = true;
-				if (checkTreasures() < 1 ) {
+				/*if (checkTreasures() < 1 ) {
 					clearTileType(new ExitLockTile());
-				}
+				}*/
 			}
 
 		} 
@@ -163,6 +164,14 @@ public class Maze {
 		else {
 			t.setStandingOn(new EmptyTile());
 		}
+		
+		if (isChap && t.getStandingOn() instanceof InfoTile) {
+			showInfo = true;
+		}
+		else {
+			showInfo = false;
+		}
+		
 		setTile(t, x, y);
 
 	}
@@ -181,7 +190,7 @@ public class Maze {
 
 	}
 	
-	private void clearTileType(Tile t) {
+	/*private void clearTileType(Tile t) {
 		for (int x = 0; x < board.length; x++) {
 			for (int y = 0; y < board[x].length; y++) {
 				Tile current = board[x][y];
@@ -190,7 +199,7 @@ public class Maze {
 				}
 			}
 		}
-	}
+	}*/
 
 	public Tile getTileAt(int x, int y) {
 
@@ -381,6 +390,10 @@ public class Maze {
 	
 	public boolean hasWon() {
 		return hasWon;
+	}
+	
+	public boolean showInfo() {
+		return showInfo;
 	}
 	
 	public void moveUp(CharacterTile t) {
