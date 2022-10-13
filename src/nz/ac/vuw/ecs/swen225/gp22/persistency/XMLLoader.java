@@ -38,8 +38,7 @@ public class XMLLoader {
 		int level = Integer.parseInt(e.getAttributeValue("level"));
 		int x = Integer.parseInt(e.getAttributeValue("x"));
 		int y = Integer.parseInt(e.getAttributeValue("y"));
-		this.maze = new Maze(x, y);
-		this.maze.setLevel(level);
+		this.maze = new Maze(x, y, level);
 	}
 	
 	private void parseChap(Element e) {
