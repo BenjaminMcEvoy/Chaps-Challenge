@@ -7,15 +7,17 @@ import nz.ac.vuw.ecs.swen225.gp22.persistency.XMLLoader;
 public class Maze {
 
 	// fields
+	enum direction{
+		UP,
+		DOWN,
+		LEFT,
+		RIGHT
+	}
 
 	// private Tile[][] board = new Tile[10][10];
-
 	private Tile[][] board;
-	// private Tile[][] board = new Tile[10][10];
 	private ChapTile chap;
-
 	private XMLLoader loader;
-	
 	private int level;
 
 	private Set<Tile> entities = new HashSet<Tile>();
