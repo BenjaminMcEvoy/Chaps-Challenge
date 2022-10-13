@@ -39,9 +39,6 @@ public abstract class CharacterTile extends Tile{
 
 
 	@Override
-	public abstract void draw();
-
-	@Override
 	public abstract String toString();
 	@Override
 	public abstract String getFileName();
