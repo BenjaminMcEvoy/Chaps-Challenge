@@ -111,7 +111,12 @@ public class Recorder {
 	
 	//play next move 
 	public static void Next(Maze m) {
-		if(!m.getChap().getNextMoves().isEmpty()) m.getCharacters().stream().forEach(i->i.move(m));
+		if(!m.getChap().getNextMoves().isEmpty()) {
+			m.getCharacters().stream().forEach(i->i.move(m));
+		}
+		else {
+			auto = false;
+		}
 	}
 	
 	public static void nextMove(Maze m) {
