@@ -52,7 +52,8 @@ public class Game extends JFrame implements ActionListener{
 		XMLLoader loader = new XMLLoader();
 		loader.loadFile(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/1.xml"));
 		mv = new MazeView(loader.getMaze());
-		controller = new Controller(loader.getMaze());
+		maze = loader.getMaze();
+		controller = new Controller(maze);
 		mv.addKeyListener(controller);
 		
 		duration = 100000;
