@@ -32,22 +32,22 @@ public class Recorder {
 			character.setAttribute("name", "chap");
 			String str = "";
 			for(direction d: maze.getChap().getPreviousMoves()) {
-				if(!str.equals("")) {str += ", ";}
+				if(!str.equals("")) {str = ", " + str;}
 				switch(d) {
 					case UP:
-						str += "up";
+						str = "up" + str;
 						break;
 					case LEFT:
-						str += "left";
+						str = "left" + str;
 						break;
 					case DOWN:
-						str += "down";
+						str = "down" + str;
 						break;
 					case RIGHT:
-						str += "right";
+						str = "right" + str;
 						break;
 					case NULL:
-						str += "null";
+						str = "null" + str;
 						break;
 				}
 			}
