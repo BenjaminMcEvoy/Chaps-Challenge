@@ -52,6 +52,21 @@ public class Maze {
 
 		board = new Tile[width][height];
 	}
+	
+	/*
+	 * Secondary constructor for if the level is not specified in the parser
+	 */
+	
+	public Maze(int width, int height) {
+
+		this.width = width;
+		this.height = height;
+		this.level = 1;
+
+		assert width > 0 && height > 0;
+
+		board = new Tile[width][height];
+	}
 
 	/*
 	 * 
@@ -133,7 +148,7 @@ public class Maze {
 	 * return count of tresures remaining instead of a boolean
 	 */
 	
-	private int checkTreasures() {
+	public int checkTreasures() {
 		int count = 0;
 		for (Tile t : this.getAllTiles()) {
 			if (t instanceof TreasureTile)

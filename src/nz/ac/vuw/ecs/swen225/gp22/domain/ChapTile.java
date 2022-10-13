@@ -8,8 +8,8 @@ public class ChapTile extends CharacterTile{
 	private ArrayList<KeyTile> keys;
 	private boolean alive;
 	
-	private Stack<Direction> previousMoves = new Stack<Direction>();
-	private Stack<Direction> nextMoves = new Stack<Direction>();
+	//private Stack<Direction> previousMoves = new Stack<Direction>();
+	//private Stack<Direction> nextMoves = new Stack<Direction>();
 
 	public ChapTile() {
 		super("chap");
