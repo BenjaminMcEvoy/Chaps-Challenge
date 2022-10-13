@@ -4,6 +4,7 @@ import java.util.*;
 
 import nz.ac.vuw.ecs.swen225.gp22.persistency.XMLLoader;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Animate;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.Sound;
 
 public class Maze {
 
