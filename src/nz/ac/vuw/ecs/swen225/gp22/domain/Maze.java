@@ -56,7 +56,7 @@ public class Maze {
 		this.width = width;
 		this.height = height;
 		this.level = level;
-		this.sound = new Sound(this);
+		this.sound = new Sound();
 
 		assert width > 0 && height > 0;
 
