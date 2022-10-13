@@ -8,6 +8,7 @@ public class InfoTile extends Tile {
 	public InfoTile(String t) {
 		super();
 		text = t;
+		displayText = false;
 		
 	}
 
@@ -17,6 +18,10 @@ public class InfoTile extends Tile {
 	
 	public void changeDisplay(boolean b) {
 		displayText = b;
+	}
+	
+	public boolean isDiplaying() {
+		return displayText;
 	}
 	
 	
