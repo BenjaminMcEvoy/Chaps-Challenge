@@ -51,8 +51,9 @@ public class Recorder {
 						break;
 				}
 			}
-			//maze.getChap().getPreviousMoves().stream().forEach(m -> str += m + ", ");
-			character.addContent(str);
+			Element moves = new Element("moves");
+			moves.addContent(str)
+			character.addContent(moves);
 			root.addContent(character);
 			
 			//Save as doc
