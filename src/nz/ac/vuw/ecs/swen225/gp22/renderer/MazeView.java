@@ -50,7 +50,7 @@ public class MazeView extends JComponent{
 		initialize();
 		this.maze = m;
 		this.tileSet = m.getAllTiles();
-		this.sound = new Sound(this.maze);
+		this.sound = new Sound();
 		initImage();
 		sound.playAmbient();
 

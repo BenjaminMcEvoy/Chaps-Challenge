@@ -12,16 +12,8 @@ import javax.sound.sampled.*;
 public class Sound {
 
 	//Fields
-	private Maze maze;
-	private Map<String, Clip> mapSounds = new HashMap<>();
-	private Set<Tile> tiles = new HashSet<>();
 	
-	private String amb = "res/audio/background3.wav";
-	private String move = "res/audio/soundMove2.wav";
-	private String lockedD = "res/audio/soundLocked.wav";
-	private String openD = "res/audio/soundOpen.wav";
-	private String keyPick = "res/audio/soundPickup.wav";
-	private String win = "res/audio/sci_fi_win.wav";
+	private String amb, move, lockedD, openD, keyPick, chapStung, win;
 	
 
 	/**
@@ -30,9 +22,7 @@ public class Sound {
 	 * 	Fetches the current directory and iterates through the audio files in the resource
 	 *  directory, and places the filename and s
 	 */
-	public Sound(Maze m) {
-		initialize();
-		this.maze = m;
+	public Sound() {
 	}
 
 	/**
@@ -43,8 +33,13 @@ public class Sound {
 	 * 
 	 */
 	private void initialize() {
-		mapSounds.clear();
-		tiles.clear();
+		amb = "res/audio/background3.wav";
+		move = "res/audio/soundMove2.wav";
+		lockedD = "res/audio/soundLocked.wav";
+		openD = "res/audio/soundOpen.wav";
+		keyPick = "res/audio/soundPickup.wav";
+		chapStung = "res/audio/soundStung.wav";
+		win = "res/audio/soundWin.wav";
 	}
 	
 	
@@ -82,6 +77,15 @@ public class Sound {
 	 * */
 	public void playMove() {
 		play(move);
+	}
+	
+	
+	/** Plays the chap stung sound
+	 * 
+	 *  Calls the play function
+	 * */
+	public void playStung() {
+		play(chapStung);
 	}
 	
 	/** Plays the pickup sound
