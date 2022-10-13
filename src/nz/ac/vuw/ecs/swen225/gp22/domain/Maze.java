@@ -117,6 +117,7 @@ public class Maze {
 					
 				}
 				else {
+					sound.playOpenDoor();
 					((ChapTile) t).removeKey(door.getColor());
 					target = new EmptyTile();
 				}
