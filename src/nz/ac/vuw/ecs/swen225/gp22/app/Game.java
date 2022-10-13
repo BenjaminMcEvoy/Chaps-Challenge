@@ -2,7 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp22.app;
 
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.*;
-import nz.ac.vuw.ecs.swen225.gp22.renderer.MazeView;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.*;
 
 import javax.swing.*;
 import java.awt.*;
