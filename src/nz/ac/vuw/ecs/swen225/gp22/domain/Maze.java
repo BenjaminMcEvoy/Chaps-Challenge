@@ -29,6 +29,7 @@ public class Maze {
 	private final int width, height;
 	
 	private boolean hasWon = false;
+	private boolean hasLost = false;
 
 	// private Set<Key> availableKeys = new HashSet<Key>();
 
@@ -155,7 +156,16 @@ public class Maze {
 		else if (target instanceof ExitTile && isChap) {
             this.hasWon = true;
         }
+		
+		else if (target instanceof ChapTile && !isChap) {
+			this.hasLost = true;
+		}
+		
+		else if (target instanceof EnemyTile && isChap) {
+			this.hasLost = true;
+		}
 
+		
 		sound.playMove();
 		board[getTileX(t)][getTileY(t)] = t.getStandingOn();
 		if (!collect) {
@@ -384,6 +394,10 @@ public class Maze {
 	
 	public boolean hasWon() {
 		return hasWon;
+	}
+	
+	public boolean hasLost() {
+		return hasLost;
 	}
 	
 	public InfoTile getInfo() {
