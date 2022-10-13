@@ -11,6 +11,8 @@ import org.junit.rules.ExpectedException;
 import nz.ac.vuw.ecs.swen225.gp22.domain.ChapTile;
 import nz.ac.vuw.ecs.swen225.gp22.domain.EmptyTile;
 import nz.ac.vuw.ecs.swen225.gp22.domain.ExitLockTile;
+import nz.ac.vuw.ecs.swen225.gp22.domain.ExitTile;
+import nz.ac.vuw.ecs.swen225.gp22.domain.InfoTile;
 import nz.ac.vuw.ecs.swen225.gp22.domain.KeyTile;
 import nz.ac.vuw.ecs.swen225.gp22.domain.LockedDoorTile;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
@@ -49,8 +51,8 @@ class DomainTesting {
 	@Test
 	public void testEquals2() {
 		
-		Maze maze1 = new Maze(2, 2, 1);
-		Maze maze2 = new Maze(2, 2, 1);
+		Maze maze1 = new Maze(2, 2);
+		Maze maze2 = new Maze(2, 2);
 		
 		fillMaze(maze1);
 		fillMaze(maze2);
@@ -182,6 +184,77 @@ class DomainTesting {
 			fail("chap should be standing where the ExitLock was previously");
 		}
 		
+	}
+	
+	@Test
+	public void testChapMovement8() {
+		Maze maze = new Maze(3, 3, 1);
+		fillMaze(maze);
+		ChapTile chap = new ChapTile();
+		
+		maze.setTile(chap, 0, 0);
+		maze.setTile(new ExitTile(), 2, 2);
+		
+		maze.moveTile(chap, 1, 0);
+		maze.moveTile(chap, 1, 1);
+		maze.moveTile(chap, 1, 2);
+		maze.moveTile(chap, 2, 2);
+		
+		if(!maze.hasWon()) {
+			fail("game should be won");
+		}
+		
+		
+		
+	}
+	@Test
+	public void testChapMovement9() {
+		Maze maze = new Maze(3, 3, 1);
+		fillMaze(maze);
+		ChapTile chap = new ChapTile();
+		InfoTile info = new InfoTile("test");
+		maze.setTile(chap, 0, 0);
+		maze.setTile(info, 2, 2);
+		
+		maze.moveTile(chap, 1, 0);
+		maze.moveTile(chap, 1, 1);
+		maze.moveTile(chap, 1, 2);
+		maze.moveTile(chap, 2, 2);
+		
+		if(!info.isDiplaying()) {
+			fail("InfoTile should be displaying its text");
+		}		
+	}
+	
+	@Test
+	public void testChapMovement10() {
+		Maze maze = new Maze(3, 3, 1);
+		fillMaze(maze);
+		ChapTile chap = new ChapTile();
+		InfoTile info = new InfoTile("test");
+		maze.setTile(chap, 0, 0);
+		maze.setTile(info, 1, 1);
+		
+		maze.moveTile(chap, 1, 0);
+		maze.moveTile(chap, 1, 1);
+		maze.moveTile(chap, 1, 2);
+		maze.moveTile(chap, 2, 2);
+		
+		if(info.isDiplaying()) {
+			fail("InfoTile should no longer displaying its text");
+		}
+	}
+	@Test
+	public void testChapMovement11() {
+		Maze maze = new Maze(3, 3, 1);
+		fillMaze(maze);
+		ChapTile chap = new ChapTile();
+		maze.setChap(chap);
+		maze.setTile(chap, 1, 1);
+		maze.moveUp(chap);
+		maze.moveDown(chap);
+		maze.moveLeft(chap);
+		maze.moveRight(chap);
 	}
 	
 	
