@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -17,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Main class for running game
- * @author CarloC
+ * @author Carlo Cigaral - 300572686
  *
  */
 public class Game extends JFrame implements ActionListener{
@@ -29,14 +30,15 @@ public class Game extends JFrame implements ActionListener{
 	private Runnable stop = ()->{};
 	private Runnable restart = ()->{};
 	private Runnable nextLvl = ()->{};
+	private Runnable clearScreen = ()->{};
 	private MazeView mv;
 	private JPanel container;
 	private Controller controller;
 	private Maze maze;
 	private File level;
 	private InventoryView iv;
+	
 	private Sound sound = new Sound();
-
 	private Timer timer;
 	private long startTime;
 	private long duration;
@@ -55,7 +57,9 @@ public class Game extends JFrame implements ActionListener{
 
 
 		public Game(Maze m) {
-
+			
+			sound.playAmbient();
+			
 			this.addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent e) {
 					System.exit(0);
@@ -69,12 +73,14 @@ public class Game extends JFrame implements ActionListener{
 			mv = new MazeView(maze);
 			controller = new Controller(maze);
 			mv.addKeyListener(controller);
+
 			iv = new InventoryView(maze);
 			level = new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + maze.getLevel() + ".xml");
 
 			duration = 100000;
 			startTime = -1;
 
+			
 			gui();
 			setVisible(true);
 		}
@@ -85,7 +91,9 @@ public class Game extends JFrame implements ActionListener{
 		 */
 
 		public Game(File file) {
-
+			
+			sound.playAmbient();
+			
 			this.addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent e) {
 					System.exit(0);
@@ -159,6 +167,10 @@ public class Game extends JFrame implements ActionListener{
 				String filename = "src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + (maze.getLevel()+1) + ".xml";
 				new Game(new File(filename));
 			};
+			
+			clearScreen = ()->{
+				this.dispose();
+			};
 
 			JMenuItem stopbutton = new JMenuItem("stop");
 			stopbutton.addActionListener(e->stop.run());
@@ -199,7 +211,6 @@ public class Game extends JFrame implements ActionListener{
 					if (clockTime >= duration) {
 						clockTime = duration;
 						timer.stop();
-						sound.playStung();
 
 						String[] confirm = {"Quit", "Restart"};
 						JPanel panel = new JPanel();
@@ -215,9 +226,7 @@ public class Game extends JFrame implements ActionListener{
 					}
 
 					if(maze.hasWon()) {
-						sound.playWin();
 						timer.stop();
-						System.out.println("WHY NOT");
 						nextLvl.run();
 					}
 					if(maze.getChap().getStandingOn() instanceof InfoTile) {
@@ -225,7 +234,12 @@ public class Game extends JFrame implements ActionListener{
 					} else {
 						infoTxt.setText("");
 					}
-
+					
+					System.out.println(controller.getPressedKeys().size());
+					if(controller.getPressedKeys().contains(KeyEvent.VK_CONTROL) && (controller.getPressedKeys().contains(KeyEvent.VK_1) || controller.getPressedKeys().contains(KeyEvent.VK_2) || controller.getPressedKeys().contains(KeyEvent.VK_X) || controller.getPressedKeys().contains(KeyEvent.VK_R) ) ) {
+						clearScreen.run();
+					}
+					
 					cd.setText(" " + (int)((duration-clockTime)/1000));
 					pc.setText(" " + maze.checkTreasures());
 
@@ -278,7 +292,6 @@ public class Game extends JFrame implements ActionListener{
 			this.setPreferredSize(new Dimension(300,300));
 
 			pack();
-			sound.playAmbient();
 			mv.requestFocus();
 
 		}
