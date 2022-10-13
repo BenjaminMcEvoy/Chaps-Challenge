@@ -93,9 +93,13 @@ public class Game extends JFrame implements ActionListener{
 		setLocationRelativeTo(null);
 		XMLLoader loader = new XMLLoader();
 		loader.loadFile(file);
+		
 		maze = loader.getMaze();
 		mv = new MazeView(maze);
+
+		controller = new Controller(maze);
 		mv.addKeyListener(controller);
+		
 		iv = new InventoryView(maze);
 		level = new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + maze.getLevel() + ".xml");
 
