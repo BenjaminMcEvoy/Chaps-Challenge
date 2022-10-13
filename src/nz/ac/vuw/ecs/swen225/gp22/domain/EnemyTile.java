@@ -36,6 +36,7 @@ public class EnemyTile extends CharacterTile{
 		patternLocation++;
 		if(patternLocation==pattern.size()) patternLocation = 0;
 	}
+	
 	public void getFLeft() {
 		// TODO Auto-generated method stub
 		file = "enemy_left";
