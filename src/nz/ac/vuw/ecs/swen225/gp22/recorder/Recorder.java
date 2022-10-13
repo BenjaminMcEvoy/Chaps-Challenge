@@ -48,7 +48,7 @@ public class Recorder {
 		}catch(Exception e) {e.printStackTrace();}
 	}
 	*/
-	public Maze LoadSave(File file) throws JDOMException, IOException{
+	public static Maze LoadSave(File file) throws JDOMException, IOException{
 		//try {
 		// load XML file document
 		SAXBuilder sax = new SAXBuilder();
