@@ -35,6 +35,7 @@ public class Game extends JFrame implements ActionListener{
 	private Maze maze;
 	private File level;
 	private InventoryView iv;
+	private Sound sound = new Sound();
 
 	private Timer timer;
 	private long startTime;
@@ -198,6 +199,7 @@ public class Game extends JFrame implements ActionListener{
 					if (clockTime >= duration) {
 						clockTime = duration;
 						timer.stop();
+						sound.playStung();
 
 						String[] confirm = {"Quit", "Restart"};
 						JPanel panel = new JPanel();
@@ -213,6 +215,7 @@ public class Game extends JFrame implements ActionListener{
 					}
 
 					if(maze.hasWon()) {
+						sound.playWin();
 						timer.stop();
 						System.out.println("WHY NOT");
 						nextLvl.run();
@@ -275,6 +278,7 @@ public class Game extends JFrame implements ActionListener{
 			this.setPreferredSize(new Dimension(300,300));
 
 			pack();
+			sound.playAmbient();
 			mv.requestFocus();
 
 		}
