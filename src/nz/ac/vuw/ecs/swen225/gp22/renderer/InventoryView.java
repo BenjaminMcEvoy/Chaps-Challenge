@@ -66,7 +66,10 @@ public class InventoryView extends JComponent{
 		}
 	}
 	
-	public void getChap() {
+	/** Gets the Chap
+	 * 
+	 * */
+	private void getChap() {
 		Set<Tile> tileSet = maze.getAllTiles();
 		for(Tile t : tileSet) {
 			if(t instanceof ChapTile) {
@@ -75,7 +78,13 @@ public class InventoryView extends JComponent{
 		}
 	}
 	
-	public void focusArea(Graphics2D g) {
+	/** 
+	 * Draws a focus area of a 4x2 for the 
+	 * inventory view.
+	 * 
+	 * @param Graphics2D g - the graph it's being drawn on
+	 * */
+	private void focusArea(Graphics2D g) {
 		for(int col = 0; col < INVENTORY_WIDTH; col++) {
 			for(int row = 0; row < INVENTORY_HEIGHT; row++) {
 				g.drawImage(mapImages.get("freeTile"), col*IMAGE_SIZE + GAP, row*IMAGE_SIZE, IMAGE_SIZE, IMAGE_SIZE, this);
@@ -83,7 +92,16 @@ public class InventoryView extends JComponent{
 		}
 	}
 	
-	public void drawKey(int x, int y, Graphics2D g) {
+	
+	/**
+	 * Draws the keys whenever a key is in Chap's possession,
+	 * or is removed from chap's possession.
+	 * 
+	 * @param int x - Value it's drawing
+	 * @param int y - Value it's drawing
+	 * @param Graphics2D g - the graph it's being drawn on
+	 * */
+	private void drawKey(int x, int y, Graphics2D g) {
 		for(int i = 0; i < chap.getKeys().size(); i++) {
 			KeyTile key = chap.getKeys().get(i);
 			if(i > INVENTORY_WIDTH-1) {
@@ -111,6 +129,14 @@ public class InventoryView extends JComponent{
 		}
 	}
 	
+	
+	/**
+	 * Overrides the paintComponent from the Javax,
+	 * Responsible for drawing the inventory view area in the Application 
+	 *
+	 * 
+	 * @param Graphics g - Graphics pane being draw on
+	 * */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);

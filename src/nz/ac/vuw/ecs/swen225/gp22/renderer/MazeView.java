@@ -1,8 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.renderer;
 
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -11,8 +9,6 @@ import java.awt.*;
 
 import javax.swing.JPanel;
 import javax.imageio.ImageIO;
-import javax.imageio.spi.ImageReaderWriterSpi;
-import javax.swing.*;
 import java.io.*;
 
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
@@ -21,35 +17,30 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.*;
  * Maze View class to update and render the maze whenever
  * the character moves or does an action, responsible for 
  * 
- * @author Benjamin McEvoy - 300579954
+ * 
  * */
-public class MazeView extends JComponent{
+public class MazeView extends JPanel{
 	
 	// Fields
 	private Map<String, Image> mapImages = new HashMap<String, Image>();
-	
+
+	// Get screen/board dimensions using a toolkit to fetch the screen size with static indents.
+	//private int indentBoard = currSDimension.height / 9;
 	private int vRange = 9; //range of vision
+
 	private int chapX, chapY, indentSize;
 	private int imageSize = 42;
-	private int cameraSize = vRange * imageSize; // 9 * 42
-	
 	private Maze maze; 
-	private Tile[][] chapView, boardArray;
+	private Tile[][] chapView, mazeArray;
 	private Set<Tile> tileSet;
 
 	
-	/**
-	 * Constructor of MazeView
-	 * 
-	 * Receives the maze in use, and initializes the board to draw and play the sound.
-	 * 
-	 * @param Maze m 
-	 * */
 	public MazeView(Maze m){
 		initialize();
 		this.maze = m;
 		this.tileSet = m.getAllTiles();
 		initImage();
+
 	}
 	
 	/**
@@ -59,15 +50,18 @@ public class MazeView extends JComponent{
 	 * 
 	 * */
 	private void initialize() {
+		//sound.stop();
 		chapView = new Tile[vRange][vRange];
 		indentSize = 168;
-		setPreferredSize(new Dimension(cameraSize, cameraSize));
 	}
 	
-	/** Updates the board
+	/**
+	 * 
+	 * 
+	 * 
 	 * */
 	private void updateMaze() {
-		boardArray = maze.getBoard();
+		mazeArray = maze.getBoard();
 	}
 
 	/** 
@@ -82,7 +76,7 @@ public class MazeView extends JComponent{
 	private void initImage(){
 		try {
 			String dir = "res/graphics/";
-
+			
 			mapImages.put("chap", ImageIO.read(new File(dir + "Chap.png")));
 			mapImages.put("chap_left", ImageIO.read(new File(dir + "chap_left.png")));
 			mapImages.put("chap_right", ImageIO.read(new File(dir + "chap_right.png")));
@@ -108,11 +102,17 @@ public class MazeView extends JComponent{
 			mapImages.put("lockedDoor_blue", ImageIO.read(new File(dir + "lockedDoor_blue.png")));
 			mapImages.put("lockedDoor_yellow", ImageIO.read(new File(dir + "lockedDoor_yellow.png")));
 
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Finds the chap tile coordinates.
+	 * and sets the fields to the coordinates.
+	 * 
+	 * */
 	private void findChap() {
 		for (Tile t: tileSet) {
 			if (t instanceof ChapTile) {
@@ -123,17 +123,19 @@ public class MazeView extends JComponent{
 	}
 	
 	/**
-	 *  Get the maze/board/pane
+	 * Get the maze/board/pane
 	 * @return maze
 	 * 
 	 * */
 	public Maze getMaze() {
 		return maze;
 	}
+	
    
 	
     /**
      *  Draws all tiles in a focus area
+     *  
      *  @param Tile[][] board - Board array/camera view
      *  @param Graphics2D g - Graphics Pane
      * */    
@@ -142,18 +144,23 @@ public class MazeView extends JComponent{
     	    for(int row = -5; row < 5; row++) {
     	        if(chapX + row >= 0 && chapY + col >=0 && chapX + row < board.length && chapY + col <board[0].length) {
     	        	if(board[chapX + row][chapY + col] != null) {
-    	        	g.drawImage(mapImages.get(board[chapX+row][chapY+col].getFileName()), indentSize + row*imageSize, indentSize +col* imageSize, this);
-    	        	}else {
+    	        		g.drawImage(mapImages.get(board[chapX+row][chapY+col].getFileName()), indentSize + row*imageSize, indentSize +col* imageSize, this);
+    	        	} else {
     	        		g.drawImage(mapImages.get("freeTile"), indentSize + row*imageSize, indentSize +col* imageSize, this);
     	        	}
-    	        }else {
-    	        		g.drawImage(mapImages.get("freeTile"), indentSize + row*imageSize, indentSize +col* imageSize, this);
-    	        	}
+    	        }
     	    }
     	}
     }
     
-    
+   
+	/**
+	 * Overrides the paintComponent from the Javax,
+	 * Responsible for drawing the maze view area in the Application 
+	 *
+	 * 
+	 * @param Graphics g - Graphics pane being draw on
+	 * */
     @Override
     public void paintComponent(Graphics g) {
     	super.paintComponent(g);
