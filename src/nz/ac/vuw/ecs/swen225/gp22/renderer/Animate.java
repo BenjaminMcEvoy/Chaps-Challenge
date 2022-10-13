@@ -2,14 +2,18 @@ package nz.ac.vuw.ecs.swen225.gp22.renderer;
 
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 
-
-
-
+/** 
+ * Responsible for the animation of entities/actors within
+ * the game itself.
+ * 
+ * @author Benjamin McEvoy - 300579954
+ * */
 public class Animate{
 	
 	//Fields
 	private int toX, toY, fromX, fromY;
 	private ChapTile chap;
+	private EnemyTile entity;
 	
 	public Animate(int fromX, int fromY, int toX, int toY, ChapTile chap) {
 		this.fromX = fromX;
@@ -18,8 +22,16 @@ public class Animate{
 		this.toY = toY;
 		this.chap = chap;
 	}
+	
+	public Animate(int fromX, int fromY, int toX, int toY, EnemyTile entity) {
+		this.fromX = fromX;
+		this.fromY = fromY;
+		this.toX = toX;
+		this.toY = toY;
+		this.entity = entity;
+	}
 
-	public void Animation(){
+	public void animation(ChapTile chap){
 		if(toX == fromX-1){
 			chap.getFLeft();
 		} else if(toX == fromX+1){
@@ -30,6 +42,14 @@ public class Animate{
 			chap.getFDown();
 		} else{
 			chap.getFIdle();
+		}
+	}
+	
+	public void animation(EnemyTile entity){
+		if(toX == fromX-1){
+			entity.getFLeft();
+		} else if(toX == fromX+1){
+			entity.getFRight();
 		}
 	}
 	
