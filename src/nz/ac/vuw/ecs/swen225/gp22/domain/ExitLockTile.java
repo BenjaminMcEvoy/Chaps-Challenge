@@ -2,7 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 public class ExitLockTile extends Tile{
 
-	ExitLockTile() {
+	public ExitLockTile() {
 		super();
 		walkable = false;
 	}

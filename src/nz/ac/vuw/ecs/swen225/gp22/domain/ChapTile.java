@@ -7,6 +7,7 @@ public class ChapTile extends CharacterTile{
 	
 	private ArrayList<KeyTile> keys;
 	private boolean alive;
+	private String file = "chap";
 	
 	//private Stack<Direction> previousMoves = new Stack<Direction>();
 	//private Stack<Direction> nextMoves = new Stack<Direction>();
@@ -26,9 +27,11 @@ public class ChapTile extends CharacterTile{
 	}
 	
 	public void removeKey(String k) {
+		KeyTile remove = null;
 		for (KeyTile key : keys) {
-	    	if (key.getColor().equals(k)) keys.remove(key);
+	    	if (key.getColor().equals(k)) remove = key;
 	    }
+		keys.remove(remove);
 	}
 	
 	public boolean hasKey(KeyTile k) {
@@ -58,6 +61,27 @@ public class ChapTile extends CharacterTile{
 		return nextMoves;
 	}
 	
+	public void getFLeft() {
+		file = "chap_left";
+	}
+	
+	public void getFRight() {
+		file = "chap_right";
+	}
+	
+	public void getFUp() {
+		file = "chap_up";
+	}
+	
+	public void getFDown() {
+		file = "chap_down";
+	}
+
+	public void getFIdle() {
+		file = "chap";
+	}
+
+	
 	
 	@Override
 	public void draw() {
@@ -73,7 +97,7 @@ public class ChapTile extends CharacterTile{
 	@Override
 	public String getFileName() {
 		// TODO Auto-generated method stub
-		return "chap";
+		return file;
 	}
 	
 
