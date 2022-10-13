@@ -30,8 +30,8 @@ public class XMLLoader {
 			SAXBuilder sax = new SAXBuilder();
 			Document doc = sax.build(file);
 			Element rootNode = doc.getRootElement();
-			parseLevel(rootNode); //parse the 
-			parseChap(rootNode);
+			parseLevel(rootNode); //parse the level, construct new maze
+			parseChap(rootNode); 
 			parseBoard(rootNode);
 		}
 		catch(Exception e) {e.printStackTrace();}
@@ -45,18 +45,18 @@ public class XMLLoader {
 	}
 	
 	private void parseChap(Element e) {
-		int x = Integer.parseInt(e.getChild("character").getChild("location").getAttributeValue("xpos"));
-		int y = Integer.parseInt(e.getChild("character").getChild("location").getAttributeValue("ypos"));
-		this.chap = new ChapTile();
-		
-	}
+        int x = Integer.parseInt(e.getChild("location").getAttributeValue("xpos"));
+        int y = Integer.parseInt(e.getChild("location").getAttributeValue("ypos"));
+        this.chap = new ChapTile();
+        maze.setTile(chap, x, y);
+    }
 	
 	private void parseBoard(Element e) {
 		List<Element> tiles = e.getChildren();
 		for (Element f:tiles) {
 			//String tile = f.getChild("tile").getAttributeValue("class");
 			//List<Element> currTiles = f.getChildren();
-			if(f.equals(e.getChild("tile"))) {
+			if(e.getChildren("tile").contains(f)) {
 				Element currTile = f.getChild("location");
 				int x = Integer.valueOf(currTile.getAttributeValue("xpos"));
 				int y = Integer.valueOf(currTile.getAttributeValue("ypos"));
@@ -80,7 +80,7 @@ public class XMLLoader {
 				} else if (f.getAttributeValue("class").equals("exitLock")) {
 					maze.setTile(new ExitLockTile(), x, y);
 				}
-			} else if (f.equals(e.getChild("character"))) {
+			} else if (e.getChildren("character").contains(f)) {
 				Element currTile = f.getChild("location");
 				int x = Integer.valueOf(currTile.getAttributeValue("xpos"));
 				int y = Integer.valueOf(currTile.getAttributeValue("ypos"));
@@ -90,7 +90,9 @@ public class XMLLoader {
 					List<direction> directions = stringToDirections(movesString);
 					maze.setTile(new EnemyTile(name, directions), x, y);
 				}
-			}
+			} else {
+                parseChap(f);
+            }
 		}
 	}	
 	
@@ -105,5 +107,3 @@ public class XMLLoader {
 		}
 		return directions;
 	}
-	
-}
