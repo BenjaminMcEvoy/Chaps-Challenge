@@ -21,7 +21,8 @@ public abstract class CharacterTile extends Tile{
 		}
 		else if (!(t instanceof InfoTile) && standingOn instanceof InfoTile) {
 			((InfoTile) standingOn).changeDisplay(false);
-		}	
+		}
+
 		standingOn = t;
 	}
 	

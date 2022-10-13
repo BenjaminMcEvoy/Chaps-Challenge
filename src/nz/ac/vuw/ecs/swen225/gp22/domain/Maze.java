@@ -29,6 +29,8 @@ public class Maze {
 	// private int totalTreasureCount;
 
 	private final int width, height;
+	
+	private boolean hasWon = false;
 
 	// private Set<Key> availableKeys = new HashSet<Key>();
 
@@ -144,6 +146,9 @@ public class Maze {
 			if (isChap) {
 				
 			}
+		}
+		else if (target instanceof ExitTile && isChap) {
+			this.hasWon = true;
 		}
 
 		board[getTileX(t)][getTileY(t)] = t.getStandingOn();
@@ -368,6 +373,10 @@ public class Maze {
 			if(t instanceof ChapTile) {return (ChapTile)t;}
 		}
 		return null;
+	}
+	
+	public boolean hasWon() {
+		return hasWon;
 	}
 	
 	public void moveUp(CharacterTile t) {
