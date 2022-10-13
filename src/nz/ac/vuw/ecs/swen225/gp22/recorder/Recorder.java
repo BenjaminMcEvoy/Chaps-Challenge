@@ -52,7 +52,7 @@ public class Recorder {
 				}
 			}
 			Element moves = new Element("moves");
-			moves.addContent(str)
+			moves.addContent(str);
 			character.addContent(moves);
 			root.addContent(character);
 			
