@@ -13,8 +13,8 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 public class Recorder {
-	static boolean auto = false;
-	static int playbackSpeed = 10;
+	public static boolean auto = false;
+	public static int playbackSpeed = 1;
 	
 	//save the current game
 	public static void SaveGame(Maze maze, File file) {
@@ -67,6 +67,7 @@ public class Recorder {
 	}
 	
 	public static Maze LoadSave(File file) throws JDOMException, IOException{
+		auto = false;
 		// load XML file document
 		SAXBuilder sax = new SAXBuilder();
 		Document doc = sax.build(file);
@@ -109,17 +110,16 @@ public class Recorder {
 	}
 	
 	//play next move 
-	public void Next(Maze m) {
-		auto = false;
-		//m.getCharacters().stream().forEach(i->i.nextMove());
+	public static void Next(Maze m) {
+		if(!m.getChap().getNextMoves().isEmpty()) m.getCharacters().stream().forEach(i->i.move(m));
 	}
 	
+	public static void nextMove(Maze m) {
+		auto = false;
+		Next(m);
+	}
 	//auto play through all moves
-	public void AutoPlay(Maze m) throws InterruptedException {
-		auto = true;
-		/*while(!m.getCharacters().get(0).getNextMoves().isEmpty() && auto) {
-			m.getCharacters().stream().forEach(i->i.nextMove());
-			wait(2000/playbackSpeed);
-		}*/
+	public static void AutoPlay(){
+		auto = !auto;
 	}
 }
