@@ -9,7 +9,7 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.Sound;
 public class Maze {
 
 	// fields
-	public enum direction{
+	public enum direction(){
 		UP,
 		DOWN,
 		LEFT,
