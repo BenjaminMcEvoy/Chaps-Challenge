@@ -77,13 +77,13 @@ public class InventoryView extends JPanel{
 	}
 	
 	public void drawKey(int x, int y, Graphics2D g) {
-		for(int i = 0; i < chap.getKeyArray().size(); i++) {
-			String key = chap.getKeyArray().get(i);
+		for(int i = 0; i < chap.getKeys().size(); i++) {
+			KeyTile key = chap.getKeys().get(i);
 			if(i > INVENTORY_WIDTH-1) {
 				x = GAP;
 				y = IMAGE_SIZE;
 			}
-			switch(key) {
+			switch(key.getColor()) {
 				case "blue":
 					g.drawImage(mapImages.get("keyTile_blue"), x, y, IMAGE_SIZE, IMAGE_SIZE, this);
 				case "red":

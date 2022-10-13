@@ -3,19 +3,22 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 import java.util.*;
 
 import nz.ac.vuw.ecs.swen225.gp22.persistency.XMLLoader;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.Animate;
 
 public class Maze {
 
 	// fields
+	enum direction{
+		UP,
+		DOWN,
+		LEFT,
+		RIGHT
+	}
 
 	// private Tile[][] board = new Tile[10][10];
-
 	private Tile[][] board;
-	// private Tile[][] board = new Tile[10][10];
 	private ChapTile chap;
-
 	private XMLLoader loader;
-	
 	private int level;
 
 	private Set<Tile> entities = new HashSet<Tile>();
@@ -351,21 +354,29 @@ public class Maze {
 		int x = getTileX(t);
 		int y = getTileY(t);
 		System.out.println("x="+x+"y="+y);
+		Animate animate = new Animate(x,y,x,y-1, (ChapTile) t);
+		animate.Animation();
 		moveTile(t, x, y-1);
 	}
 	public void moveLeft(CharacterTile t) {
 		int x = getTileX(t);
 		int y = getTileY(t);
+		Animate animate = new Animate(x,y,x-1,y, (ChapTile) t);
+		animate.Animation();
 		moveTile(t, x-1, y);			
 	}
 	public void moveDown(CharacterTile t) {
 		int x = getTileX(t);
 		int y = getTileY(t);
+		Animate animate = new Animate(x,y,x,y+1, (ChapTile) t);
+		animate.Animation();
 		moveTile(t, x, y+1);
 	}
 	public void moveRight(CharacterTile t) {
 		int x = getTileX(t);
 		int y = getTileY(t);
+		Animate animate = new Animate(x,y,x+1,y, (ChapTile) t);
+		animate.Animation();
 		moveTile(t, x+1, y);
 	}
 
