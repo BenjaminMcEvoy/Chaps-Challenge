@@ -1,10 +1,10 @@
 package nz.ac.vuw.ecs.swen225.gp22.recorder;
+
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze.direction;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.XMLLoader;
 
 import java.io.*;
-
 import org.jdom2.*;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -21,7 +21,7 @@ public class Recorder {
 	static int playbackSpeed = 10;
 	
 	//save the current game
-	public static void SaveGame(Maze maze, String newFileName) {
+	/*public static void SaveGame(Maze maze, String newFileName) {
 		if(maze == null) {
 			System.out.println("Nothing to be saved");
 			return;
@@ -47,8 +47,8 @@ public class Recorder {
 		    xmlOutputter.output(doc, new FileOutputStream(new File(newFileName)));
 		}catch(Exception e) {e.printStackTrace();}
 	}
-	
-	public static Maze LoadSave(File file) throws Exception {
+	*/
+	public static Maze LoadSave(File file){
 		// load XML file document
 		SAXBuilder sax = new SAXBuilder();
 		Document doc = sax.build(file);
