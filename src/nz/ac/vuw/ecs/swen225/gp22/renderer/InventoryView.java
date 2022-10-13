@@ -18,7 +18,7 @@ public class InventoryView extends JComponent{
 	private static final int INVENTORY_HEIGHT = 2;
 	private static final int IMAGE_SIZE = 42;
 	//private static final int GAP = 250;
-    private static final int GAP = (100 - IMAGE_SIZE * INVENTORY_HEIGHT)/2; //gap before drawing
+    private static final int GAP = (85 - IMAGE_SIZE * INVENTORY_HEIGHT)/2; //gap before drawing
 	
 	private Map<String, Image> mapImages = new HashMap<String, Image>();
 	private ChapTile chap;

@@ -127,6 +127,11 @@ public class Game extends JFrame implements ActionListener{
 		container = new JPanel();
 		JPanel camera = new JPanel();
 		JPanel info = new JPanel();
+
+		JPanel infoLabels = new JPanel();
+		JPanel infoInv = new JPanel();
+		
+		infoLabels.setLayout(new GridLayout(5, 1));
 		
 		info.setLayout(new GridLayout(10, 1));
 		container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
@@ -201,15 +206,20 @@ public class Game extends JFrame implements ActionListener{
 		tools.add(saveButton);
 		add(tools);
 		
-		info.add(cl);
-		info.add(cd);
-		info.add(pl);
-		info.add(pc);
-		info.add(inv);
-		info.add(iv);
+		infoLabels.add(cl);
+		infoLabels.add(cd);
+		infoLabels.add(pl);
+		infoLabels.add(pc);
+		infoLabels.add(inv);
+		infoInv.add(iv);
+
 
 		getContentPane().add(tools, BorderLayout.PAGE_START);
 		camera.add(mv);	
+
+		info.add(infoLabels);
+		info.add(infoInv);
+
 		container.add(camera);
 		container.add(info);
 		add(container);
