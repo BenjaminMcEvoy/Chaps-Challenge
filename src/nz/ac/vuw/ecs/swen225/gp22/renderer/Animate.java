@@ -14,45 +14,55 @@ public class Animate{
 	private int toX, toY, fromX, fromY;
 	private ChapTile chap;
 	private EnemyTile entity;
+	private Tile ent;
 	
-	public Animate(int fromX, int fromY, int toX, int toY, ChapTile chap) {
+	public Animate(int fromX, int fromY, int toX, int toY, Tile ent) {
 		this.fromX = fromX;
 		this.fromY = fromY;
 		this.toX = toX;
 		this.toY = toY;
-		this.chap = chap;
-	}
-	
-	public Animate(int fromX, int fromY, int toX, int toY, EnemyTile entity) {
-		this.fromX = fromX;
-		this.fromY = fromY;
-		this.toX = toX;
-		this.toY = toY;
-		this.entity = entity;
+		if(ent instanceof ChapTile) {
+			this.chap = (ChapTile) ent;
+		} else if (ent instanceof EnemyTile) {
+			this.entity = (EnemyTile) ent;
+		}
+		this.ent = ent;
 	}
 
-	public void animation(ChapTile chap){
+
+	public void animation(){
 		if(toX == fromX-1){
-			chap.getFLeft();
+			if(ent instanceof ChapTile) {
+				chap.getFLeft();
+			} else if (ent instanceof EnemyTile) {
+				entity.getFLeft();
+			}
 		} else if(toX == fromX+1){
-			chap.getFRight();
+			if(ent instanceof ChapTile) {
+				chap.getFRight();
+			} else if (ent instanceof EnemyTile) {
+				entity.getFRight();
+			}
 		} else if(toY == fromY-1){
-			chap.getFUp();
+			if(ent instanceof ChapTile) {
+				chap.getFUp();
+			} else if (ent instanceof EnemyTile) {
+				return;
+			}
 		} else if(toY == fromY+1){
-			chap.getFDown();
+			if(ent instanceof ChapTile) {
+				chap.getFDown();
+			} else if (ent instanceof EnemyTile) {
+				return;
+			}
 		} else{
-			chap.getFIdle();
+			if(ent instanceof ChapTile) {
+				chap.getFIdle();
+			} else if (ent instanceof EnemyTile) {
+				return;
+			}
 		}
-	}
-	
-	public void animation(EnemyTile entity){
-		if(toX == fromX-1){
-			entity.getFLeft();
-		} else if(toX == fromX+1){
-			entity.getFRight();
-		}
-	}
-	
+	}	
 
 	
 	/** Gets the fromX field

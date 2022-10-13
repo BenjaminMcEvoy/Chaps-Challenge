@@ -11,6 +11,12 @@ import javax.swing.*;
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 import nz.ac.vuw.ecs.swen225.gp22.app.*;
 
+
+/**
+ * Responsible for the inventory view of the ChapTile
+ * 
+ * @author Benjamin McEvoy - 300579954
+ * */
 public class InventoryView extends JComponent{
 	
 	//Fields
