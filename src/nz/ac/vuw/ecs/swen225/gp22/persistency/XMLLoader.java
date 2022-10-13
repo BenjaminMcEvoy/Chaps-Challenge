@@ -60,28 +60,25 @@ public class XMLLoader {
 			int x = Integer.valueOf(currTile.getAttributeValue("xpos"));
 			int y = Integer.valueOf(currTile.getAttributeValue("ypos"));
 			if (f.getAttributeValue("class").equals("wall")) {
-				maze.setTile(new WallTile(x, y), x, y);
+				maze.setTile(new WallTile(), x, y);
 			} else if(f.getAttributeValue("class").equals("free")) {
-				maze.setTile(new EmptyTile(x, y), x, y);
+				maze.setTile(new EmptyTile(), x, y);
 			} else if (f.getAttributeValue("class").equals("door")) {
 				String colour = f.getAttributeValue("colour");
-				maze.setTile(new LockedDoorTile(x, y, colour), x, y);
+				maze.setTile(new LockedDoorTile(colour), x, y);
 			} else if (f.getAttributeValue("class").equals("key")) {
 				String colour = f.getAttributeValue("colour");
-				maze.setTile(new KeyTile(x, y, colour), x, y);
+				maze.setTile(new KeyTile(colour), x, y);
 			} else if (f.getAttributeValue("class").equals("treasure")) {
-				maze.setTile(new TreasureTile(x, y), x, y);
+				maze.setTile(new TreasureTile(), x, y);
 			} else if (f.getAttributeValue("class").equals("exitDoor")) {
-				maze.setTile(new ExitTile(x, y), x, y);
+				maze.setTile(new ExitTile(), x, y);
 			} else if (f.getAttributeValue("class").equals("info")) {
 				String info = f.getChild("info");
-				maze.setTile(new InfoTile(x, y, info), x, y);
+				maze.setTile(new InfoTile(info), x, y);
 			}
 		}
 		
 	}	
 	
 }
-
-
-
