@@ -9,6 +9,12 @@ import java.util.Set;
 
 import javax.sound.sampled.*;
 
+
+/**
+ * Responsible for the audio files within the game
+ * 
+ * @author Benjamin McEvoy - 300579954
+ * */
 public class Sound {
 
 	//Fields
