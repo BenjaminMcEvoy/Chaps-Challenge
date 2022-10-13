@@ -24,16 +24,11 @@ public class Maze {
 	private Sound sound;
 	private int level;
 
-	private Set<Tile> entities = new HashSet<Tile>();
-
-	private List<CharacterTile> characters = new ArrayList<CharacterTile>();
-
 	// private int totalTreasureCount;
 
 	private final int width, height;
 	
 	private boolean hasWon = false;
-	private boolean showInfo = false;
 
 	// private Set<Key> availableKeys = new HashSet<Key>();
 
@@ -166,12 +161,6 @@ public class Maze {
 			t.setStandingOn(new EmptyTile());
 		}
 		
-		if (isChap && t.getStandingOn() instanceof InfoTile) {
-			showInfo = true;
-		}
-		else {
-			showInfo = false;
-		}
 		
 		setTile(t, x, y);
 
@@ -285,16 +274,16 @@ public class Maze {
 
 	}
 
-	public Set<Tile> getAllEntities() {
+	/*
+	 * return a list of chap and all enemies
+	 */
 
-		return entities;
-
-	}
-
-	public List<CharacterTile> getCharacters() {
-
-		return characters;
-
+	public List<Tile> getCharacters() {
+		List<Tile> count = new ArrayList<Tile>();	
+		for (Tile t : getAllTiles()) {
+			if (t instanceof CharacterTile) count.add(t);
+		}	
+		return count;	
 	}
 
 	/*
@@ -393,8 +382,12 @@ public class Maze {
 		return hasWon;
 	}
 	
-	public boolean showInfo() {
-		return showInfo;
+	public InfoTile getInfo() {
+		InfoTile output = null;
+		for (Tile t : getAllTiles()) {
+			if (t instanceof InfoTile) output = (InfoTile)t;
+		}
+		return output;
 	}
 	
 	public void moveUp(CharacterTile t) {
