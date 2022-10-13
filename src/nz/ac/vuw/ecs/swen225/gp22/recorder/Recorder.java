@@ -1,7 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp22.recorder;
 
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
-//import nz.ac.vuw.ecs.swen225.gp22.domain.Maze.direction;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Maze.direction;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.XMLLoader;
 
 import java.io.*;
@@ -49,7 +49,6 @@ public class Recorder {
 	}
 	*/
 	public static Maze LoadSave(File file) throws JDOMException, IOException{
-		//try {
 		// load XML file document
 		SAXBuilder sax = new SAXBuilder();
 		Document doc = sax.build(file);
@@ -72,21 +71,23 @@ public class Recorder {
 		for(String str: moves) {
 			switch(str) {
 				case "up":
-					//chap.addNextMove(direction.UP);
+					chap.addNextMove(direction.UP);
 					break;
 				case "left":
-					//chap.addNextMove(direction.LEFT);
+					chap.addNextMove(direction.LEFT);
 					break;
 				case "down":
-					//chap.addNextMove(direction.DOWN);
+					chap.addNextMove(direction.DOWN);
 					break;
 				case "right":
-					//chap.addNextMove(direction.RIGHT);
+					chap.addNextMove(direction.RIGHT);
+					break;
+				case "null":
+					chap.addNextMove(direction.NULL);
 					break;
 			}
 		}
 		return maze;
-		//}catch(Exception e) {}
 	}
 	
 	//play next move 

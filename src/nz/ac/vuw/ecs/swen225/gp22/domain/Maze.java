@@ -8,11 +8,12 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.Animate;
 public class Maze {
 
 	// fields
-	enum direction{
+	public enum direction{
 		UP,
 		DOWN,
 		LEFT,
-		RIGHT
+		RIGHT,
+		NULL
 	}
 
 	// private Tile[][] board = new Tile[10][10];
