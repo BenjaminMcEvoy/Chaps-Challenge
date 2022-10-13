@@ -17,8 +17,9 @@ public class Sound {
 	private Set<Tile> tiles = new HashSet<>();
 	
 	private String amb = "res/audio/background3.wav";
-	private String move = "res/audio/soundMove.wav";
-	private String lockedD = "res/audio/soundDoor.wav";
+	private String move = "res/audio/soundMove2.wav";
+	private String lockedD = "res/audio/soundLocked.wav";
+	private String openD = "res/audio/soundOpen.wav";
 	private String keyPick = "res/audio/soundPickup.wav";
 	private String win = "res/audio/sci_fi_win.wav";
 	
@@ -59,12 +60,20 @@ public class Sound {
 		}
 	}
 	
-	/** Plays the ambient background sound
+	/** Plays the locked door sound
 	 * 
 	 *  Calls the play function
 	 * */
 	public void playLockedDoor() {
 			play(lockedD);
+	}
+	
+	/** Plays the openDoor sound
+	 * 
+	 *  Calls the play function
+	 * */
+	public void playOpenDoor() {
+			play(openD);
 	}
 	
 	/** Plays the move sound
@@ -75,7 +84,7 @@ public class Sound {
 		play(move);
 	}
 	
-	/** Plays the ambient background sound
+	/** Plays the pickup sound
 	 * 
 	 *  Calls the play function
 	 * */
