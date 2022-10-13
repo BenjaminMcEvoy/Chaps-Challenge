@@ -107,7 +107,7 @@ public class Maze {
 			LockedDoorTile door = (LockedDoorTile) target;
 			if (isChap) {
 				if (!((ChapTile) t).hasKey(new KeyTile(door.getColor()))) {
-					throw new IllegalArgumentException("cannot move chap into a locked door tile.");
+					throw new IllegalStateException("cannot move chap into a locked door tile.");
 					
 				}
 				else {
@@ -116,7 +116,7 @@ public class Maze {
 				}
 			}
 			else {
-				throw new IllegalArgumentException("cannot move enemy into a locked door tile.");
+				throw new IllegalStateException("cannot move enemy into a locked door tile.");
 			}
 		}
 
@@ -133,7 +133,7 @@ public class Maze {
 		} 
 		else if (target instanceof ExitLockTile) {
 			if (checkTreasures() > 0) {
-				throw new IllegalArgumentException("cannot move into a Exit lock Tile");
+				throw new IllegalStateException("cannot move into a Exit lock Tile");
 			}
 			else {
 				collect = true;
@@ -189,7 +189,6 @@ public class Maze {
 
 	public Tile getTileAt(int x, int y) {
 
-		System.out.println(board[x][y].toString());
 		return board[x][y];
 
 	}
@@ -209,7 +208,7 @@ public class Maze {
 	 */
 
 	public Tile[][] getBoard() {
-		// System.out.println(toString());
+		if (board == null) throw new IllegalStateException("board should not be null");
 		return this.board;
 
 	}
