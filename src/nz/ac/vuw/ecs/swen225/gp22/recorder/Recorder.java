@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.recorder;
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Maze.direction;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.XMLLoader;
 
 import java.io.*;
@@ -20,7 +21,7 @@ public class Recorder {
 	static int playbackSpeed = 10;
 	
 	//save the current game
-	public void SaveGame(Maze maze, String newFileName) {
+	public static void SaveGame(Maze maze, String newFileName) {
 		if(maze == null) {
 			System.out.println("Nothing to be saved");
 			return;
@@ -47,45 +48,43 @@ public class Recorder {
 		}catch(Exception e) {e.printStackTrace();}
 	}
 	
-	public Maze LoadSave(File file) throws Exception {
-		try {
-			// load XML file document
-			SAXBuilder sax = new SAXBuilder();
-			Document doc = sax.build(file);
-			
-			//create level
-			Element root = doc.getRootElement();
-			String level = root.getAttributeValue("level");
-			XMLLoader levelLoader = new XMLLoader();
-			levelLoader.loadFile(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + level + ".xml"));
-			
-			//update characters future movement
-			Maze maze = levelLoader.getMaze();
-			Element element = root.getChild("character");
-			
-			//find the right character
-			String[] moves = element.getChild("moves").getText().split(", ");
-			
-			ChapTile chap = maze.getChap();
-			//push moves on to characters next moves stack
-			for(String str: moves) {
-				switch(str) {
-					case "up":
-						chap.addNextMove(direction.UP);
-						break;
-					case "left":
-						chap.addNextMove(direction.LEFT);
-						break;
-					case "down":
-						chap.addNextMove(direction.DOWN);
-						break;
-					case "right":
-						chap.addNextMove(direction.RIGHT);
-						break;
-				}
+	public static Maze LoadSave(File file) throws Exception {
+		// load XML file document
+		SAXBuilder sax = new SAXBuilder();
+		Document doc = sax.build(file);
+		
+		//create level
+		Element root = doc.getRootElement();
+		String level = root.getAttributeValue("level");
+		XMLLoader levelLoader = new XMLLoader();
+		levelLoader.loadFile(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + level + ".xml"));
+		
+		//update characters future movement
+		Maze maze = levelLoader.getMaze();
+		Element element = root.getChild("character");
+		
+		//find the right character
+		String[] moves = element.getChild("moves").getText().split(", ");
+		
+		ChapTile chap = maze.getChap();
+		//push moves on to characters next moves stack
+		for(String str: moves) {
+			switch(str) {
+				case "up":
+					//chap.addNextMove(direction.UP);
+					break;
+				case "left":
+					//chap.addNextMove(direction.LEFT);
+					break;
+				case "down":
+					//chap.addNextMove(direction.DOWN);
+					break;
+				case "right":
+					//chap.addNextMove(direction.RIGHT);
+					break;
 			}
-			return maze;
-		}catch(Exception e){throw e;}
+		}
+		return maze;
 	}
 	
 	//play next move 
