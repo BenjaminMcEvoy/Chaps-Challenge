@@ -71,7 +71,7 @@ public class InventoryView extends JPanel{
 	
 	public void focusArea(Graphics2D g) {
 		for(int col = 0; col < INVENTORY_WIDTH; col++) {
-			for(int row = 0; row < INVENTORY_HEIGHT; col++) {
+			for(int row = 0; row < INVENTORY_HEIGHT; row++) {
 				g.drawImage(mapImages.get("freeTile"), col*IMAGE_SIZE + GAP, row*IMAGE_SIZE + GAP, this);
 			}
 		}
@@ -87,12 +87,16 @@ public class InventoryView extends JPanel{
 			switch(key.getColor()) {
 				case "blue":
 					g.drawImage(mapImages.get("keyTile_blue"), x, y, IMAGE_SIZE, IMAGE_SIZE, this);
+					break;
 				case "red":
 					g.drawImage(mapImages.get("keyTile_red"), x, y, IMAGE_SIZE, IMAGE_SIZE, this);
+					break;
 				case "green":
 					g.drawImage(mapImages.get("keyTile_green"), x, y, IMAGE_SIZE, IMAGE_SIZE, this);
+					break;
 				case "yellow":
 					g.drawImage(mapImages.get("keyTile_yellow"), x, y, IMAGE_SIZE, IMAGE_SIZE, this);
+					break;
 				default:
 					System.out.println("Something went wrong");
 					break;
