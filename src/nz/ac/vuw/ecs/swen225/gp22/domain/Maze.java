@@ -152,6 +152,10 @@ public class Maze {
 			}
 		}
 
+		else if (target instanceof ExitTile && isChap) {
+            this.hasWon = true;
+        }
+
 		sound.playMove();
 		board[getTileX(t)][getTileY(t)] = t.getStandingOn();
 		if (!collect) {
