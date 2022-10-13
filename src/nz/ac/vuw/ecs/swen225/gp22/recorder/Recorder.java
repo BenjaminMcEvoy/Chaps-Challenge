@@ -11,17 +11,13 @@ import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
-import org.w3c.dom.*;
-
-import java.util.List;
-import java.util.Stack;
 
 public class Recorder {
 	static boolean auto = false;
 	static int playbackSpeed = 10;
 	
 	//save the current game
-	/*public static void SaveGame(Maze maze, String newFileName) {
+	public static void SaveGame(Maze maze, File file) {
 		if(maze == null) {
 			System.out.println("Nothing to be saved");
 			return;
@@ -35,7 +31,27 @@ public class Recorder {
 			Element character =  new Element("character");
 			character.setAttribute("name", "chap");
 			String str = "";
-			maze.getChap().getPrevMoves().stream().forEach(m -> str += m + ", ");
+			for(direction d: maze.getChap().getPreviousMoves()) {
+				if(!str.equals("")) {str = ", " + str;}
+				switch(d) {
+					case UP:
+						str = "up" + str;
+						break;
+					case LEFT:
+						str = "left" + str;
+						break;
+					case DOWN:
+						str = "down" + str;
+						break;
+					case RIGHT:
+						str = "right" + str;
+						break;
+					case NULL:
+						str = "null" + str;
+						break;
+				}
+			}
+			//maze.getChap().getPreviousMoves().stream().forEach(m -> str += m + ", ");
 			character.addContent(str);
 			root.addContent(character);
 			
@@ -44,10 +60,11 @@ public class Recorder {
 		    doc.setRootElement(root);
 		    XMLOutputter xmlOutputter = new XMLOutputter();
 		    xmlOutputter.setFormat(Format.getPrettyFormat());
-		    xmlOutputter.output(doc, new FileOutputStream(new File(newFileName)));
+		    xmlOutputter.output(doc, new FileOutputStream(file));
+		    
 		}catch(Exception e) {e.printStackTrace();}
 	}
-	*/
+	
 	public static Maze LoadSave(File file) throws JDOMException, IOException{
 		// load XML file document
 		SAXBuilder sax = new SAXBuilder();
