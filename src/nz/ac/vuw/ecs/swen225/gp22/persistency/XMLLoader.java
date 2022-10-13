@@ -31,7 +31,6 @@ public class XMLLoader {
 			Document doc = sax.build(file);
 			Element rootNode = doc.getRootElement();
 			parseLevel(rootNode); //parse the level, construct new maze
-			parseChap(rootNode); 
 			parseBoard(rootNode);
 		}
 		catch(Exception e) {e.printStackTrace();}
@@ -90,9 +89,10 @@ public class XMLLoader {
 					List<direction> directions = stringToDirections(movesString);
 					maze.setTile(new EnemyTile(name, directions), x, y);
 				}
-			} else {
-                parseChap(f);
-            }
+				else {
+	                parseChap(f);
+	            }
+			}
 		}
 	}	
 	
@@ -107,3 +107,4 @@ public class XMLLoader {
 		}
 		return directions;
 	}
+}
