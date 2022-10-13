@@ -106,10 +106,15 @@ public class Maze {
 			if (isChap) {
 				if (!((ChapTile) t).hasKey(new KeyTile(door.getColor()))) {
 					throw new IllegalArgumentException("cannot move chap into a locked door tile.");
+					
 				}
 				else {
 					((ChapTile) t).removeKey(door.getColor());
+					target = new EmptyTile();
 				}
+			}
+			else {
+				throw new IllegalArgumentException("cannot move enemy into a locked door tile.");
 			}
 		}
 
@@ -118,17 +123,21 @@ public class Maze {
 			if (isChap) {
 				target = new EmptyTile();
 				collect = true;
+				if (checkTreasures() < 1 ) {
+					clearTileType(new ExitLockTile());
+				}
 			}
 
 		} 
 		else if (target instanceof ExitLockTile) {
-			ExitLockTile lock = (ExitLockTile) target;
-			if (checkTreasures() < 1 && isChap) {
-				target = new EmptyTile();
+			if (checkTreasures() > 0) {
+				throw new IllegalArgumentException("cannot move into a Exit lock Tile");
 			}
 			else {
-				throw new IllegalArgumentException("cannot move chap into a exit locked tile.");
+				collect = true;
 			}
+			
+			
 		}
 		else if (target instanceof InfoTile) {
 			InfoTile info = (InfoTile) target;
@@ -161,6 +170,17 @@ public class Maze {
 		return count;
 
 	}
+	
+	private void clearTileType(Tile t) {
+		for (int x = 0; x < board.length; x++) {
+			for (int y = 0; y < board[x].length; y++) {
+				Tile current = board[x][y];
+				if (current.getClass().equals(t.getClass())) {
+					board[x][y] = new EmptyTile();
+				}
+			}
+		}
+	}
 
 	public Tile getTileAt(int x, int y) {
 
@@ -185,7 +205,7 @@ public class Maze {
 
 	public Tile[][] getBoard() {
 		// System.out.println(toString());
-		return this.board == null ? new Tile[10][10] : this.board;
+		return this.board;
 
 	}
 
@@ -359,6 +379,7 @@ public class Maze {
 		animate.Animation();
 		moveTile(t, x, y-1);
 	}
+	
 	public void moveLeft(CharacterTile t) {
 		int x = getTileX(t);
 		int y = getTileY(t);
@@ -380,5 +401,6 @@ public class Maze {
 		animate.Animation();
 		moveTile(t, x+1, y);
 	}
+
 
 }

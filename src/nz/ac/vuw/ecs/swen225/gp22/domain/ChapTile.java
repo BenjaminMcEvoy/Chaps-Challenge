@@ -27,9 +27,11 @@ public class ChapTile extends CharacterTile{
 	}
 	
 	public void removeKey(String k) {
+		KeyTile remove = null;
 		for (KeyTile key : keys) {
-	    	if (key.getColor().equals(k)) keys.remove(key);
+	    	if (key.getColor().equals(k)) remove = key;
 	    }
+		keys.remove(remove);
 	}
 	
 	public boolean hasKey(KeyTile k) {
