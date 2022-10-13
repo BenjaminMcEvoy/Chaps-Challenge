@@ -35,16 +35,16 @@ public class XMLLoader {
 	}
 	
 	private void parseLevel(Element e) {
-		int level = Integer.parseInt(e.getAttributeValue("level"));
+		String level = e.getAttributeValue("level");
 		int x = Integer.parseInt(e.getAttributeValue("x"));
 		int y = Integer.parseInt(e.getAttributeValue("y"));
-		this.maze = new Maze(x, y, level);
+		this.maze = new Maze(x, y, Level);
 	}
 	
 	private void parseChap(Element e) {
 		int x = Integer.parseInt(e.getChild("character").getChild("location").getAttributeValue("xpos"));
 		int y = Integer.parseInt(e.getChild("character").getChild("location").getAttributeValue("ypos"));
-		this.chap = new ChapTile();
+		this.chap = new ChapTile(x, y);
 		maze.setTile(this.chap, x, y);
 		
 	}
@@ -75,6 +75,8 @@ public class XMLLoader {
 			} else if (f.getAttributeValue("class").equals("info")) {
 				String info = f.getChild("info").getText();
 				maze.setTile(new InfoTile(info), x, y);
+			} else if (f.getAttributeValue("class").equals("exitLock")) {
+				maze.setTile(new ExitLockTile(), x, y);
 			}
 		}
 		
