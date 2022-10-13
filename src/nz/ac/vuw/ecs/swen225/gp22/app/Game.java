@@ -133,7 +133,7 @@ public class Game extends JFrame implements ActionListener{
 		
 		infoLabels.setLayout(new GridLayout(5, 1));
 		
-		info.setLayout(new GridLayout(10, 1));
+		info.setLayout(new GridLayout(2, 1));
 		container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
 		
 		setResizable(false);
