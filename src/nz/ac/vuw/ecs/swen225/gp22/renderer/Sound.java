@@ -29,6 +29,7 @@ public class Sound {
 	 *  directory, and places the filename and s
 	 */
 	public Sound() {
+		initialize();
 	}
 
 	/**
