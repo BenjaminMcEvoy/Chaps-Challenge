@@ -48,10 +48,8 @@ public class Game extends JFrame implements ActionListener{
 			}
 		}};
 
-	/**
-	 * Constructor for a new blank level 1
-	 */
-	public Game() {
+
+	public Game(Maze m) {
 		
 		this.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -62,10 +60,8 @@ public class Game extends JFrame implements ActionListener{
 		assert SwingUtilities.isEventDispatchThread();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
-		XMLLoader loader = new XMLLoader();
-		loader.loadFile(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/1.xml"));
-		mv = new MazeView(loader.getMaze());
-		maze = loader.getMaze();
+		maze = m;
+		mv = new MazeView(maze);
 		controller = new Controller(maze);
 		mv.addKeyListener(controller);
 		iv = new InventoryView(maze);
