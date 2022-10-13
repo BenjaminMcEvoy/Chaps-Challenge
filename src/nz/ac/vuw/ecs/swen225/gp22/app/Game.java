@@ -29,11 +29,24 @@ public class Game extends JFrame implements ActionListener{
 	private JPanel container;
 	private Controller controller;
 	private Maze maze;
-	
+	private File level;
+	private InventoryView iv;
+
 	private Timer timer;
 	private long startTime;
 	private long duration;
 	
+	public Runnable save = ()->{
+		JFileChooser chooser = new JFileChooser(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/SavedGame"));
+		int j = chooser.showSaveDialog(null);
+		if(j == JFileChooser.APPROVE_OPTION) {
+			try {
+				File f = chooser.getSelectedFile();
+				Recorder.SaveGame(maze, f);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}};
 
 	/**
 	 * Constructor for a new blank level 1
@@ -55,7 +68,9 @@ public class Game extends JFrame implements ActionListener{
 		maze = loader.getMaze();
 		controller = new Controller(maze);
 		mv.addKeyListener(controller);
-		
+		iv = new InventoryView(maze);
+		level = new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + maze.getLevel() + ".xml");
+
 		duration = 100000;
 		startTime = -1;
 		
@@ -82,7 +97,9 @@ public class Game extends JFrame implements ActionListener{
 		XMLLoader loader = new XMLLoader();
 		loader.loadFile(file);
 		mv = new MazeView(loader.getMaze());
-		
+		iv = new InventoryView(maze);
+		level = new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + maze.getLevel() + ".xml");
+
 		duration = 100000;
 		startTime = -1;
 		
@@ -121,11 +138,14 @@ public class Game extends JFrame implements ActionListener{
 		};
 		restart  = ()->{
 			this.dispose();
-			new Game();
+			new Game(level);
 		};
 		
 		JMenuItem stopbutton = new JMenuItem("stop");
 		stopbutton.addActionListener(e->stop.run());
+
+		JMenuItem saveButton = new JMenuItem("Save");
+        saveButton.addActionListener(e->save.run());
 
 		JLabel cl = new JLabel("TIME");
 		JLabel cd = new JLabel();
@@ -133,6 +153,8 @@ public class Game extends JFrame implements ActionListener{
 		JLabel pl = new JLabel("Patties Left");
 		JLabel pc = new JLabel();		
 		
+		JLabel inv = new JLabel("Inventory");
+
 		timer = new Timer(10, new ActionListener() {
 
 			@Override
@@ -163,7 +185,7 @@ public class Game extends JFrame implements ActionListener{
 				pc.setText(" " + maze.checkTreasures());
 
 				mv.repaint();
-				
+				iv.repaint();
 			}
 			
 		});
@@ -173,12 +195,15 @@ public class Game extends JFrame implements ActionListener{
 		}
 		
 		tools.add(stopbutton);
+		tools.add(saveButton);
 		add(tools);
 		
 		info.add(cl);
 		info.add(cd);
 		info.add(pl);
 		info.add(pc);
+		info.add(inv);
+		info.add(iv);
 
 		getContentPane().add(tools, BorderLayout.PAGE_START);
 		camera.add(mv);	
