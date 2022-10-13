@@ -23,29 +23,29 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.*;
  * 
  * 
  * */
-public class MazeView extends JPanel{
+public class MazeView extends JComponent{
 	
 	// Fields
-	private static final int INDENT_WINDOW = 100;
-	private static final int INDENT_GAP = 40;
 	private Map<String, Image> mapImages = new HashMap<String, Image>();
-
-	// Fetches the current screen dimension
-	private Dimension currSDimension = new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width - INDENT_WINDOW,
-	 Toolkit.getDefaultToolkit().getScreenSize().height - INDENT_WINDOW);
-
-	// Get screen/board dimensions using a toolkit to fetch the screen size with static indents.
-	//private int indentBoard = currSDimension.height / 9;
+	
 	private int vRange = 9; //range of vision
-
 	private int chapX, chapY, indentSize;
 	private int imageSize = 42;
+	private int cameraSize = vRange * imageSize; // 9 * 42
+	
 	private Maze maze; 
 	private Tile[][] chapView, mazeArray;
 	private Set<Tile> tileSet;
 	private Sound sound;
 
 	
+	/**
+	 * Constructor of MazeView
+	 * 
+	 * Receives the maze in use, and initializes the board to draw and play the sound.
+	 * 
+	 * @param Maze m 
+	 * */
 	public MazeView(Maze m){
 		initialize();
 		this.maze = m;
@@ -65,12 +65,10 @@ public class MazeView extends JPanel{
 	private void initialize() {
 		chapView = new Tile[vRange][vRange];
 		indentSize = 168;
+		setPreferredSize(new Dimension(cameraSize, cameraSize));
 	}
 	
-	/**
-	 * 
-	 * 
-	 * 
+	/** Updates the board
 	 * */
 	private void updateMaze() {
 		mazeArray = maze.getBoard();
@@ -136,22 +134,6 @@ public class MazeView extends JPanel{
 	public Maze getMaze() {
 		return maze;
 	}
-	
-	
-	/**
-	 * 
-	 * */
-	private void initVision() {
-		// Possible implementation for animation if we get to it
-		for(int col = chapX - (vRange / 2), x = 0; x <= chapX + (vRange/2); col++, x++) {
-			for(int row = chapY - (vRange / 2), y = 0; x <= chapY + (vRange/2); row++, y++) {
-				if((x > 0 && y > 0) && (x < maze.getWidth() && y < maze.getHeight())) {
-					System.out.println(maze.getTileAt(x, y).toString());
-					chapView[col][row] = maze.getTileAt(x, y);
-				}
-			}
-		}
-	}
    
 	
     /**
@@ -183,7 +165,5 @@ public class MazeView extends JPanel{
     	Graphics2D graph2d = (Graphics2D) g;
     	Tile[][] cView = maze.getBoard();
     	focusArea(cView, graph2d);
-    	
-    	//Tile prevChap = new ChapTile(chapX, chapY); // to do with animations if we get to it
     }
 }

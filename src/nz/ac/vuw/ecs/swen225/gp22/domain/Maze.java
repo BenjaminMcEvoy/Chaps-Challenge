@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 import java.util.*;
 
 import nz.ac.vuw.ecs.swen225.gp22.persistency.XMLLoader;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.Animate;
 
 public class Maze {
 
@@ -15,15 +16,10 @@ public class Maze {
 		NULL
 	}
 
-
 	// private Tile[][] board = new Tile[10][10];
-
 	private Tile[][] board;
-	// private Tile[][] board = new Tile[10][10];
 	private ChapTile chap;
-
 	private XMLLoader loader;
-	
 	private int level;
 
 	private Set<Tile> entities = new HashSet<Tile>();

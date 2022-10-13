@@ -1,6 +1,9 @@
 package nz.ac.vuw.ecs.swen225.gp22.app;
 
 import javax.swing.*;
+
+import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,8 +44,8 @@ public class Setup extends JFrame implements ActionListener{
 	
 	public void mainMenu() {
 		setResizable(false);
-		setSize(new Dimension(650, 442));
-		setMinimumSize(new Dimension(650, 442));
+		setSize(new Dimension(650, 450));
+		setMinimumSize(new Dimension(650, 450));
 		panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
@@ -90,7 +93,17 @@ public class Setup extends JFrame implements ActionListener{
 			System.out.println("Load Game");
 			this.dispose();
 			//replace this with a file selector eventually
-			new Game(new File("blankLevel.xml"));
+			JFileChooser chooser = new JFileChooser(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/SavedGame"));
+			int j = chooser.showOpenDialog(null);
+			if(j == JFileChooser.APPROVE_OPTION) {
+				try {
+					File f = chooser.getSelectedFile();
+					Recorder.LoadSave(f);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+			//new Game(new File("blankLevel.xml"));
 		}
 		
 		//user clicks on instructions

@@ -9,8 +9,8 @@ public class ChapTile extends CharacterTile{
 	private boolean alive;
 	private String file = "chap";
 	
-	//private Stack<Direction> previousMoves = new Stack<Direction>();
-	//private Stack<Direction> nextMoves = new Stack<Direction>();
+	private Stack<Maze.direction> previousMoves = new Stack<Maze.direction>();
+	private Stack<Maze.direction> nextMoves = new Stack<Maze.direction>();
 
 	public ChapTile() {
 		super("chap");
@@ -45,22 +45,22 @@ public class ChapTile extends CharacterTile{
 		return keys;
 	}
 	
-	public void addPreviousMove(Direction d) {
+	public void addPreviousMove(Maze.direction d) {
 		previousMoves.push(d);
 	}
 	
-	public void addNextMove(Direction d) {
+	public void addNextMove(Maze.direction d) {
 		nextMoves.push(d);
 	}
 	
-	public Stack<Direction> getPreviousMoves() {
+	public Stack<Maze.direction> getPreviousMoves() {
 		return previousMoves;
 	}
 	
-	public Stack<Direction> getNextMoves() {
+	public Stack<Maze.direction> getNextMoves() {
 		return nextMoves;
 	}
-	
+
 	public void getFLeft() {
 		file = "chap_left";
 	}
@@ -80,8 +80,6 @@ public class ChapTile extends CharacterTile{
 	public void getFIdle() {
 		file = "chap";
 	}
-
-	
 	
 	@Override
 	public void draw() {
@@ -96,7 +94,6 @@ public class ChapTile extends CharacterTile{
 
 	@Override
 	public String getFileName() {
-		// TODO Auto-generated method stub
 		return file;
 	}
 	

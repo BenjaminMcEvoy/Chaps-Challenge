@@ -51,8 +51,8 @@ public class Instructions extends JFrame implements ActionListener{
 	 */
 	public void instructions() {
 		setResizable(false);
-		setSize(new Dimension(650, 442));
-		setMinimumSize(new Dimension(650, 442));
+		setSize(new Dimension(650, 450));
+		setMinimumSize(new Dimension(650, 450));
 		panel = new JPanel(new GridLayout(6, 2));
 		panel.add(new JLabel("Up = Up arrow key"));
 		

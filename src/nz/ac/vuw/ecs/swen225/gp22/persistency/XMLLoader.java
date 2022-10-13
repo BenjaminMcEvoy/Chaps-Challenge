@@ -27,25 +27,29 @@ public class XMLLoader {
 			SAXBuilder sax = new SAXBuilder();
 			Document doc = sax.build(file);
 			Element rootNode = doc.getRootElement();
-			int x = Integer.parseInt(rootNode.getAttributeValue("x"));
-			int y = Integer.parseInt(rootNode.getAttributeValue("y"));
-			this.maze = new Maze(x, y);
+			parseLevel(rootNode); //parse the 
 			parseChap(rootNode);
 			parseBoard(rootNode);
 		}
 		catch(Exception e) {e.printStackTrace();}
 	}
 	
+	private void parseLevel(Element e) {
+		int level = Integer.parseInt(e.getAttributeValue("level"));
+		int x = Integer.parseInt(e.getAttributeValue("x"));
+		int y = Integer.parseInt(e.getAttributeValue("y"));
+		this.maze = new Maze(x, y, level);
+	}
+	
 	private void parseChap(Element e) {
 		int x = Integer.parseInt(e.getChild("character").getChild("location").getAttributeValue("xpos"));
 		int y = Integer.parseInt(e.getChild("character").getChild("location").getAttributeValue("ypos"));
-		this.chap = new ChapTile(x, y);
+		this.chap = new ChapTile();
 		maze.setTile(this.chap, x, y);
 		
 	}
 	
 	private void parseBoard(Element e) {
-		boolean parsing = true;
 		List<Element> tiles = e.getChildren();
 		for (Element f:tiles) {
 			//String tile = f.getChild("tile").getAttributeValue("class");
@@ -55,21 +59,25 @@ public class XMLLoader {
 			int x = Integer.valueOf(currTile.getAttributeValue("xpos"));
 			int y = Integer.valueOf(currTile.getAttributeValue("ypos"));
 			if (f.getAttributeValue("class").equals("wall")) {
-				maze.setTile(new WallTile(x, y), x, y);
+				maze.setTile(new WallTile(), x, y);
 			} else if(f.getAttributeValue("class").equals("free")) {
-				maze.setTile(new EmptyTile(x, y), x, y);
+				maze.setTile(new EmptyTile(), x, y);
 			} else if (f.getAttributeValue("class").equals("door")) {
 				String colour = f.getAttributeValue("colour");
-				maze.setTile(new LockedDoorTile(x, y, colour), x, y);
+				maze.setTile(new LockedDoorTile(colour), x, y);
 			} else if (f.getAttributeValue("class").equals("key")) {
 				String colour = f.getAttributeValue("colour");
-				maze.setTile(new KeyTile(x, y, colour), x, y);
+				maze.setTile(new KeyTile(colour), x, y);
+			} else if (f.getAttributeValue("class").equals("treasure")) {
+				maze.setTile(new TreasureTile(), x, y);
+			} else if (f.getAttributeValue("class").equals("exitDoor")) {
+				maze.setTile(new ExitTile(), x, y);
+			} else if (f.getAttributeValue("class").equals("info")) {
+				String info = f.getChild("info").getText();
+				maze.setTile(new InfoTile(info), x, y);
 			}
 		}
+		
 	}	
 	
-	
 }
-
-
-

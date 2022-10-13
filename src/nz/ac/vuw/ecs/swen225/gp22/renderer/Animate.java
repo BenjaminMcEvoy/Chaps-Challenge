@@ -9,22 +9,31 @@ public class Animate{
 	
 	//Fields
 	private int toX, toY, fromX, fromY;
-	private Maze.direction dir;
+	private ChapTile chap;
 	
-	public Animate(int fromX, int fromY, int toX, int toY, Maze.direction dir) {
+	public Animate(int fromX, int fromY, int toX, int toY, ChapTile chap) {
 		this.fromX = fromX;
 		this.fromY = fromY;
 		this.toX = toX;
 		this.toY = toY;
-		this.dir = dir;
+		this.chap = chap;
+	}
+
+	public void Animation(){
+		if(toX == fromX-1){
+			chap.getFLeft();
+		} else if(toX == fromX+1){
+			chap.getFRight();
+		} else if(toY == fromY-1){
+			chap.getFUp();
+		} else if(toY == fromY+1){
+			chap.getFDown();
+		} else{
+			chap.getFIdle();
+		}
 	}
 	
-	/** Gets the Direction
-	 * 
-	 * */
-	public Maze.direction getDirection() {
-		return this.dir;
-	}
+
 	
 	/** Gets the fromX field
 	 * 
