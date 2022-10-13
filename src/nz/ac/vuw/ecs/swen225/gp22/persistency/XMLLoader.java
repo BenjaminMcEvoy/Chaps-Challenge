@@ -35,16 +35,16 @@ public class XMLLoader {
 	}
 	
 	private void parseLevel(Element e) {
-		String level = e.getAttributeValue("level");
+		int level = Integer.parseInt(e.getAttributeValue("level"));
 		int x = Integer.parseInt(e.getAttributeValue("x"));
 		int y = Integer.parseInt(e.getAttributeValue("y"));
-		this.maze = new Maze(x, y, Level);
+		this.maze = new Maze(x, y, level);
 	}
 	
 	private void parseChap(Element e) {
 		int x = Integer.parseInt(e.getChild("character").getChild("location").getAttributeValue("xpos"));
 		int y = Integer.parseInt(e.getChild("character").getChild("location").getAttributeValue("ypos"));
-		this.chap = new ChapTile(x, y);
+		this.chap = new ChapTile();
 		maze.setTile(this.chap, x, y);
 		
 	}
