@@ -396,7 +396,7 @@ public class Maze {
 		int y = getTileY(t);
 		System.out.println("x="+x+"y="+y);
 		Animate animate = new Animate(x,y,x,y-1, (ChapTile) t);
-		animate.Animation();
+		animate.animation();
 		moveTile(t, x, y-1);
 	}
 	
@@ -404,21 +404,21 @@ public class Maze {
 		int x = getTileX(t);
 		int y = getTileY(t);
 		Animate animate = new Animate(x,y,x-1,y, (ChapTile) t);
-		animate.Animation();
+		animate.animation();
 		moveTile(t, x-1, y);			
 	}
 	public void moveDown(CharacterTile t) {
 		int x = getTileX(t);
 		int y = getTileY(t);
 		Animate animate = new Animate(x,y,x,y+1, (ChapTile) t);
-		animate.Animation();
+		animate.animation();
 		moveTile(t, x, y+1);
 	}
 	public void moveRight(CharacterTile t) {
 		int x = getTileX(t);
 		int y = getTileY(t);
 		Animate animate = new Animate(x,y,x+1,y, (ChapTile) t);
-		animate.Animation();
+		animate.animation();
 		moveTile(t, x+1, y);
 	}
 
