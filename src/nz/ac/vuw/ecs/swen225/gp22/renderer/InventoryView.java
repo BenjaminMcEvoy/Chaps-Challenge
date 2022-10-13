@@ -11,14 +11,14 @@ import javax.swing.*;
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 import nz.ac.vuw.ecs.swen225.gp22.app.*;
 
-public class InventoryView extends JPanel{
+public class InventoryView extends JComponent{
 	
 	//Fields
 	private static final int INVENTORY_WIDTH = 4;
 	private static final int INVENTORY_HEIGHT = 2;
 	private static final int IMAGE_SIZE = 42;
 	//private static final int GAP = 250;
-    private static final int GAP = (200 - IMAGE_SIZE * INVENTORY_HEIGHT)/2; //gap before drawing
+    private static final int GAP = (100 - IMAGE_SIZE * INVENTORY_HEIGHT)/2; //gap before drawing
 	
 	private Map<String, Image> mapImages = new HashMap<String, Image>();
 	private ChapTile chap;
@@ -72,7 +72,7 @@ public class InventoryView extends JPanel{
 	public void focusArea(Graphics2D g) {
 		for(int col = 0; col < INVENTORY_WIDTH; col++) {
 			for(int row = 0; row < INVENTORY_HEIGHT; row++) {
-				g.drawImage(mapImages.get("freeTile"), col*IMAGE_SIZE + GAP, row*IMAGE_SIZE + GAP, this);
+				g.drawImage(mapImages.get("freeTile"), col*IMAGE_SIZE + GAP, row*IMAGE_SIZE, IMAGE_SIZE, IMAGE_SIZE, this);
 			}
 		}
 	}
