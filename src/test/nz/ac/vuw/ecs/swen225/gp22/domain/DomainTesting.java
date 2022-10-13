@@ -141,9 +141,9 @@ class DomainTesting {
 		try {
 			maze.moveTile(chap, 1, 0);
 			
-			fail("IllegalStateException should be thrown when chap moved into ExitLockTile without key");
+			fail("IllegalArgumentException should be thrown when chap moved into ExitLockTile without key");
 		} 
-		catch (IllegalStateException excpectedException) {}
+		catch (IllegalArgumentException excpectedException) {}
 	}
 	
 	@Test

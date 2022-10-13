@@ -87,7 +87,7 @@ public class Maze {
 		boolean collect = false;
 		boolean isChap = t instanceof ChapTile;
 
-		
+		if (isChap) chap = (ChapTile) t;
 
 		if (target instanceof WallTile) {
 
