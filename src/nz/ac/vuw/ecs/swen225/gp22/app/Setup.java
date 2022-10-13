@@ -84,7 +84,7 @@ public class Setup extends JFrame implements ActionListener{
 		if (e.getSource().equals(newGame)) {
 			System.out.println("New Game");
 			this.dispose();
-			new Game("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/1.xml");
+			new Game(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/1.xml"));
 			
 		}
 		
