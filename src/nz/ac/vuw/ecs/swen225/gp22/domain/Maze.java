@@ -20,6 +20,7 @@ public class Maze {
 	private Tile[][] board;
 	private ChapTile chap;
 	private XMLLoader loader;
+	private Sound sound;
 	private int level;
 
 	private Set<Tile> entities = new HashSet<Tile>();
@@ -53,6 +54,7 @@ public class Maze {
 		this.width = width;
 		this.height = height;
 		this.level = level;
+		this.sound = new Sound(this);
 
 		assert width > 0 && height > 0;
 
@@ -99,6 +101,7 @@ public class Maze {
 		else if (target instanceof KeyTile) {		
 			if (isChap) {
 				((ChapTile) t).addKey((KeyTile) target);
+				sound.playKeyPickup();
 				collect = true;
 			}
 		}
@@ -107,7 +110,8 @@ public class Maze {
 			LockedDoorTile door = (LockedDoorTile) target;
 			if (isChap) {
 				if (!((ChapTile) t).hasKey(new KeyTile(door.getColor()))) {
-					throw new IllegalStateException("cannot move chap into a locked door tile.");
+					sound.playLockedDoor();
+					throw new IllegalArgumentException("cannot move chap into a locked door tile.");
 					
 				}
 				else {
@@ -124,6 +128,7 @@ public class Maze {
 			
 			if (isChap) {
 				target = new EmptyTile();
+				sound.playKeyPickup();
 				collect = true;
 				if (checkTreasures() < 1 ) {
 					clearTileType(new ExitLockTile());
@@ -133,7 +138,8 @@ public class Maze {
 		} 
 		else if (target instanceof ExitLockTile) {
 			if (checkTreasures() > 0) {
-				throw new IllegalStateException("cannot move into a Exit lock Tile");
+				sound.playLockedDoor();
+				throw new IllegalArgumentException("cannot move into a Exit lock Tile");
 			}
 			else {
 				collect = true;
@@ -147,10 +153,8 @@ public class Maze {
 				
 			}
 		}
-		else if (target instanceof ExitTile && isChap) {
-			this.hasWon = true;
-		}
 
+		sound.playMove();
 		board[getTileX(t)][getTileY(t)] = t.getStandingOn();
 		if (!collect) {
 			t.setStandingOn(target);

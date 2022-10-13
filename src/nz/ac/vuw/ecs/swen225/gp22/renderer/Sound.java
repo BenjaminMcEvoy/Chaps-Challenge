@@ -16,10 +16,10 @@ public class Sound {
 	private Map<String, Clip> mapSounds = new HashMap<>();
 	private Set<Tile> tiles = new HashSet<>();
 	
-	private String amb = "res/audio/background2.wav";
-	private String move = "res/audio/move.wav";
-	private String lockedD = "res/audio/locked_door.wav";
-	private String keyPick = "res/audio/key_pickup.wav";
+	private String amb = "res/audio/background3.wav";
+	private String move = "res/audio/soundMove.wav";
+	private String lockedD = "res/audio/soundDoor.wav";
+	private String keyPick = "res/audio/soundPickup.wav";
 	private String win = "res/audio/sci_fi_win.wav";
 	
 
