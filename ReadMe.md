@@ -2,7 +2,9 @@
 
 An imitation of the classics 90's game 'Chips Challenge'.
 
+## Instructions
 
+(App add instructions here)
 
 ## Members & Responsiblities
 
@@ -33,7 +35,7 @@ Domain:
 
 ## Libraries 
 
-Libraries to be/can be used in this project are the following:
+Libraries to/may be used in this project are the following:
 
 1. https://mvnrepository.com/artifact/com.google.guava/guava/30.1.1-jre and any library it
 depends on (for general utilities)
@@ -57,11 +59,5 @@ processing (but note that XML should be used!)
 10. https://mvnrepository.com/artifact/com.alibaba/fastjson - for JSON processing (but note
 that XML should be used!)
 
-
-## Roadmap - Important Dates
-
-Theme Chosen
-
-Merge Date:
 
 
