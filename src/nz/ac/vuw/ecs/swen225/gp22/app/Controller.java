@@ -16,6 +16,7 @@ public class Controller implements KeyListener{
 	
 	private final Set<Integer> pressedKeys = new HashSet<>();
 	
+	static boolean paused = false;
 	static int up = KeyEvent.VK_UP;
 	static int left = KeyEvent.VK_LEFT;
 	static int down = KeyEvent.VK_DOWN;
@@ -35,6 +36,7 @@ public class Controller implements KeyListener{
 	public ArrayList<Integer> getPressedKeys(){
 		return new ArrayList<Integer>(pressedKeys);
 	}
+
 
 	public Controller(Maze maze) {
 		this.maze = maze;
@@ -68,7 +70,7 @@ public class Controller implements KeyListener{
 				if(j == JFileChooser.APPROVE_OPTION) {
 					try {
 						File f = chooser.getSelectedFile();
-						Recorder.LoadSave(f);
+						new Game(Recorder.LoadSave(f));
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
@@ -76,26 +78,37 @@ public class Controller implements KeyListener{
 			}
 			
 		} else {
-			if(e.getExtendedKeyCode() == up) {
-				System.out.println("u");
-				maze.moveUp(chap);
-				chap.addPreviousMove(Maze.direction.UP);
+			if(!paused) {
+				if(e.getExtendedKeyCode() == up) {
+					System.out.println("u");
+					maze.moveUp(chap);
+					chap.addPreviousMove(Maze.direction.UP);
+				}
+				else if(e.getExtendedKeyCode() == left) {
+					System.out.println("l");
+					maze.moveLeft(chap);
+					chap.addPreviousMove(Maze.direction.LEFT);
+				}
+				else if(e.getExtendedKeyCode() == down) {
+					System.out.println("d");
+					maze.moveDown(chap);
+					chap.addPreviousMove(Maze.direction.DOWN);
+				}
+				else if(e.getExtendedKeyCode() == right) {
+					System.out.println("r");
+					maze.moveRight(chap);
+					chap.addPreviousMove(Maze.direction.RIGHT);
+				}
+				else if (e.getExtendedKeyCode() == space) {
+					System.out.println("space");
+					paused = true;
+				}
 			}
-			else if(e.getExtendedKeyCode() == left) {
-				System.out.println("l");
-				maze.moveLeft(chap);
-				chap.addPreviousMove(Maze.direction.LEFT);
+			else if(e.getExtendedKeyCode() == esc && paused) {
+				System.out.println("esc");
+				paused = false;
 			}
-			else if(e.getExtendedKeyCode() == down) {
-				System.out.println("d");
-				maze.moveDown(chap);
-				chap.addPreviousMove(Maze.direction.DOWN);
-			}
-			else if(e.getExtendedKeyCode() == right) {
-				System.out.println("r");
-				maze.moveRight(chap);
-				chap.addPreviousMove(Maze.direction.RIGHT);
-			}
+			
 
 		}
 		
