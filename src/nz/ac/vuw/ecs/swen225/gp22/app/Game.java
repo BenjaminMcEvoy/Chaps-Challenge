@@ -40,9 +40,11 @@ public class Game extends JFrame implements ActionListener{
 	
 	private Sound sound = new Sound();
 	private Timer timer;
-	private long startTime;
+	
 	private long duration;
 
+	private boolean paused = false;
+	
 	public Runnable save = ()->{
 		JFileChooser chooser = new JFileChooser(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/SavedGame"));
 		int j = chooser.showSaveDialog(null);
@@ -78,7 +80,6 @@ public class Game extends JFrame implements ActionListener{
 			level = new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + maze.getLevel() + ".xml");
 
 			duration = 100000;
-			startTime = -1;
 
 			
 			gui();
@@ -116,17 +117,14 @@ public class Game extends JFrame implements ActionListener{
 			level = new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + maze.getLevel() + ".xml");
 
 			duration = 100000;
-			startTime = -1;
 
 			gui();
 			setVisible(true);
 		}
 
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-
 		}
 
 		/**
@@ -194,55 +192,58 @@ public class Game extends JFrame implements ActionListener{
 
 			JLabel inv = new JLabel("Inventory");
 
-			JSlider speedControl = new JSlider(1, 5);
-			speedControl.setValue(1);
+			JSlider speedControl = new JSlider(1, 5, 1);
 			speedControl.addChangeListener(e->Recorder.playbackSpeed=speedControl.getValue());
-
+			speedControl.setFocusable(false);
 			timer = new Timer(10, new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					if(startTime < 0) {
-						startTime = System.currentTimeMillis();
-					}
-					long now = System.currentTimeMillis();
-					long clockTime = now - startTime;
-					if (clockTime >= duration) {
-						clockTime = duration;
-						timer.stop();
 
-						String[] confirm = {"Quit", "Restart"};
-						JPanel panel = new JPanel();
-						JLabel label = new JLabel("You Lose!");
-						panel.add(label);
-						int choice = JOptionPane.showOptionDialog(null, panel, "", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, confirm, confirm[1]);
-						if(choice == 0) {
-							System.exit(0);
-						} else {
-							restart.run();
+					if(!paused) {
+						duration -= 10;
+						
+						if (duration <= 0) {
+							duration = 100000;
+							timer.stop();
+	
+							String[] confirm = {"Quit", "Restart"};
+							JPanel panel = new JPanel();
+							JLabel label = new JLabel("You Lose!");
+							panel.add(label);
+							int choice = JOptionPane.showOptionDialog(null, panel, "", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, confirm, confirm[1]);
+							if(choice == 0) {
+								System.exit(0);
+							} else {
+								restart.run();
+							}
+	
 						}
-
+						if(maze.hasWon()) {
+							timer.stop();
+							nextLvl.run();
+						}
+						if(maze.getChap().getStandingOn() instanceof InfoTile) {
+							infoTxt.setText(((InfoTile)maze.getChap().getStandingOn()).getText());
+						} else {
+							infoTxt.setText("");
+						}
+						
+						if(controller.getPressedKeys().contains(KeyEvent.VK_CONTROL) && 
+								(controller.getPressedKeys().contains(KeyEvent.VK_1) 
+										|| controller.getPressedKeys().contains(KeyEvent.VK_2) 
+										|| controller.getPressedKeys().contains(KeyEvent.VK_X) 
+										|| controller.getPressedKeys().contains(KeyEvent.VK_R) ) ) {
+							clearScreen.run();
+						}
+						
+						if(controller.getPressedKeys().contains(KeyEvent.VK_SPACE)) {
+							paused = true;
+						}
+						
+						
+						
 					}
-
-					if(maze.hasWon()) {
-						timer.stop();
-						nextLvl.run();
-					}
-					if(maze.getChap().getStandingOn() instanceof InfoTile) {
-						infoTxt.setText(((InfoTile)maze.getChap().getStandingOn()).getText());
-					} else {
-						infoTxt.setText("");
-					}
-					
-					System.out.println(controller.getPressedKeys().size());
-					if(controller.getPressedKeys().contains(KeyEvent.VK_CONTROL) && (controller.getPressedKeys().contains(KeyEvent.VK_1) || controller.getPressedKeys().contains(KeyEvent.VK_2) || controller.getPressedKeys().contains(KeyEvent.VK_X) || controller.getPressedKeys().contains(KeyEvent.VK_R) ) ) {
-						clearScreen.run();
-					}
-					
-					cd.setText(" " + (int)((duration-clockTime)/1000));
-					pc.setText(" " + maze.checkTreasures());
-
 					if(Recorder.auto) {
 						Recorder.Next(maze);
 						try {
@@ -251,8 +252,11 @@ public class Game extends JFrame implements ActionListener{
 							e1.printStackTrace();
 						}
 					}
-
-
+					if(controller.getPressedKeys().contains(KeyEvent.VK_ESCAPE)) {
+						paused = false;
+					}
+					cd.setText(" " + (int)((duration)/1000));
+					pc.setText(" " + maze.checkTreasures());
 					mv.repaint();
 					iv.repaint();
 				}
