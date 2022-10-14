@@ -292,12 +292,12 @@ public class Maze {
 	 * return a list of chap and all enemies
 	 */
 
-	public List<Tile> getCharacters() {
-		List<Tile> count = new ArrayList<Tile>();	
+	public List<CharacterTile> getCharacters() {
+		List<CharacterTile> count = new ArrayList<CharacterTile>();	
 		for (Tile t : getAllTiles()) {
-			if (t instanceof CharacterTile) count.add(t);
+			if (t instanceof CharacterTile) count.add((CharacterTile)t);
 		}	
-		return count;	
+		return count;
 	}
 
 	/*

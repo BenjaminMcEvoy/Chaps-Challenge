@@ -1,4 +1,4 @@
-<Level level="2" x="13" y="10">
+<Level level="2" x="13" y="11">
 	<tile class="wall"><location xpos="2" ypos="0"></location></tile>
 	<tile class="wall"><location xpos="3" ypos="0"></location></tile>
 	<tile class="wall"><location xpos="4" ypos="0"></location></tile>
@@ -92,16 +92,25 @@
 	<tile class="wall"><location xpos="2" ypos="8"></location></tile>
 	<tile class="free"><location xpos="3" ypos="8"></location></tile>
 	<tile class="free"><location xpos="4" ypos="8"></location></tile>
-	<tile class="treasure"><location xpos="5" ypos="8"></location></tile>
+	<tile class="free"><location xpos="5" ypos="8"></location></tile>
 	<tile class="free"><location xpos="6" ypos="8"></location></tile>
 	<tile class="free"><location xpos="7" ypos="8"></location></tile>
 	<tile class="wall"><location xpos="8" ypos="8"></location></tile>
+	
 
 	<tile class="wall"><location xpos="2" ypos="9"></location></tile>
-	<tile class="wall"><location xpos="3" ypos="9"></location></tile>
-	<tile class="wall"><location xpos="4" ypos="9"></location></tile>
-	<tile class="wall"><location xpos="5" ypos="9"></location></tile>
-	<tile class="wall"><location xpos="6" ypos="9"></location></tile>
-	<tile class="wall"><location xpos="7" ypos="9"></location></tile>
+	<tile class="free"><location xpos="3" ypos="9"></location></tile>
+	<tile class="free"><location xpos="4" ypos="9"></location></tile>
+	<tile class="treasure"><location xpos="5" ypos="9"></location></tile>
+	<tile class="free"><location xpos="6" ypos="9"></location></tile>
+	<tile class="free"><location xpos="7" ypos="9"></location></tile>
 	<tile class="wall"><location xpos="8" ypos="9"></location></tile>
+
+	<tile class="wall"><location xpos="2" ypos="10"></location></tile>
+	<tile class="wall"><location xpos="3" ypos="10"></location></tile>
+	<tile class="wall"><location xpos="4" ypos="10"></location></tile>
+	<tile class="wall"><location xpos="5" ypos="10"></location></tile>
+	<tile class="wall"><location xpos="6" ypos="10"></location></tile>
+	<tile class="wall"><location xpos="7" ypos="10"></location></tile>
+	<tile class="wall"><location xpos="8" ypos="10"></location></tile>
 </Level>

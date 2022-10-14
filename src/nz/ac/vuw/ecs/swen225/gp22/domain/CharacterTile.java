@@ -42,5 +42,7 @@ public abstract class CharacterTile extends Tile{
 	public abstract String toString();
 	@Override
 	public abstract String getFileName();
+	
+	public abstract void move(Maze m);
 
 }
