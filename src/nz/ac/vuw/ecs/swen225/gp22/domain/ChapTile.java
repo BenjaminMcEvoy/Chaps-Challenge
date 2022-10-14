@@ -96,6 +96,28 @@ public class ChapTile extends CharacterTile{
 	public String getFileName() {
 		return file;
 	}
+
+	@Override
+	public void move(Maze m) {
+		Maze.direction d = nextMoves.pop();
+		switch(d) {
+			case UP:
+				m.moveUp(this);
+				break;
+			case LEFT:
+				m.moveLeft(this);
+				break;
+			case DOWN:
+				m.moveDown(this);
+				break;
+			case RIGHT:
+				m.moveRight(this);
+				break;
+			default:
+				break;
+		}
+		
+	}
 	
 
 }

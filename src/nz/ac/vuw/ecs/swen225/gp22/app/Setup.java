@@ -98,7 +98,7 @@ public class Setup extends JFrame implements ActionListener{
 			if(j == JFileChooser.APPROVE_OPTION) {
 				try {
 					File f = chooser.getSelectedFile();
-					Recorder.LoadSave(f);
+					new Game(Recorder.LoadSave(f));
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
