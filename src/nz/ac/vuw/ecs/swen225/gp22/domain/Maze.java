@@ -165,7 +165,8 @@ public class Maze {
 			this.hasLost = true;
 		}
 
-		
+		if(sound.isRunning()) sound.stop();
+
 		sound.playMove();
 		board[getTileX(t)][getTileY(t)] = t.getStandingOn();
 		if (!collect) {
