@@ -46,50 +46,35 @@ public class Setup extends JFrame implements ActionListener{
 		setResizable(false);
 		setSize(new Dimension(650, 450));
 		setMinimumSize(new Dimension(650, 450));
+		
 		panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-		JLabel welcome = new JLabel("Welcome to Chap's Challenge!");
-		welcome.setAlignmentX(CENTER_ALIGNMENT);
-		panel.add(welcome);
+		addMouseListener(this);
+		try {
+			BufferedImage image = ImageIO.read(new File("res/graphics/MenuScreen.png"));
+			JLabel menuScreen = new JLabel(new ImageIcon(image));
+			panel.add(menuScreen);
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
 		
-		newGame = new JButton("New Game");
-		loadGame = new JButton("Load Game");
-		instructions = new JButton("Instructions");
-		quit = new JButton("Quit");
-		
-		setupButton(newGame);
-		setupButton(loadGame);
-		setupButton(instructions);
-		setupButton(quit);
-		
-		panel.add(Box.createRigidArea(new Dimension(0, 10)));
 		add(panel);
 		pack();
 		
 	}
 	
-	public void setupButton(JButton button) {
-		button.setMaximumSize(new Dimension(150, 50));
-		button.setMinimumSize(new Dimension(100, 25));
-		button.setAlignmentX(CENTER_ALIGNMENT);
-		button.addActionListener(this);
-		panel.add(Box.createRigidArea(new Dimension(0, 10)));
-		panel.add(button);
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		//user clicks on newGame
-		if (e.getSource().equals(newGame)) {
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+		int mouseX = e.getX();
+		int mouseY = e.getY();
+
+		if(mouseX >= 305 && mouseX <= 375 && mouseY >= 276 && mouseY <= 305) {
 			System.out.println("New Game");
 			this.dispose();
 			new Game(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/1.xml"));
-			
 		}
 		
-		//user clicks on loadGame
-		else if (e.getSource().equals(loadGame)) {
+		else if (mouseX >= 305 && mouseX <= 370 && mouseY >= 322 && mouseY <= 346) {
 			System.out.println("Load Game");
 			this.dispose();
 			//replace this with a file selector eventually
@@ -98,25 +83,22 @@ public class Setup extends JFrame implements ActionListener{
 			if(j == JFileChooser.APPROVE_OPTION) {
 				try {
 					File f = chooser.getSelectedFile();
+					this.dispose();
 					new Game(Recorder.LoadSave(f));
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 			}
-			//new Game(new File("blankLevel.xml"));
 		}
 		
-		//user clicks on instructions
-		else if (e.getSource().equals(instructions)) {
+		else if (mouseX >= 310 && mouseX <= 365 && mouseY >= 364 && mouseY <= 387) {
 			System.out.println("Instructions");
 			clearPanel.run();
 			this.dispose();
 			new Instructions();
-			
-		}		
-		
-		//user clicks on quit
-		else if(e.getSource().equals(quit)) {
+		}
+
+		else if (mouseX >= 310 && mouseX <= 365 && mouseY >= 410 && mouseY <= 432) {
 			System.out.println("Quit");
 			clearPanel.run();
 			String[] confirm = {"Yes", "No"};
@@ -131,5 +113,30 @@ public class Setup extends JFrame implements ActionListener{
 				mainMenu();
 			}
 		}
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}	
 }
