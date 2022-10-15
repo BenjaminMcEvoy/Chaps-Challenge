@@ -152,21 +152,26 @@ public class Game extends JFrame implements ActionListener{
 			setMinimumSize(new Dimension(650, 450));		
 
 			stop  = ()->{
+				sound.stopBackground();
 				this.dispose();
 				new Setup();
 			};
+			
 			restart  = ()->{
+				sound.stopBackground();
 				this.dispose();
 				new Game(level);
 			};
 
 			nextLvl = ()->{
+				sound.stopBackground();
 				this.dispose();
 				String filename = "src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + (maze.getLevel()+1) + ".xml";
 				new Game(new File(filename));
 			};
 			
 			clearScreen = ()->{
+				sound.stopBackground();
 				this.dispose();
 			};
 
