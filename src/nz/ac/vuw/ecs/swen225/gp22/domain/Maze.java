@@ -6,7 +6,8 @@ import nz.ac.vuw.ecs.swen225.gp22.persistency.XMLLoader;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Animate;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Sound;
 
-public class Maze {
+@SuppressWarnings("deprecation")
+public class Maze implements Observer{
 
 	// fields
 	public enum direction{
@@ -409,7 +410,49 @@ public class Maze {
 		return output;
 	}
 	
-	public void moveUp(CharacterTile t) {
+	@SuppressWarnings("deprecation")
+    
+    public void update(Observable o, Object arg) {
+        // TODO Auto-generated method stub
+        int x = getTileX(getChap());
+        int y = getTileY(getChap());
+                
+        Animate animate;
+        ChapTile t = getChap();
+        switch((direction) arg) {
+        case UP:
+            animate = new Animate(x,y,x,y-1, t);
+            animate.animation();
+            moveTile(t, x, y-1);
+            break;
+        case DOWN:
+
+            animate = new Animate(x,y,x,y+1, t);
+            animate.animation();
+            moveTile(t, x, y+1);
+            break;
+            
+        case RIGHT:
+            animate = new Animate(x,y,x+1,y, t);
+            animate.animation();
+            moveTile(t, x+1, y);
+            break;
+            
+        case LEFT:
+            animate = new Animate(x,y,x-1,y, t);
+            animate.animation();
+            moveTile(t, x-1, y);
+            break;
+        default:
+            break;
+            
+        }
+    }
+
+
+
+
+	/*public void moveUp(CharacterTile t) {
 		System.out.println(t);
 		int x = getTileX(t);
 		int y = getTileY(t);
@@ -439,7 +482,7 @@ public class Maze {
 		Animate animate = new Animate(x,y,x+1,y, t);
 		animate.animation();
 		moveTile(t, x+1, y);
-	}
+	}*/
 
 
 }
