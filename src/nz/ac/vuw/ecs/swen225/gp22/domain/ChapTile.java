@@ -105,10 +105,10 @@ public class ChapTile extends CharacterTile{
 				m.update(null, Maze.direction.UP);
 				break;
 			case LEFT:
-				m.update(null, Maze.direction.DOWN);
+				m.update(null, Maze.direction.LEFT);
 				break;
 			case DOWN:
-				m.update(null, Maze.direction.LEFT);
+				m.update(null, Maze.direction.DOWN);
 				break;
 			case RIGHT:
 				m.update(null, Maze.direction.RIGHT);

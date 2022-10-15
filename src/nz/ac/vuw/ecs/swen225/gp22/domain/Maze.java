@@ -415,9 +415,7 @@ public class Maze implements Observer{
         // TODO Auto-generated method stub
         int x = getTileX(getChap());
         int y = getTileY(getChap());
-        
-        System.out.println("NICE");
-        
+                
         Animate animate;
         ChapTile t = getChap();
         switch((direction) arg) {
