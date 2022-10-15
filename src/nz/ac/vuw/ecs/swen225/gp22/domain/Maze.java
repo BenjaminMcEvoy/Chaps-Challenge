@@ -90,6 +90,8 @@ public class Maze implements Observer{
 		boolean isChap = t instanceof ChapTile;
 
 		if (isChap) chap = (ChapTile) t;
+		
+		if(sound.isRunning()) sound.stop();
 
 		if (target instanceof WallTile) {
 
@@ -166,7 +168,7 @@ public class Maze implements Observer{
 			this.hasLost = true;
 		}
 
-		if(sound.isRunning()) sound.stop();
+		
 
 		sound.playMove();
 		board[getTileX(t)][getTileY(t)] = t.getStandingOn();

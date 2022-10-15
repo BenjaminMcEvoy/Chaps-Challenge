@@ -147,7 +147,7 @@ public class Game extends JFrame implements ActionListener{
 			info.setLayout(new GridLayout(2, 1));
 			container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
 			
-			Color bgColour = Color.decode("#66CCCC");
+			Color bgColour = Color.decode("#a4fffd");
 			infoInv.setBackground(bgColour);
 			infoLabels.setBackground(bgColour);
 			camera.setBackground(bgColour);
