@@ -10,6 +10,8 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import javax.imageio.ImageIO;
+
 
 /**
  * Setup screen for Chap's Challenge. User can create a game, load a saved game, check instructions,
