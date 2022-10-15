@@ -170,6 +170,15 @@ public class Sound {
 	public void stopBackground() {
 		clip2.stop();
 	}
-
+	
+	/**
+	 * Checks if the clip sound file has a clip running.
+	 * 
+	 * */
+	public boolean isRunning() {
+		if(clip1 != null) {
+		return clip1.isRunning();
+		} else {return false;}
+	
 	
 }
