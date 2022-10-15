@@ -18,16 +18,16 @@ public class EnemyTile extends CharacterTile{
 	public void move(Maze maze) {
 		switch(pattern.get(patternLocation)){
 			case UP:
-				maze.moveUp(this);
+				maze.update(null, Maze.direction.UP);
 				break;
 			case DOWN:
-				maze.moveDown(this);
+				maze.update(null, Maze.direction.DOWN);
 				break;
 			case LEFT:
-				maze.moveLeft(this);
+				maze.update(null, Maze.direction.LEFT);
 				break;
 			case RIGHT:
-				maze.moveRight(this);
+				maze.update(null, Maze.direction.RIGHT);
 				break;
 			
 			default:

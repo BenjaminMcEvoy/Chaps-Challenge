@@ -102,16 +102,16 @@ public class ChapTile extends CharacterTile{
 		Maze.direction d = nextMoves.pop();
 		switch(d) {
 			case UP:
-				m.moveUp(this);
+				m.update(null, Maze.direction.UP);
 				break;
 			case LEFT:
-				m.moveLeft(this);
+				m.update(null, Maze.direction.DOWN);
 				break;
 			case DOWN:
-				m.moveDown(this);
+				m.update(null, Maze.direction.LEFT);
 				break;
 			case RIGHT:
-				m.moveRight(this);
+				m.update(null, Maze.direction.RIGHT);
 				break;
 			default:
 				break;
