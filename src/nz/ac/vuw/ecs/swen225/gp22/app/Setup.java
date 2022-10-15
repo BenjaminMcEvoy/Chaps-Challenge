@@ -5,8 +5,9 @@ import javax.swing.*;
 import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -17,7 +18,7 @@ import java.io.IOException;
  * @author Carlo Cigaral - 300572686
  *
  */
-public class Setup extends JFrame implements ActionListener{
+public class Setup extends JFrame implements MouseListener{
 	
 	/**
 	 * 
@@ -62,6 +63,7 @@ public class Setup extends JFrame implements ActionListener{
 		
 	}
 	
+	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
