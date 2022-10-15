@@ -16,6 +16,15 @@ public class Animate{
 	private EnemyTile entity;
 	private Tile ent;
 	
+	/**
+	 * Constructor for making a new animation for actor object
+	 * 
+	 * @param fromX
+	 * @param fromY
+	 * @param toX
+	 * @param toY
+	 * @param ent
+	 */
 	public Animate(int fromX, int fromY, int toX, int toY, Tile ent) {
 		this.fromX = fromX;
 		this.fromY = fromY;
@@ -29,7 +38,9 @@ public class Animate{
 		this.ent = ent;
 	}
 
-
+	/**
+	 * Responsible for the animation of the sprites within the game
+	 * */
 	public void animation(){
 		if(toX == fromX-1){
 			if(ent instanceof ChapTile) {
@@ -63,67 +74,5 @@ public class Animate{
 			}
 		}
 	}	
-
-	
-	/** Gets the fromX field
-	 * 
-	 * */
-	public int getFromX() {
-		return this.fromX;
-	}
-	
-	/** Gets the fromY field
-	 * 
-	 * */
-	public int getFromY() {
-		return this.fromY;
-	}
-	
-	/** Gets the toX field
-	 * 
-	 * */
-	public int getToX() {
-		return this.toX;
-	}
-	
-	/** Gets the toY field
-	 * 
-	 * */
-	public int getToY() {
-		return this.toY;
-	}
-	
-	/** Sets the fromX field
-	 * 
-	 * @param int fromX
-	 * */
-	public void setFromX(int fromX) {
-		this.fromX = fromX;
-	}
-
-	/** Sets the fromY field
-	 * 
-	 * @param int fromY
-	 * */
-	public void setFromY(int fromY) {
-		this.fromY = fromY;
-	}
-
-	/** Sets the toX field
-	 * 
-	 * @param int toX
-	 * */
-	public void setToX(int toX) {
-		this.toX = toX;
-	}
-
-	/** Sets the toY field
-	 * 
-	 * @param int toY
-	 * */
-	public void setToY(int toY) {
-		this.toY = toY;
-	 }
-
 	
 }

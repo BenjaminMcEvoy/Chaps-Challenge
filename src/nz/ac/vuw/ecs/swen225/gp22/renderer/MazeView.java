@@ -23,10 +23,11 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.*;
  * 
  * @author Benjamin McEvoy - 300579954
  * */
+@SuppressWarnings("serial")
 public class MazeView extends JComponent{
 	
 	// Fields
-	private Map<String, Image> mapImages = new HashMap<String, Image>();
+	private Map<String, Image> imageCache = new HashMap<String, Image>();
 	
 	private int vRange = 9; //range of vision
 	private int chapX, chapY, indentSize;
@@ -34,9 +35,8 @@ public class MazeView extends JComponent{
 	private int cameraSize = vRange * imageSize; // 9 * 42
 	
 	private Maze maze; 
-	private Tile[][] chapView, boardArray;
+	private Tile[][] chapView;
 	private Set<Tile> tileSet;
-
 	
 	/**
 	 * Constructor of MazeView
@@ -59,7 +59,6 @@ public class MazeView extends JComponent{
 	 * 
 	 * */
 	private void initialize() {
-		chapView = new Tile[vRange][vRange];
 		indentSize = 168;
 		setPreferredSize(new Dimension(cameraSize, cameraSize));
 	}
@@ -67,7 +66,7 @@ public class MazeView extends JComponent{
 	/** Updates the board
 	 * */
 	private void updateMaze() {
-		boardArray = maze.getBoard();
+		chapView = maze.getBoard();
 	}
 
 	/** 
@@ -81,38 +80,28 @@ public class MazeView extends JComponent{
 	 */
 	private void initImage(){
 		try {
-			String dir = "res/graphics/";
-
-			mapImages.put("chap", ImageIO.read(new File(dir + "Chap.png")));
-			mapImages.put("chap_left", ImageIO.read(new File(dir + "chap_left.png")));
-			mapImages.put("chap_right", ImageIO.read(new File(dir + "chap_right.png")));
-			mapImages.put("chap_up", ImageIO.read(new File(dir + "chap_up.png")));
-			mapImages.put("chap_down", ImageIO.read(new File(dir + "chap_down.png")));
-			mapImages.put("enemy_left", ImageIO.read(new File(dir + "enemy_left.png")));
-			mapImages.put("enemy_right", ImageIO.read(new File(dir + "enemy_right.png")));
-
-			mapImages.put("wallTile", ImageIO.read(new File(dir + "wallTile.png")));
-			mapImages.put("treasureTile", ImageIO.read(new File(dir + "treasureTile.png")));
-			mapImages.put("exitLock", ImageIO.read(new File(dir + "exitLock.png")));
-			mapImages.put("exitTile", ImageIO.read(new File(dir + "exitTile.png")));
-			mapImages.put("freeTile", ImageIO.read(new File(dir + "freeTile.png")));
-			mapImages.put("infoTile", ImageIO.read(new File(dir + "infoTile.png")));
-			
-			mapImages.put("keyTile_red", ImageIO.read(new File(dir + "keyTile_red.png")));
-			mapImages.put("keyTile_green", ImageIO.read(new File(dir + "keyTile_green.png")));
-			mapImages.put("keyTile_blue", ImageIO.read(new File(dir + "keyTile_blue.png")));
-			mapImages.put("keyTile_yellow", ImageIO.read(new File(dir + "keyTile_yellow.png")));
-
-			mapImages.put("lockedDoor_red", ImageIO.read(new File(dir + "lockedDoor_red.png")));
-			mapImages.put("lockedDoor_green", ImageIO.read(new File(dir + "lockedDoor_green.png")));
-			mapImages.put("lockedDoor_blue", ImageIO.read(new File(dir + "lockedDoor_blue.png")));
-			mapImages.put("lockedDoor_yellow", ImageIO.read(new File(dir + "lockedDoor_yellow.png")));
+			File folder = new File("res/graphics");
+			File[] imageList = folder.listFiles();
+			for(int i = 0; i< imageList.length; i++){
+				if(imageList[i].isFile()){
+				    
+				    String imageName = imageList[i].getName().substring(0 , imageList[i].getName().length()-4);
+				    //System.out.println("File " + imageName);
+				    imageCache.put(imageName, ImageIO.read(imageList[i]));
+				    
+				} 
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Finds chap within the tile set and
+	 * updates the X and Y at the tile.
+	 * 
+	 * */
 	private void findChap() {
 		for (Tile t: tileSet) {
 			if (t instanceof ChapTile) {
@@ -142,12 +131,12 @@ public class MazeView extends JComponent{
     	    for(int row = -5; row < 5; row++) {
     	        if(chapX + row >= 0 && chapY + col >=0 && chapX + row < board.length && chapY + col <board[0].length) {
     	        	if(board[chapX + row][chapY + col] != null) {
-    	        	g.drawImage(mapImages.get(board[chapX+row][chapY+col].getFileName()), indentSize + row*imageSize, indentSize +col* imageSize, this);
+    	        	g.drawImage(imageCache.get(board[chapX+row][chapY+col].getFileName()), indentSize + row*imageSize, indentSize +col* imageSize, this);
     	        	}else {
-    	        		g.drawImage(mapImages.get("freeTile"), indentSize + row*imageSize, indentSize +col* imageSize, this);
+    	        		g.drawImage(imageCache.get("freeTile"), indentSize + row*imageSize, indentSize +col* imageSize, this);
     	        	}
     	        }else {
-    	        		g.drawImage(mapImages.get("freeTile"), indentSize + row*imageSize, indentSize +col* imageSize, this);
+    	        		g.drawImage(imageCache.get("freeTile"), indentSize + row*imageSize, indentSize +col* imageSize, this);
     	        	}
     	    }
     	}
@@ -164,8 +153,8 @@ public class MazeView extends JComponent{
     public void paintComponent(Graphics g) {
     	super.paintComponent(g);
     	findChap();
+    	updateMaze();
     	Graphics2D graph2d = (Graphics2D) g;
-    	Tile[][] cView = maze.getBoard();
-    	focusArea(cView, graph2d);
+    	focusArea(chapView, graph2d);
     }
 }
