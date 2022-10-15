@@ -16,8 +16,6 @@ public class Animate{
 	private EnemyTile entity;
 	private Tile ent;
 	
-	private Maze.direction dir;
-	
 	/**
 	 * Constructor for making a new animation for actor object
 	 * 

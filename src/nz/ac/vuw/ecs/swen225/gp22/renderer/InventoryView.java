@@ -24,7 +24,6 @@ public class InventoryView extends JComponent{
 	private static final int INVENTORY_WIDTH = 4;
 	private static final int INVENTORY_HEIGHT = 2;
 	private static final int IMAGE_SIZE = 42;
-	//private static final int GAP = 250;
     private static final int GAP = (85 - IMAGE_SIZE * INVENTORY_HEIGHT)/2; //gap before drawing
 	
 	private Map<String, Image> imageCache = new HashMap<String, Image>();

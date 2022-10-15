@@ -35,11 +35,8 @@ public class MazeView extends JComponent{
 	private int cameraSize = vRange * imageSize; // 9 * 42
 	
 	private Maze maze; 
-	private Tile[][] chapView, boardArray;
+	private Tile[][] chapView;
 	private Set<Tile> tileSet;
-	
-
-
 	
 	/**
 	 * Constructor of MazeView
@@ -62,7 +59,6 @@ public class MazeView extends JComponent{
 	 * 
 	 * */
 	private void initialize() {
-		chapView = new Tile[vRange][vRange];
 		indentSize = 168;
 		setPreferredSize(new Dimension(cameraSize, cameraSize));
 	}
@@ -70,7 +66,7 @@ public class MazeView extends JComponent{
 	/** Updates the board
 	 * */
 	private void updateMaze() {
-		boardArray = maze.getBoard();
+		chapView = maze.getBoard();
 	}
 
 	/** 
@@ -101,6 +97,11 @@ public class MazeView extends JComponent{
 		}
 	}
 
+	/**
+	 * Finds chap within the tile set and
+	 * updates the X and Y at the tile.
+	 * 
+	 * */
 	private void findChap() {
 		for (Tile t: tileSet) {
 			if (t instanceof ChapTile) {
@@ -152,8 +153,8 @@ public class MazeView extends JComponent{
     public void paintComponent(Graphics g) {
     	super.paintComponent(g);
     	findChap();
+    	updateMaze();
     	Graphics2D graph2d = (Graphics2D) g;
-    	Tile[][] cView = maze.getBoard();
-    	focusArea(cView, graph2d);
+    	focusArea(chapView, graph2d);
     }
 }
