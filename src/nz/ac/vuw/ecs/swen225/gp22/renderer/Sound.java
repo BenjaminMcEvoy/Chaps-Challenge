@@ -179,6 +179,6 @@ public class Sound {
 		if(clip1 != null) {
 		return clip1.isRunning();
 		} else {return false;}
-	
+	}
 	
 }
