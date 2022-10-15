@@ -81,22 +81,22 @@ public class Controller implements KeyListener{
 			if(!paused) {
 				if(e.getExtendedKeyCode() == up) {
 					System.out.println("u");
-					maze.moveUp(chap);
+					maze.update(null, Maze.direction.UP);
 					chap.addPreviousMove(Maze.direction.UP);
 				}
 				else if(e.getExtendedKeyCode() == left) {
 					System.out.println("l");
-					maze.moveLeft(chap);
+					maze.update(null, Maze.direction.LEFT);
 					chap.addPreviousMove(Maze.direction.LEFT);
 				}
 				else if(e.getExtendedKeyCode() == down) {
 					System.out.println("d");
-					maze.moveDown(chap);
+					maze.update(null, Maze.direction.DOWN);
 					chap.addPreviousMove(Maze.direction.DOWN);
 				}
 				else if(e.getExtendedKeyCode() == right) {
 					System.out.println("r");
-					maze.moveRight(chap);
+					maze.update(null, Maze.direction.RIGHT);
 					chap.addPreviousMove(Maze.direction.RIGHT);
 				}
 				else if (e.getExtendedKeyCode() == space) {
