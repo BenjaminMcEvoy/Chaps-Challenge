@@ -2,6 +2,10 @@
 
 An imitation of the classics 90's game 'Chips Challenge'.
 
+Gource video link:
+
+https://youtu.be/LutDPATDmko
+
 ## Instructions
 Run Main.java to begin the program.
 
