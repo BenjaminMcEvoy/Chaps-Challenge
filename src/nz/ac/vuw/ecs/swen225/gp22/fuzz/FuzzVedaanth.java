@@ -73,6 +73,9 @@ public class FuzzVedaanth {
 	            e.printStackTrace();
 	        }
 	    }
+		/**
+	 * level 1 test method
+	 */
 	 public void level1Test() {
 	        try {
 	            SwingUtilities.invokeLater(() -> {game = new Game(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/1.xml"));});
@@ -80,6 +83,9 @@ public class FuzzVedaanth {
 	        }
 	        test();
 	    }
+		/**
+	 * level 2 test method
+	 */
 	 public void level2Test() {
 		 try {
 	            SwingUtilities.invokeLater(() -> {game = new Game(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/2.xml"));});
@@ -88,6 +94,9 @@ public class FuzzVedaanth {
 	        test();
 	 }
 	 
+	  /**
+	     * Actual fuzz test
+	     */
 	    @Test
 	    public void timedTest() {
 	        try {
