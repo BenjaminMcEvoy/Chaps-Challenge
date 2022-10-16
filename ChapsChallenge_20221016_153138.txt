@@ -1,0 +1,13 @@
+WARNING - 15:31:38: Creating types 
+WARNING - 15:31:38: Initializing types
+WARNING - 15:31:40: Generic post-process : Creating usages and associations
+WARNING - 15:31:40: Generic post-process : Creating activities
+WARNING - 15:31:40: Saving uml file /resource/ChapsChallenge/doc/ChapsChallenge.uml
+WARNING - 15:31:40: Uml file /resource/ChapsChallenge/doc/ChapsChallenge.uml saved
+WARNING - 15:32:21: Convert ChapsChallenge
+WARNING - 15:32:21: Creating types 
+WARNING - 15:32:21: Initializing types
+WARNING - 15:32:22: Generic post-process : Creating usages and associations
+WARNING - 15:32:22: Generic post-process : Creating activities
+WARNING - 15:32:22: Saving uml file /resource/ChapsChallenge/doc/ChapsChallenge.uml
+WARNING - 15:32:22: Uml file /resource/ChapsChallenge/doc/ChapsChallenge.uml saved
