@@ -32,7 +32,7 @@ public class FuzzVedaanth {
 	                    KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT,
 	                    KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT);
 	 
-	 private List<Integer> movesGenerator(){
+	 private List<Integer> movesGenerator(){// Move generator method that generates 10,000 random moves for patrick to do
 		 int lastMove = -1;
 		 List<Integer> actions = new ArrayList<>();
 		 for (int i = 0; i < 10000; i++) {
