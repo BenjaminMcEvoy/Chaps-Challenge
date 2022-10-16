@@ -120,7 +120,7 @@ public class Recorder {
     String level = root.getAttributeValue("level");
     XMLLoader levelLoader = new XMLLoader();
     levelLoader
-        .loadFile(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + level + ".xml"));
+        .loadFile(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/level" + level + ".xml"));
 
     // update characters future movement
     Maze maze = levelLoader.getMaze();

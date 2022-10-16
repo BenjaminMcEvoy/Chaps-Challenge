@@ -76,7 +76,7 @@ public class Game extends JFrame{
     mv.addKeyListener(controller);
 
     iv = new InventoryView(maze);
-    level = new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + maze.getLevel() + ".xml");
+    level = new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/level" + maze.getLevel() + ".xml");
 
     duration = 100000;
 
@@ -113,7 +113,7 @@ public class Game extends JFrame{
     mv.addKeyListener(controller);
 
     iv = new InventoryView(maze);
-    level = new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + maze.getLevel() + ".xml");
+    level = new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/level" + maze.getLevel() + ".xml");
 
     duration = 100000;
 
@@ -170,7 +170,7 @@ public class Game extends JFrame{
       sound.stopBackground();
       timer.stop();
       this.dispose();
-      String filename = "src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + (maze.getLevel()+1) + ".xml";
+      String filename = "src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/level" + (maze.getLevel()+1) + ".xml";
 
       if(maze.getLevel()+1 < 3) {
         new Game(new File(filename));

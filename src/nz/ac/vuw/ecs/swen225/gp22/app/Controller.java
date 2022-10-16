@@ -93,12 +93,12 @@ public class Controller implements KeyListener{
 			
 			//User enters Ctr + 1 to reload a new Level 1
 			if(e.getExtendedKeyCode() == one) {
-				new Game(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/1.xml"));
+				new Game(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/level1.xml"));
 			} 
 			
 			//User enters Ctr + 2 to reload a new Level 2
 			else if(e.getExtendedKeyCode() == two) {
-				new Game(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/2.xml"));
+				new Game(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/level2.xml"));
 			} 
 			
 			//User enters Ctr + X to exit without saving
