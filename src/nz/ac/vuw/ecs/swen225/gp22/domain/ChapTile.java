@@ -9,8 +9,6 @@ import java.util.*;
  *
  */
 
-
-
 public class ChapTile extends CharacterTile{
 	
 	private ArrayList<KeyTile> keys;
@@ -21,7 +19,7 @@ public class ChapTile extends CharacterTile{
 	private Stack<Maze.direction> nextMoves = new Stack<Maze.direction>();
 
 	/**
-	 * 
+	 * Constructor initializes the keys arraylist
 	 */
 	public ChapTile() {
 		super("chap");
@@ -30,6 +28,8 @@ public class ChapTile extends CharacterTile{
 	}
 	
 	/**
+	 * add a key to chap
+	 * 
 	 * @param k
 	 */
 	public void addKey(KeyTile k) {
@@ -37,6 +37,8 @@ public class ChapTile extends CharacterTile{
 	}
 	
 	/**
+	 * remove a key from chap by its Object
+	 * 
 	 * @param k
 	 */
 	public void removeKey(KeyTile k) {
@@ -44,6 +46,8 @@ public class ChapTile extends CharacterTile{
 	}
 	
 	/**
+	 * remove a key from chap by its String value
+	 * 
 	 * @param k
 	 */
 	public void removeKey(String k) {
@@ -55,8 +59,10 @@ public class ChapTile extends CharacterTile{
 	}
 	
 	/**
+	 * check if chap has a specified key
+	 * 
 	 * @param k
-	 * @return if has a specific key
+	 * @return if chap has said key
 	 */
 	public boolean hasKey(KeyTile k) {
 	    for (KeyTile key : keys) {
@@ -66,6 +72,8 @@ public class ChapTile extends CharacterTile{
 	}
 	
 	/**
+	 * get a list of all keys
+	 * 
 	 * @return keys
 	 */
 	public ArrayList<KeyTile> getKeys() {
@@ -73,6 +81,8 @@ public class ChapTile extends CharacterTile{
 	}
 	
 	/**
+	 * add a move to the previous moves stack
+	 * 
 	 * @param d
 	 */
 	public void addPreviousMove(Maze.direction d) {
@@ -80,6 +90,8 @@ public class ChapTile extends CharacterTile{
 	}
 	
 	/**
+	 * add a move to the next moves stack
+	 * 
 	 * @param d
 	 */
 	public void addNextMove(Maze.direction d) {
@@ -87,6 +99,8 @@ public class ChapTile extends CharacterTile{
 	}
 	
 	/**
+	 * get the previous moves stack
+	 * 
 	 * @return previousMoves
 	 */
 	public Stack<Maze.direction> getPreviousMoves() {
@@ -94,6 +108,8 @@ public class ChapTile extends CharacterTile{
 	}
 	
 	/**
+	 * get the next moves stack
+	 * 
 	 * @return nextMoves
 	 */
 	public Stack<Maze.direction> getNextMoves() {
@@ -101,7 +117,7 @@ public class ChapTile extends CharacterTile{
 	}
 
 	/**
-	 * 
+	 * change the file String variable which stores the filename of what picture of chap should be displayed
 	 */
 	public void getFLeft() {
 		file = "chap_left";
