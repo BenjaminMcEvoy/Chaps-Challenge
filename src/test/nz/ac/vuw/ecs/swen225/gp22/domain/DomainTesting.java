@@ -19,7 +19,6 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
 import nz.ac.vuw.ecs.swen225.gp22.domain.TreasureTile;
 import nz.ac.vuw.ecs.swen225.gp22.domain.WallTile;
-import nz.ac.vuw.ecs.swen225.gp22.renderer.Animate.direction;
 
 class DomainTesting {
 	
