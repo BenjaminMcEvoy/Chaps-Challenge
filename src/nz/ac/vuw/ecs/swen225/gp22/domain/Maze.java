@@ -169,8 +169,6 @@ public class Maze implements Observer{
 		}
 
 		
-
-		
 		board[getTileX(t)][getTileY(t)] = t.getStandingOn();
 		if (!collect) {
 		    sound.playMove();
