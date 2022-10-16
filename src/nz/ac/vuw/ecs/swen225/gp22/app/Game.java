@@ -35,6 +35,7 @@ public class Game extends JFrame implements ActionListener{
 	private Runnable restart = ()->{};
 	private Runnable nextLvl = ()->{};
 	private Runnable clearScreen = ()->{};
+	private Runnable lose = ()->{};
 
 	public Runnable save = ()->{};
 	
@@ -177,7 +178,11 @@ public class Game extends JFrame implements ActionListener{
 			timer.stop();
 			this.dispose();
 			String filename = "src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + (maze.getLevel()+1) + ".xml";
-			new Game(new File(filename));
+			if(maze.getLevel()+1 < 3) {
+        		new Game(new File(filename));
+      		}else {
+        		JOptionPane.showMessageDialog(this, "You have completed the game!");
+      		}
 		};
 
 		clearScreen = ()->{
@@ -199,6 +204,20 @@ public class Game extends JFrame implements ActionListener{
 			}
 		};
 		
+		lost = ()->{
+    	//Displays option pop up box to ask user to either restart the level or quit the game
+    		String[] confirm = {"Quit", "Restart"};
+      		JPanel panel = new JPanel();
+    		JLabel label = new JLabel("You Lose!");
+      		panel.add(label);
+      		int choice = JOptionPane.showOptionDialog(null, panel, "", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, confirm, confirm[1]);
+      		if(choice == 0) {
+        		System.exit(0);
+      		} else {
+        		restart.run();
+    		}
+    	};
+
 		//Creating JMenuItems 
 		JMenuItem stopbutton = new JMenuItem("stop");
 		stopbutton.addActionListener(e->stop.run());
@@ -237,34 +256,18 @@ public class Game extends JFrame implements ActionListener{
 					Controller.savedMove = Maze.direction.NULL;
 					duration -= 10;
 
-					//Checks for when timer ends
-					if (duration <= 0) {
-						duration = 100000;
+					//Checks for when timer ends or lose condition of level is true
+					if (duration <= 0 || maze.hasLost()) {
 						timer.stop();
-						
-						//Displays option pop up box to ask user to either restart the level or quit the game
-						String[] confirm = {"Quit", "Restart"};
-						JPanel panel = new JPanel();
-						JLabel label = new JLabel("You Lose!");
-						panel.add(label);
-						int choice = JOptionPane.showOptionDialog(null, panel, "", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, confirm, confirm[1]);
-						if(choice == 0) {
-							System.exit(0);
-						} else {
-							restart.run();
-						}
-
+						lost.run();
 					}
+
 					//Checks win condition of the level
 					if(maze.hasWon()) {
 						timer.stop();
 						nextLvl.run();
 					}
-					if(maze.hasLost()) {
-						timer.stop();
-						System.out.println("Ya lost bitch");
-						System.exit(0);
-					}
+			
 					//Displays info tile text when being stood on
 					if(maze.getChap().getStandingOn() instanceof InfoTile) {
 						infoTxt.setText(((InfoTile)maze.getChap().getStandingOn()).getText());
