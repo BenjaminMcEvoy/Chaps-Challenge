@@ -41,7 +41,7 @@ public class Controller implements KeyListener{
 	ChapTile chap;
 	
 	//Field to keep track of the latest saved move
-	public static Maze.direction savedMove = Maze.direction.NULL;
+	private static Maze.direction savedMove = Maze.direction.NULL;
 
 	/**
 	 * Getter for Set of keys the user is currently pressing down
@@ -52,6 +52,24 @@ public class Controller implements KeyListener{
 		return new ArrayList<Integer>(pressedKeys);
 	}
 
+	/**
+	 * Getter for the latest saved move
+	 * 
+	 * @return savedMove Maze.direction enum that is the latest saved move
+	 */
+	public Maze.direction getSavedMove(){
+	  return savedMove;
+	}
+	
+	/**
+	 * Setter for the latest saved move
+	 * 
+	 * @param move Maze.direction enum for the latest saved move
+	 */
+	public void setSavedMove(Maze.direction move) {
+	  Controller.savedMove = move;
+	}
+	
 	/**
 	 * Constructor for Controller
 	 * 
@@ -102,6 +120,7 @@ public class Controller implements KeyListener{
 						e1.printStackTrace();
 					}
 				}
+				System.exit(0);
 			} 
 			
 			//User enters Ctr + R to resume a saved game

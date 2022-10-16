@@ -1,7 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.app;
 
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.*;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.*;
 import nz.ac.vuw.ecs.swen225.gp22.recorder.*;
@@ -14,7 +13,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -23,340 +21,335 @@ import java.util.concurrent.TimeUnit;
  * @author Carlo Cigaral - 300572686
  *
  */
-public class Game extends JFrame implements ActionListener{
+public class Game extends JFrame{
 
-	/**
-	 * Identifier used to serialize and deserialize Game class
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	//Declaring Runnables
-	private Runnable stop = ()->{};
-	private Runnable restart = ()->{};
-	private Runnable nextLvl = ()->{};
-	private Runnable clearScreen = ()->{};
-	private Runnable lose = ()->{};
+  /**
+   * Identifier used to serialize and deserialize Game class
+   */
+  private static final long serialVersionUID = 1L;
 
-	public Runnable save = ()->{};
-	
-	private MazeView mv;
-	private JPanel container;
-	private Controller controller;
-	private Maze maze;
-	private File level;
-	private InventoryView iv;
+  //Declaring Runnables
+  private Runnable stop = ()->{};
+  private Runnable restart = ()->{};
+  private Runnable nextLvl = ()->{};
+  private Runnable clearScreen = ()->{};
+  private Runnable lost = ()->{};
 
-	private Sound sound = new Sound();
-	private Timer timer;
-	int i = 0;
-	private long duration;
-	private boolean paused = false;
+  private Runnable save = ()->{};
 
-	/**
-	 * Constructor for Game, used when loading a saved game given an existing maze
-	 * as the maze object does not hold the file it is contained in
-	 * 
-	 * @param m Current maze
-	 */
-	public Game(Maze m) {
+  private MazeView mv;
+  private JPanel container;
+  private Controller controller;
+  private Maze maze;
+  private File level;
+  private InventoryView iv;
 
-		sound.playAmbient();
+  private Sound sound = new Sound();
+  private Timer timer;
+  int i = 0;
+  private long duration;
+  private boolean paused = false;
 
-		this.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				System.exit(0);
-			}
-		});
+  /**
+   * Constructor for Game, used when loading a saved game given an existing maze
+   * as the maze object does not hold the file it is contained in
+   * 
+   * @param m Current maze
+   */
+  public Game(Maze m) {
 
-		assert SwingUtilities.isEventDispatchThread();
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		maze = m;
-		maze.setCurrent(maze.getChap());
+    sound.playAmbient();
 
-		mv = new MazeView(maze);
-		controller = new Controller(maze);
-		mv.addKeyListener(controller);
+    this.addWindowListener(new WindowAdapter() {
+      public void windowClosing(WindowEvent e) {
+        System.exit(0);
+      }
+    });
 
-		iv = new InventoryView(maze);
-		level = new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + maze.getLevel() + ".xml");
+    assert SwingUtilities.isEventDispatchThread();
+    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    maze = m;
+    maze.setCurrent(maze.getChap());
 
-		duration = 100000;
+    mv = new MazeView(maze);
+    controller = new Controller(maze);
+    mv.addKeyListener(controller);
 
-		gui();
-		setVisible(true);
-	}
+    iv = new InventoryView(maze);
+    level = new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + maze.getLevel() + ".xml");
 
-	/**
-	 * Constructor for Game, used when loading a new blank level
-	 * 
-	 * @param file File containing a blank level maze
-	 */
+    duration = 100000;
 
-	public Game(File file) {
+    gui();
+    setVisible(true);
+  }
 
-		sound.playAmbient();
+  /**
+   * Constructor for Game, used when loading a new blank level
+   * 
+   * @param file File containing a blank level maze
+   */
 
-		this.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				System.exit(0);
-			}
-		});
+  public Game(File file) {
 
-		assert SwingUtilities.isEventDispatchThread();
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		XMLLoader loader = new XMLLoader();
-		loader.loadFile(file);
+    sound.playAmbient();
 
-		maze = loader.getMaze();
-		maze.setCurrent(maze.getChap());
-		mv = new MazeView(maze);
+    this.addWindowListener(new WindowAdapter() {
+      public void windowClosing(WindowEvent e) {
+        System.exit(0);
+      }
+    });
 
-		controller = new Controller(maze);
-		mv.addKeyListener(controller);
+    assert SwingUtilities.isEventDispatchThread();
+    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    XMLLoader loader = new XMLLoader();
+    loader.loadFile(file);
 
-		iv = new InventoryView(maze);
-		level = new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + maze.getLevel() + ".xml");
+    maze = loader.getMaze();
+    maze.setCurrent(maze.getChap());
+    mv = new MazeView(maze);
 
-		duration = 100000;
+    controller = new Controller(maze);
+    mv.addKeyListener(controller);
 
-		gui();
-		setVisible(true);
-	}
+    iv = new InventoryView(maze);
+    level = new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + maze.getLevel() + ".xml");
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-	}
+    duration = 100000;
 
-	/**
-	 * Creates window for the main GUI
-	 */
-	public void gui() {
+    gui();
+    setVisible(true);
+  }
 
-		//Initializing all JPanel/JMenuBar items
-		JMenuBar tools = new JMenuBar();
+  /**
+   * Creates window for the main GUI
+   */
+  public void gui() {
 
-		container = new JPanel();
-		JPanel camera = new JPanel();
-		JPanel info = new JPanel();
+    //Initializing all JPanel/JMenuBar items
+    JMenuBar tools = new JMenuBar();
 
-		JPanel infoLabels = new JPanel();
-		JPanel infoInv = new JPanel();
+    container = new JPanel();
+    JPanel camera = new JPanel();
+    JPanel info = new JPanel();
 
-		infoLabels.setLayout(new GridLayout(5, 1));
-		infoInv.setLayout(new GridLayout(2,1));
+    JPanel infoLabels = new JPanel();
+    JPanel infoInv = new JPanel();
 
-		info.setLayout(new GridLayout(2, 1));
-		container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
+    infoLabels.setLayout(new GridLayout(5, 1));
+    infoInv.setLayout(new GridLayout(2,1));
 
-		Color bgColour = Color.decode("#a4fffd");
-		infoInv.setBackground(bgColour);
-		infoLabels.setBackground(bgColour);
-		camera.setBackground(bgColour);
+    info.setLayout(new GridLayout(2, 1));
+    container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
 
-		setResizable(false);
-		setSize(new Dimension(650, 450));
-		setMinimumSize(new Dimension(650, 450));		
+    Color bgColour = Color.decode("#a4fffd");
+    infoInv.setBackground(bgColour);
+    infoLabels.setBackground(bgColour);
+    camera.setBackground(bgColour);
 
-		//Setting up runnables
-		stop  = ()->{
-			sound.stopBackground();
-			timer.stop();
-			this.dispose();
-			new Setup();
-		};
+    setResizable(false);
+    setSize(new Dimension(650, 450));
+    setMinimumSize(new Dimension(650, 450));		
 
-		restart  = ()->{
-			sound.stopBackground();
-			timer.stop();
-			this.dispose();
-			new Game(level);
-		};
+    //Setting up runnables
+    stop  = ()->{
+      sound.stopBackground();
+      timer.stop();
+      this.dispose();
+      new Setup();
+    };
 
-		nextLvl = ()->{
-			sound.stopBackground();
-			timer.stop();
-			this.dispose();
-			String filename = "src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + (maze.getLevel()+1) + ".xml";
-			if(maze.getLevel()+1 < 3) {
-        		new Game(new File(filename));
-      		}else {
-        		JOptionPane.showMessageDialog(this, "You have completed the game!");
-      		}
-		};
+    restart  = ()->{
+      sound.stopBackground();
+      timer.stop();
+      this.dispose();
+      new Game(level);
+    };
 
-		clearScreen = ()->{
-			timer.stop();
-			sound.stopBackground();
-			this.dispose();
-		};
+    nextLvl = ()->{
+      sound.stopBackground();
+      timer.stop();
+      this.dispose();
+      String filename = "src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/" + (maze.getLevel()+1) + ".xml";
 
-		save = ()->{
-			JFileChooser chooser = new JFileChooser(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/SavedGame"));
-			int j = chooser.showSaveDialog(null);
-			if(j == JFileChooser.APPROVE_OPTION) {
-				try {
-					File f = chooser.getSelectedFile();
-					Recorder.SaveGame(maze, f);
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			}
-		};
-		
-		lost = ()->{
-    	//Displays option pop up box to ask user to either restart the level or quit the game
-    		String[] confirm = {"Quit", "Restart"};
-      		JPanel panel = new JPanel();
-    		JLabel label = new JLabel("You Lose!");
-      		panel.add(label);
-      		int choice = JOptionPane.showOptionDialog(null, panel, "", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, confirm, confirm[1]);
-      		if(choice == 0) {
-        		System.exit(0);
-      		} else {
-        		restart.run();
-    		}
-    	};
+      if(maze.getLevel()+1 < 3) {
+        new Game(new File(filename));
+      }else {
+        JOptionPane.showMessageDialog(this, "You have completed the game!");
+      }
+    };
 
-		//Creating JMenuItems 
-		JMenuItem stopbutton = new JMenuItem("stop");
-		stopbutton.addActionListener(e->stop.run());
+    clearScreen = ()->{
+      timer.stop();
+      sound.stopBackground();
+      this.dispose();
+    };
 
-		JMenuItem saveButton = new JMenuItem("Save");
-		saveButton.addActionListener(e->save.run());
+    save = ()->{
+      JFileChooser chooser = new JFileChooser(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/SavedGame"));
+      int j = chooser.showSaveDialog(null);
+      if(j == JFileChooser.APPROVE_OPTION) {
+        try {
+          File f = chooser.getSelectedFile();
+          Recorder.SaveGame(maze, f);
+        } catch (Exception e1) {
+          e1.printStackTrace();
+        }
+      }
+    };
 
-		JMenuItem nextButton = new JMenuItem("Next");
-		nextButton.addActionListener(e->Recorder.nextMove(maze));
+    lost = ()->{
+    //Displays option pop up box to ask user to either restart the level or quit the game
+      String[] confirm = {"Quit", "Restart"};
+      JPanel panel = new JPanel();
+      JLabel label = new JLabel("You Lose!");
+      panel.add(label);
+      int choice = JOptionPane.showOptionDialog(null, panel, "", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, confirm, confirm[1]);
+      if(choice == 0) {
+        System.exit(0);
+      } else {
+        restart.run();
+      }
+    };
 
-		JMenuItem autoButton = new JMenuItem("Auto-Play");
-		autoButton.addActionListener(e->Recorder.AutoPlay());
+    //Creating JMenuItems 
+    JMenuItem stopbutton = new JMenuItem("stop");
+    stopbutton.addActionListener(e->stop.run());
 
-		JLabel cl = new JLabel("TIME");
-		JLabel cd = new JLabel();
+    JMenuItem saveButton = new JMenuItem("Save");
+    saveButton.addActionListener(e->save.run());
 
-		JLabel pl = new JLabel("Patties Left");
-		JLabel pc = new JLabel();		
+    JMenuItem nextButton = new JMenuItem("Next");
+    nextButton.addActionListener(e->Recorder.nextMove(maze));
 
-		JLabel infoTxt = new JLabel();
+    JMenuItem autoButton = new JMenuItem("Auto-Play");
+    autoButton.addActionListener(e->Recorder.AutoPlay());
 
-		JLabel inv = new JLabel("Inventory");
+    JLabel cl = new JLabel("TIME");
+    JLabel cd = new JLabel();
 
-		JSlider speedControl = new JSlider(1, 5, 1);
-		speedControl.addChangeListener(e->Recorder.playbackSpeed=speedControl.getValue());
-		speedControl.setFocusable(false);
-		
-		//Timer - ticks every 10 milliseconds
-		timer = new Timer(10, new ActionListener() {
+    JLabel pl = new JLabel("Patties Left");
+    JLabel pc = new JLabel();		
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				if(!paused) {
-					//Resets the latest move to be NULL and gets overwritten when user input is detected
-					Controller.savedMove = Maze.direction.NULL;
-					duration -= 10;
+    JLabel infoTxt = new JLabel();
 
-					//Checks for when timer ends or lose condition of level is true
-					if (duration <= 0 || maze.hasLost()) {
-						timer.stop();
-						lost.run();
-					}
+    JLabel inv = new JLabel("Inventory");
 
-					//Checks win condition of the level
-					if(maze.hasWon()) {
-						timer.stop();
-						nextLvl.run();
-					}
-			
-					//Displays info tile text when being stood on
-					if(maze.getChap().getStandingOn() instanceof InfoTile) {
-						infoTxt.setText(((InfoTile)maze.getChap().getStandingOn()).getText());
-					} else {
-						infoTxt.setText("");
-					}
+    JSlider speedControl = new JSlider(1, 5, 1);
+    speedControl.addChangeListener(e->Recorder.playbackSpeed=speedControl.getValue());
+    speedControl.setFocusable(false);
 
-					//Clears the screen if Ctr + 1, 2, X, or R are pressed
-					if(controller.getPressedKeys().contains(KeyEvent.VK_CONTROL) && 
-							(controller.getPressedKeys().contains(KeyEvent.VK_1) 
-									|| controller.getPressedKeys().contains(KeyEvent.VK_2) 
-									|| controller.getPressedKeys().contains(KeyEvent.VK_X) 
-									|| controller.getPressedKeys().contains(KeyEvent.VK_R) ) ) {
-						clearScreen.run();
-					}
+    //Timer - ticks every 10 milliseconds
+    timer = new Timer(10, new ActionListener() {
 
-					//User pauses game
-					if(controller.getPressedKeys().contains(KeyEvent.VK_SPACE)) {
-						paused = true;
-					}
+      @Override
+      public void actionPerformed(ActionEvent e) {
 
-				}
-				//If user reloads a saved game, auto plays stack of moves that the user played in the saved game
-				if(Recorder.auto) {
-					Recorder.Next(maze);
-					try {
-						TimeUnit.MILLISECONDS.sleep(1000/Recorder.playbackSpeed);
-					} catch (InterruptedException e1) {
-						e1.printStackTrace();
-					}
-				}
+        if(!paused) {
+          //Resets the latest move to be NULL and gets overwritten when user input is detected
+          controller.setSavedMove(Maze.direction.NULL);
+          duration -= 10;
 
-				//Updates enemy position every second
-				if(i%100==0) {					
-					maze.getCharacters().stream().filter(c ->c instanceof EnemyTile).forEach(c -> c.move(maze));
-				}
-				
-				//User unpauses
-				if(controller.getPressedKeys().contains(KeyEvent.VK_ESCAPE)) {
-					paused = false;
-				}
-				
-				//Displaying time left and treasures/patties left
-				cd.setText(" " + (int)((duration)/1000));
-				pc.setText(" " + maze.checkTreasures());
-				mv.repaint();
-				iv.repaint();
-				i++;
-			}
+          //Checks for when timer ends or lose condition of level is true
+          if (duration <= 0 || maze.hasLost()) {
+              timer.stop();
+              lost.run();
+          }
+          
+          //Checks win condition of the level
+          if(maze.hasWon()) {
+            timer.stop();
+            nextLvl.run();
+          }
+          //Displays info tile text when being stood on
+          if(maze.getChap().getStandingOn() instanceof InfoTile) {
+            infoTxt.setText(((InfoTile)maze.getChap().getStandingOn()).getText());
+          } else {
+            infoTxt.setText("");
+          }
 
-		});
-		
-		if(!timer.isRunning()) {
-			timer.start();
-		}
+          //Clears the screen if Ctr + 1, 2, X, or R are pressed
+          if(controller.getPressedKeys().contains(KeyEvent.VK_CONTROL) && 
+              (controller.getPressedKeys().contains(KeyEvent.VK_1) 
+                  || controller.getPressedKeys().contains(KeyEvent.VK_2) 
+                  || controller.getPressedKeys().contains(KeyEvent.VK_X) 
+                  || controller.getPressedKeys().contains(KeyEvent.VK_R) ) ) {
+            clearScreen.run();
+          }
 
-		//Adding JLabels/Buttons to appropriate JPanels
-		tools.add(stopbutton);
-		tools.add(saveButton);
-		tools.add(nextButton);
-		tools.add(autoButton);
-		tools.add(speedControl);
+          //User pauses game
+          if(controller.getPressedKeys().contains(KeyEvent.VK_SPACE)) {
+            paused = true;
+          }
 
-		add(tools);
+        }
+        //If user reloads a saved game, auto plays stack of moves that the user played in the saved game
+        if(Recorder.auto) {
+          Recorder.Next(maze);
+          try {
+            TimeUnit.MILLISECONDS.sleep(1000/Recorder.playbackSpeed);
+          } catch (InterruptedException e1) {
+            e1.printStackTrace();
+          }
+        }
 
-		infoLabels.add(cl);
-		infoLabels.add(cd);
-		infoLabels.add(pl);
-		infoLabels.add(pc);
-		infoLabels.add(inv);
-		infoInv.add(iv);
-		infoInv.add(infoTxt);
+        //Updates enemy position every second
+        if(i%100==0) {					
+          maze.getCharacters().stream().filter(c ->c instanceof EnemyTile).forEach(c -> c.move(maze));
+        }
 
-		getContentPane().add(tools, BorderLayout.PAGE_START);
-		camera.add(mv);	
+        //User unpauses
+        if(controller.getPressedKeys().contains(KeyEvent.VK_ESCAPE)) {
+          paused = false;
+        }
 
-		info.add(infoLabels);
-		info.add(infoInv);
+        //Displaying time left and treasures/patties left
+        cd.setText(" " + (int)((duration)/1000));
+        pc.setText(" " + maze.checkTreasures());
+        mv.repaint();
+        iv.repaint();
+        i++;
+      }
 
-		container.add(camera);
-		container.add(info);
-		add(container);
-		this.setPreferredSize(new Dimension(300,300));
+    });
 
-		pack();
-		setLocationRelativeTo(null);
-		mv.requestFocus();
+    if(!timer.isRunning()) {
+      timer.start();
+    }
 
-	}
+    //Adding JLabels/Buttons to appropriate JPanels
+    tools.add(stopbutton);
+    tools.add(saveButton);
+    tools.add(nextButton);
+    tools.add(autoButton);
+    tools.add(speedControl);
+
+    add(tools);
+
+    infoLabels.add(cl);
+    infoLabels.add(cd);
+    infoLabels.add(pl);
+    infoLabels.add(pc);
+    infoLabels.add(inv);
+    infoInv.add(iv);
+    infoInv.add(infoTxt);
+
+    getContentPane().add(tools, BorderLayout.PAGE_START);
+    camera.add(mv);	
+
+    info.add(infoLabels);
+    info.add(infoInv);
+
+    container.add(camera);
+    container.add(info);
+    add(container);
+    this.setPreferredSize(new Dimension(300,300));
+
+    pack();
+    setLocationRelativeTo(null);
+    mv.requestFocus();
+
+  }
 
 
 
