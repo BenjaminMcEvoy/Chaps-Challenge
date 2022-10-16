@@ -1,18 +1,22 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+/**
+ * @author roddicadam - 300580773
+ * 
+ * Tile sublcass for the ExitLock
+ *
+ */
 public class ExitLockTile extends Tile{
 
+	/**
+	 * Default constructor
+	 */
 	public ExitLockTile() {
 		super();
 		walkable = false;
 	}
 
-	@Override
-	public void draw() {
-		// TODO Auto-generated method stub
-		
-	}
-	
+
 	@Override
 	public String toString() {
 		return "ExitLock";
@@ -20,7 +24,6 @@ public class ExitLockTile extends Tile{
 
 	@Override
 	public String getFileName() {
-		// TODO Auto-generated method stub
 		return "exitLock";
 	}
 

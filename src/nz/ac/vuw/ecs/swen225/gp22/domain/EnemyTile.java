@@ -7,6 +7,8 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Maze.direction;
 
 /**
  * @author roddicadam - 300580773
+ * 
+ * Tile sublcass for Enemies
  *
  */
 public class EnemyTile extends CharacterTile{
@@ -15,6 +17,8 @@ public class EnemyTile extends CharacterTile{
 	private String file = "enemy_left";
 	
 	/**
+	 * constructor sets the enemies name and pattern they should follow
+	 * 
 	 * @param name
 	 * @param pattern
 	 */
@@ -47,7 +51,7 @@ public class EnemyTile extends CharacterTile{
 	}
 	
 	/**
-	 * 
+	 * change the file String variable which stores the filename of what picture of this enemy should be displayed
 	 */
 	public void getFLeft() {
 		file = "enemy_left";

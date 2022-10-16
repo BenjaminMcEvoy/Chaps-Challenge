@@ -6,10 +6,21 @@ import nz.ac.vuw.ecs.swen225.gp22.persistency.XMLLoader;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Animate;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Sound;
 
+/**
+ * @author roddicadam - 300580773
+ * 
+ * The Maze class holds all the tiles together and provides their positions and contains
+ * methods which control their movement aswell as the tile and game states.
+ *
+ */
 @SuppressWarnings("deprecation")
 public class Maze implements Observer{
 
-	// fields
+	/**
+	 * enum for the directions characters can move
+	 * 
+	 * @author roddicadam - 300580773
+	 */
 	public enum direction{
 		UP,
 		DOWN,
@@ -18,38 +29,31 @@ public class Maze implements Observer{
 		NULL
 	}
 
-	// private Tile[][] board = new Tile[10][10];
 	private Tile[][] board;
 	private ChapTile chap;
-	private XMLLoader loader;
 	
 	private CharacterTile current;
 	private Sound sound;
 	private int level;
 
-	// private int totalTreasureCount;
+	private int totalTreasureCount;
+	private int availableTreasure;
+	private int collectedTreasure;
 
 	private final int width, height;
 	
 	private boolean hasWon = false;
 	private boolean hasLost = false;
+	private boolean mazeStarted = true;
 
-	// private Set<Key> availableKeys = new HashSet<Key>();
-
-	/*
+	/**
+	 * Maze constructor takes the width and height of the maze as parameters
+	 * aswell as the number of the level for this maze.
 	 * 
-	 * Maze constructor will be the class in the domain which stores the states and
-	 * locations
-	 * 
-	 * for each tile in the current level, will take some kind of persistency class
-	 * as the parameter
-	 * 
-	 * which would contain the data for all the tiles, including their locations.
-	 * 
-	 * 
-	 * 
+	 * @param width
+	 * @param height
+	 * @param level
 	 */
-
 	public Maze(int width, int height, int level) {
 
 		this.width = width;
@@ -57,33 +61,18 @@ public class Maze implements Observer{
 		this.level = level;
 		this.sound = new Sound();
 
-		assert width > 0 && height > 0;
-
-		board = new Tile[width][height];
-	}
-	
-	/*
-	 * Secondary constructor for if the level is not specified in the parser
-	 */
-	
-	public Maze(int width, int height) {
-
-		this.width = width;
-		this.height = height;
-		this.level = 1;
-
-		assert width > 0 && height > 0;
+		assert width > 0 && height > 0 : "width and height should not be negative or zero";
 
 		board = new Tile[width][height];
 	}
 
-	/*
+	/**
+	 * method to check if something movable can move to a specific tile and if so move it
 	 * 
-	 * method to check if something movable can move to a specific tile and if so
-	 * move it
-	 * 
+	 * @param t
+	 * @param x
+	 * @param y
 	 */
-
 	public void moveTile(CharacterTile t, int x, int y) {
 
 		Tile target = board[x][y];
@@ -96,9 +85,7 @@ public class Maze implements Observer{
 		if(sound.isRunning()) sound.stop();
 
 		if (target instanceof WallTile) {
-
 			throw new IllegalArgumentException("cannot move chap into a wall tile.");
-
 		}
 
 		else if (target instanceof KeyTile) {		
@@ -114,8 +101,7 @@ public class Maze implements Observer{
 			if (isChap) {
 				if (!((ChapTile) t).hasKey(new KeyTile(door.getColor()))) {
 					sound.playLockedDoor();
-					throw new IllegalArgumentException("cannot move chap into a locked door tile.");
-					
+					throw new IllegalStateException("cannot move chap into a locked door tile.");	
 				}
 				else {
 					sound.playOpenDoor();
@@ -127,35 +113,32 @@ public class Maze implements Observer{
 				throw new IllegalStateException("cannot move enemy into a locked door tile.");
 			}
 		}
-
-		else if (target instanceof TreasureTile) {
-			
+		else if (target instanceof TreasureTile) {		
 			if (isChap) {
-				target = new EmptyTile();
+			    int treasureCountOld = checkTreasures();
+			    EmptyTile empty = new EmptyTile();
+				target = empty;
+				board[x][y] = empty;
+				int treasureCountNew = checkTreasures();
+				assert treasureCountOld == treasureCountNew + 1 : "the current treasure count"
+				    + "should decrease by one when a treasure is collected.";
+				
 				sound.playPickup();
-				collect = true;
-				/*if (checkTreasures() < 1 ) {
-					clearTileType(new ExitLockTile());
-				}*/
+				availableTreasure = treasureCountNew;
+				collectedTreasure = totalTreasureCount - availableTreasure;
+				
+				collect = true;		
 			}
 
 		} 
 		else if (target instanceof ExitLockTile) {
 			if (checkTreasures() > 0) {
 				sound.playLockedDoor();
-				throw new IllegalArgumentException("cannot move into a Exit lock Tile");
+				throw new IllegalStateException("cannot move into a Exit lock Tile");
 			}
 			else {
 				collect = true;
-			}
-			
-			
-		}
-		else if (target instanceof InfoTile) {
-			InfoTile info = (InfoTile) target;
-			if (isChap) {
-				
-			}
+			}		
 		}
 
 		else if (target instanceof ExitTile && isChap) {
@@ -171,134 +154,118 @@ public class Maze implements Observer{
 			this.hasLost = true;
 			return;
 		}
-
 		
 		board[getTileX(t)][getTileY(t)] = t.getStandingOn();
 		if (!collect) {
-		    sound.playMove();
+		    if (t instanceof ChapTile) sound.playMove();
 			t.setStandingOn(target);
 		}
 		else {
 			t.setStandingOn(new EmptyTile());
-		}
-		
-		
+		}		
 		setTile(t, x, y);
-
 	}
 	
-	/*
-	 * return count of tresures remaining instead of a boolean
+	/**
+	 * return count of tresures remaining
+	 * 
+	 * @return treasures count
 	 */
-	
 	public int checkTreasures() {
 		int count = 0;
-		for (Tile t : this.getAllTiles()) {
-			if (t instanceof TreasureTile)
-				count++;
-		}
-		return count;
-
-	}
-	
-	/*private void clearTileType(Tile t) {
 		for (int x = 0; x < board.length; x++) {
-			for (int y = 0; y < board[x].length; y++) {
-				Tile current = board[x][y];
-				if (current.getClass().equals(t.getClass())) {
-					board[x][y] = new EmptyTile();
-				}
-			}
-		}
-	}*/
-
-	public Tile getTileAt(int x, int y) {
-
-		return board[x][y];
-
+            for (int y = 0; y < board[x].length; y++) {
+                if (board[x][y] instanceof TreasureTile) count++;
+            }
+        }
+		return count;
 	}
 
-	public void setTile(Tile t, int x, int y) {
-
-		board[x][y] = t;
-
-	}
-
-	/*
-	 * public Set<Key> availableKeys() {
+	/**
+	 * get the tile at a specified location on the board
 	 * 
-	 * return Collections.unmodifiableSet(availableKeys);
-	 * 
-	 * }
+	 * @param x
+	 * @param y
+	 * @return Tile
 	 */
+	public Tile getTileAt(int x, int y) {
+		return board[x][y];
+	}
 
+	/**
+	 * set the tile at a specified location on the board
+	 * 
+	 * @param t
+	 * @param x
+	 * @param y
+	 */
+	public void setTile(Tile t, int x, int y) {
+		board[x][y] = t;
+	}
+
+	/**
+	 * @return current board
+	 */
 	public Tile[][] getBoard() {
 		if (board == null) throw new IllegalStateException("board should not be null");
 		return this.board;
-
 	}
 
+	
+	/**
+	 * get a tiles x position
+	 * 
+	 * @param t
+	 * @return x position
+	 */
 	public int getTileX(Tile t) {
-
 		return findTile(t)[0];
-
 	}
 
+	/**
+	 * get a tiles y position
+	 * 
+	 * @param t
+	 * @return y position
+	 */
 	public int getTileY(Tile t) {
-
 		return findTile(t)[1];
-
 	}
 
 	private int[] findTile(Tile t) {
-
 		for (int x = 0; x < board.length; x++) {
-
 			for (int y = 0; y < board[x].length; y++) {
 				if (board[x][y] != null) {
 					if (board[x][y].equals(t)) {
-
 						return new int[] { x, y };
-
 					}
 				}
-
 			}
-
 		}
-
 		return null;
-
 	}
 
-	/*
-	 * 
+	/**
 	 * Getter method to return a collection of all the tiles in this maze object
 	 * 
+	 * @return all tiles
 	 */
-
 	public Set<Tile> getAllTiles() {
-
 		Set<Tile> tiles = new HashSet<Tile>();
-
 		for (int x = 0; x < board.length; x++) {
-
 			for (int y = 0; y < board[x].length; y++) {
-
 				tiles.add(board[x][y]);
-
 			}
-
 		}
-
 		return tiles;
-
 	}
-
-	/*
+	
+	
+	/**
 	 * return a list of chap and all enemies
+	 * 
+	 * @return all characters
 	 */
-
 	public List<CharacterTile> getCharacters() {
 		List<CharacterTile> count = new ArrayList<CharacterTile>();	
 		for (Tile t : getAllTiles()) {
@@ -307,91 +274,62 @@ public class Maze implements Observer{
 		return count;
 	}
 
-	/*
-	 * 
-	 * toString() will display all tiles in the maze in their respective position
-	 * 
-	 * Chap = C
-	 * EmptyTile = E
-	 * Enemy = En
-	 * ExitLock = El
-	 * Info = I
-	 * Key = K
-	 * LockedDoor = D
-	 * Treasure = T
-	 * Wall = W
-	 * 
-	 */
-	
 	@Override
 	public String toString() {
-
 		String output = "";		
-
 		for (int x = 0; x < board.length; x++) {
 			output += "| ";
 			for (int y = 0; y < board[x].length; y++) {
-
 				output += board[x][y].toString() + " | ";
-
 			}
-
 			output += "\n";
-
 		}
-
 		return output;
-
 	}
 
 	
+	/**
+	 * get the size of this maze's board
+	 * 
+	 * @return size
+	 */
 	public int[] getSize() {
-
 		return new int[] {width, height};
-
 	}
 
-	
-	public boolean equals(Maze other) {
-		
-		if (!isSameSize(other)) return false;
-
-		for (int x = 0; x < board.length; x++) {
-			for (int y = 0; y < board[x].length; y++) {
-							
-				if (!(board[x][y].getFileName().equals(other.getTileAt(x, y).getFileName()))) {
-					return false;
-				}
-				
-			}			
-		}				
-
-		return true;
-
-	}
-
-	private boolean isSameSize(Maze other) {
-		return this.getSize()[0] == other.getSize()[0] 
-			&& this.getSize()[1] == other.getSize()[1];
-	}
-	
-
+	/**
+	 * @return board width
+	 */
 	public int getWidth() {
 		return width;
 	}
 
+	/**
+	 * @return board height
+	 */
 	public int getHeight() {
 		return height;
 	}
 	
+	/**
+	 * @return level
+	 */
 	public int getLevel() {
 		return level;
 	}
 	
+	/**
+	 * Setter for chap
+	 * 
+	 * @param c
+	 */
 	public void setChap(ChapTile c) {
 		chap = c;
 	}
 	
+	/**
+	 * @return chap
+	 */
 	public ChapTile getChap() {
 		for(Tile t: getAllTiles()) {
 			if(t instanceof ChapTile) {return (ChapTile)t;}
@@ -399,38 +337,70 @@ public class Maze implements Observer{
 		return null;
 	}
 	
+	/**
+	 * Checks to see if the game is won
+	 * 
+	 * @return game status
+	 */
 	public boolean hasWon() {
 		return hasWon;
 	}
 	
+	/**
+	 * Checks to see if the game is lost
+	 * 
+	 * @return game status
+	 */
 	public boolean hasLost() {
 		return hasLost;
 	}
 	
+	/**
+	 * getter for this maze's InfoTile (there is never more than one per maze)
+	 * 
+	 * @return InfoTile
+	 */
 	public InfoTile getInfo() {
 		InfoTile output = null;
+		int count = 0;
 		for (Tile t : getAllTiles()) {
 			if (t instanceof InfoTile) output = (InfoTile)t;
+			count++;
 		}
+		assert count <= 1 : "There should never be more than one InfoTile";
 		return output;
 	}
 	
 	/**
+	 * Set the current CharacterTile which is being called to move
+	 * 
 	 * @param t
 	 */
 	public void setCurrent(CharacterTile t) {
-      if(t instanceof EnemyTile) {
-          current = (EnemyTile) t;
-      } 
-      else {
-          current = (ChapTile) t;
-      }
+        if(t instanceof EnemyTile) {
+            current = (EnemyTile) t;
+        } 
+        else {
+            current = (ChapTile) t;
+        }
       
     }
 	
-	@SuppressWarnings("deprecation") 
-    public void update(Observable o, Object arg) {
-        // TODO Auto-generated method stub
+	public void update(Observable o, Object arg) {
+	    if (mazeStarted) {
+	        totalTreasureCount = checkTreasures();
+  	        availableTreasure = totalTreasureCount;
+  	        collectedTreasure = 0;
+  	        assert totalTreasureCount >= 0 : "total treasure count should be non-negative";
+  	        mazeStarted = false;
+	    }
+	    else {
+	        availableTreasure = checkTreasures();
+	        assert collectedTreasure + availableTreasure == totalTreasureCount
+	              : "collected treasure count and available treasure count should"
+	              + "add up to the total treasure count";
+	    }
+	  
         int x = getTileX(current);
         int y = getTileY(current);
                 
@@ -442,63 +412,22 @@ public class Maze implements Observer{
             moveTile(current, x, y-1);
             break;
         case DOWN:
-
             animate = new Animate(x,y,x,y+1, current);
             animate.animation();
             moveTile(current, x, y+1);
-            break;
-            
+            break;           
         case RIGHT:
             animate = new Animate(x,y,x+1,y, current);
             animate.animation();
             moveTile(current, x+1, y);
-            break;
-            
+            break;           
         case LEFT:
             animate = new Animate(x,y,x-1,y, current);
             animate.animation();
             moveTile(current, x-1, y);
             break;
         default:
-            break;
-            
+            break;         
         }
     }
-
-
-
-
-	/*public void moveUp(CharacterTile t) {
-		System.out.println(t);
-		int x = getTileX(t);
-		int y = getTileY(t);
-		System.out.println("x="+x+"y="+y);
-		Animate animate = new Animate(x,y,x,y-1, t);
-		animate.animation();
-		moveTile(t, x, y-1);
-	}
-	
-	public void moveLeft(CharacterTile t) {
-		int x = getTileX(t);
-		int y = getTileY(t);
-		Animate animate = new Animate(x,y,x-1,y, t);
-		animate.animation();
-		moveTile(t, x-1, y);			
-	}
-	public void moveDown(CharacterTile t) {
-		int x = getTileX(t);
-		int y = getTileY(t);
-		Animate animate = new Animate(x,y,x,y+1, t);
-		animate.animation();
-		moveTile(t, x, y+1);
-	}
-	public void moveRight(CharacterTile t) {
-		int x = getTileX(t);
-		int y = getTileY(t);
-		Animate animate = new Animate(x,y,x+1,y, t);
-		animate.animation();
-		moveTile(t, x+1, y);
-	}*/
-
-
 }

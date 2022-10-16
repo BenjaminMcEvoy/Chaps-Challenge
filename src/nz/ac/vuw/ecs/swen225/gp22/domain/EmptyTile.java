@@ -1,15 +1,18 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+/**
+ * @author roddicadam - 300580773
+ * 
+ * Tile sublcass for Empty tiles
+ *
+ */
 public class EmptyTile extends Tile{
 
+	/**
+	 * default constructor
+	 */
 	public EmptyTile() {
 		super();
-	}
-
-	@Override
-	public void draw() {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	@Override
@@ -19,7 +22,6 @@ public class EmptyTile extends Tile{
 
 	@Override
 	public String getFileName() {
-		// TODO Auto-generated method stub
 		return "freeTile";
 	}
 
