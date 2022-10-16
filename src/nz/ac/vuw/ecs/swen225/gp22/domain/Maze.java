@@ -130,7 +130,7 @@ public class Maze implements Observer{
 			
 			if (isChap) {
 				target = new EmptyTile();
-				sound.playPickup();
+				sound.playKeyPickup();
 				collect = true;
 				/*if (checkTreasures() < 1 ) {
 					clearTileType(new ExitLockTile());
@@ -170,10 +170,9 @@ public class Maze implements Observer{
 
 		
 
-		
+		sound.playMove();
 		board[getTileX(t)][getTileY(t)] = t.getStandingOn();
 		if (!collect) {
-		    sound.playMove();
 			t.setStandingOn(target);
 		}
 		else {
