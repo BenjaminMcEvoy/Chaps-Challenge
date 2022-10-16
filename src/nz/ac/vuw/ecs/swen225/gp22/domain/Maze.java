@@ -22,6 +22,8 @@ public class Maze implements Observer{
 	private Tile[][] board;
 	private ChapTile chap;
 	private XMLLoader loader;
+	
+	private CharacterTile current;
 	private Sound sound;
 	private int level;
 
@@ -162,10 +164,12 @@ public class Maze implements Observer{
 		
 		else if (target instanceof ChapTile && !isChap) {
 			this.hasLost = true;
+			return;
 		}
 		
 		else if (target instanceof EnemyTile && isChap) {
 			this.hasLost = true;
+			return;
 		}
 
 		
@@ -411,38 +415,49 @@ public class Maze implements Observer{
 		return output;
 	}
 	
-	@SuppressWarnings("deprecation")
-    
+	/**
+	 * @param t
+	 */
+	public void setCurrent(CharacterTile t) {
+      if(t instanceof EnemyTile) {
+          current = (EnemyTile) t;
+      } 
+      else {
+          current = (ChapTile) t;
+      }
+      
+    }
+	
+	@SuppressWarnings("deprecation") 
     public void update(Observable o, Object arg) {
         // TODO Auto-generated method stub
-        int x = getTileX(getChap());
-        int y = getTileY(getChap());
+        int x = getTileX(current);
+        int y = getTileY(current);
                 
         Animate animate;
-        ChapTile t = getChap();
         switch((direction) arg) {
         case UP:
-            animate = new Animate(x,y,x,y-1, t);
+            animate = new Animate(x,y,x,y-1, current);
             animate.animation();
-            moveTile(t, x, y-1);
+            moveTile(current, x, y-1);
             break;
         case DOWN:
 
-            animate = new Animate(x,y,x,y+1, t);
+            animate = new Animate(x,y,x,y+1, current);
             animate.animation();
-            moveTile(t, x, y+1);
+            moveTile(current, x, y+1);
             break;
             
         case RIGHT:
-            animate = new Animate(x,y,x+1,y, t);
+            animate = new Animate(x,y,x+1,y, current);
             animate.animation();
-            moveTile(t, x+1, y);
+            moveTile(current, x+1, y);
             break;
             
         case LEFT:
-            animate = new Animate(x,y,x-1,y, t);
+            animate = new Animate(x,y,x-1,y, current);
             animate.animation();
-            moveTile(t, x-1, y);
+            moveTile(current, x-1, y);
             break;
         default:
             break;
