@@ -17,13 +17,23 @@ import javax.swing.SwingUtilities;
 import org.junit.jupiter.api.Test;
 
 import nz.ac.vuw.ecs.swen225.gp22.app.Game;
+import nz.ac.vuw.ecs.swen225.gp22.domain.ExitLockTile;
+import nz.ac.vuw.ecs.swen225.gp22.domain.ExitTile;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Maze;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
+import nz.ac.vuw.ecs.swen225.gp22.domain.TreasureTile;
 
-/*
+/**
  * @author Vedaanth Kannan 300482816
+ *
  */
+
 public class FuzzVedaanth {
 	static final Random r = new Random();
 	private static Game game;
+	private static Tile exit;
+	private static int level = 1;
+	private static String s;
 	private final List<Integer> direction = List.of(KeyEvent.VK_UP,
             KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT, KeyEvent.VK_DOWN);
 	 private final Map<Integer, Integer> directionsAndOpp =
@@ -39,7 +49,7 @@ public class FuzzVedaanth {
 			 while (true) {
 	                int random = r.nextInt(direction.size());
 	                int move = direction.get(random);
-	                if (lastMove == -1 || move != directionsAndOpp.get(lastMove)) {
+	                if (lastMove == -1 || move != directionsAndOpp.get(lastMove)) {//checking if the next move is not the last move
 	                    actions.add(move);
 	                    lastMove = move;
 	                    break;
@@ -49,22 +59,44 @@ public class FuzzVedaanth {
 		 return actions;
 	 }
 	 private void test() {
+		 Maze m = new Maze(10,10,level); //starts new level 1 game
+		 for(Tile t: m.getAllTiles()) {
+			 if(t instanceof ExitLockTile) {//checking for instance of exit tile to get its location
+				 exit = m.getTileAt(m.getTileX(t), m.getTileY(t)); //setting the exit tile
+			 }
+		 }
 	        try {
-	            Robot robot = new Robot();
+	            Robot robot = new Robot();//using robot to automate chap/patrick
 	            List<Integer> generatedMoves = movesGenerator();
 	            for (int key : generatedMoves) {
 	                SwingUtilities.invokeLater(new Runnable() {
 	                    public void run() {
-	                        robot.keyPress(key);
+	                        robot.keyPress(key);//pressing key/input for robot
 	                    }
 	                });
 	                try {
 	                    Thread.sleep(10);
 	                    SwingUtilities.invokeLater(new Runnable() {
 	                        public void run() {
-	                            robot.keyRelease(key);
+	                        	s = "";
+	                            robot.keyRelease(key);//releasing key/input for robot
+	                            if((m.getTileX(m.getChap()) == m.getTileX(exit))&&(m.getTileY(m.getChap()) == m.getTileY(exit))) {//checking if chap is on the exit and if he is, is he on the exit tile. 
+	                            	for(Tile t: m.getAllTiles()) {
+                            			if(t instanceof TreasureTile) {//if both cases are true, checking if there are any treasures left in the maze and if there is, breaking the loop and going back to the game as normal
+                            				break;
+                            				
+                            			}
+                            		level++;//if not adding to the level
+                            		s = "Chap is on the exit and has eaten all burgers";
+									/*
+									 * try { Thread.sleep(10000); } catch (InterruptedException e) { // TODO
+									 * Auto-generated catch block e.printStackTrace(); }
+									 */
+                            		assert(s.equalsIgnoreCase("Chap is on the exit and has eaten all burgers")); //asserting that level has passed and moving to the next test
+	                            }
 	                        }
-	                    });
+	                        }
+	                        });
 	                } catch (InterruptedException e) {
 	                }
 	            }
@@ -73,20 +105,20 @@ public class FuzzVedaanth {
 	            e.printStackTrace();
 	        }
 	    }
-		/**
+	 /**
 	 * level 1 test method
 	 */
-	 public void level1Test() {
+	public void level1Test() {
 	        try {
 	            SwingUtilities.invokeLater(() -> {game = new Game(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/1.xml"));});
 	        } catch (Error e) {
 	        }
 	        test();
 	    }
-		/**
+	 /**
 	 * level 2 test method
 	 */
-	 public void level2Test() {
+	public void level2Test() {
 		 try {
 	            SwingUtilities.invokeLater(() -> {game = new Game(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/2.xml"));});
 	        } catch (Error e) {
@@ -94,7 +126,7 @@ public class FuzzVedaanth {
 	        test();
 	 }
 	 
-	  /**
+	    /**
 	     * Actual fuzz test
 	     */
 	    @Test
