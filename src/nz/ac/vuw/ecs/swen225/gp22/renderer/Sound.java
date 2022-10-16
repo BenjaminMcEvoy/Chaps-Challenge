@@ -19,7 +19,7 @@ public class Sound {
 
 	//Fields
 	
-	private String amb, move, lockedD, openD, keyPick, pickUp, chapStung, win;
+	private String amb, move, lockedD, openD, keyPick, chapStung, win;
 	private Clip clip1, clip2;
 	
 
@@ -45,8 +45,7 @@ public class Sound {
 		move = "res/audio/soundMove2.wav";
 		lockedD = "res/audio/soundLocked.wav";
 		openD = "res/audio/soundOpen.wav";
-		keyPick = "res/audio/soundKeyPickup.wav";
-	    pickUp = "res/audio/soundPickup.wav";
+		keyPick = "res/audio/soundPickup.wav";
 		chapStung = "res/audio/soundStung.wav";
 		win = "res/audio/soundWin.wav";
 	}
@@ -104,14 +103,6 @@ public class Sound {
 	public void playKeyPickup() {
 		play(keyPick);
 	}
-	
-	/** Plays the locked door sound
-     * 
-     *  Calls the play function
-     * */
-    public void playPickup() {
-            play(pickUp);
-    }
 	
 	/** Plays the move sound
 	 * 

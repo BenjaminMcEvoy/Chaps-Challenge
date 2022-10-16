@@ -74,6 +74,8 @@ public class MazeView extends JComponent{
 	 * 
 	 * Assigns all image fields to the files from resource folder into the hashmap
 	 * 
+	 * TODO: Make an loop of the res folder and loop through to put in the map rather
+	 * than manually setting it. 
 	 * @return hash
 	 */
 	private void initImage(){
@@ -82,8 +84,11 @@ public class MazeView extends JComponent{
 			File[] imageList = folder.listFiles();
 			for(int i = 0; i< imageList.length; i++){
 				if(imageList[i].isFile()){
+				    
 				    String imageName = imageList[i].getName().substring(0 , imageList[i].getName().length()-4);
+				    //System.out.println("File " + imageName);
 				    imageCache.put(imageName, ImageIO.read(imageList[i]));
+				    
 				} 
 			}
 

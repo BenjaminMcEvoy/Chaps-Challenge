@@ -60,8 +60,11 @@ public class InventoryView extends JComponent{
           File[] imageList = folder.listFiles();
           for(int i = 0; i< imageList.length; i++){
               if(imageList[i].isFile()){
+                  
                   String imageName = imageList[i].getName().substring(0 , imageList[i].getName().length()-4);
+                  //System.out.println("File " + imageName);
                   imageCache.put(imageName, ImageIO.read(imageList[i]));
+                  
               } 
           }
 		} catch (Exception e) {
