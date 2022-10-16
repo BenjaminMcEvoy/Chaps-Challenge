@@ -84,7 +84,7 @@ public class Setup extends JFrame implements MouseListener{
 		//User clicks on the Start Button
 		if(mouseX >= 305 && mouseX <= 375 && mouseY >= 276 && mouseY <= 305) {
 			this.dispose();
-			new Game(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/1.xml"));
+			new Game(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/level1.xml"));
 		}
 		
 		//User clicks on Load button
