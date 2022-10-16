@@ -5,17 +5,26 @@ import java.util.*;
 
 import nz.ac.vuw.ecs.swen225.gp22.domain.Maze.direction;
 
+/**
+ * @author roddicadam - 300580773
+ *
+ */
 public class EnemyTile extends CharacterTile{
 	private List<direction> pattern = new ArrayList<direction>();
 	int patternLocation = 0;
 	private String file = "enemy_left";
 	
+	/**
+	 * @param name
+	 * @param pattern
+	 */
 	public EnemyTile(String name, List<direction> pattern) {
 		super(name);
 		this.pattern = pattern;
 	}
 	
 	public void move(Maze maze) {
+        maze.setCurrent(this);
 		switch(pattern.get(patternLocation)){
 			case UP:
 				maze.update(null, Maze.direction.UP);
@@ -37,23 +46,21 @@ public class EnemyTile extends CharacterTile{
 		if(patternLocation==pattern.size()) patternLocation = 0;
 	}
 	
+	/**
+	 * 
+	 */
 	public void getFLeft() {
-		// TODO Auto-generated method stub
 		file = "enemy_left";
 	}
 
+	/**
+	 * 
+	 */
 	public void getFRight() {
-		// TODO Auto-generated method stub
 		file = "enemy_right";
 	}
 
-	
-	@Override
-	public void draw() {
-		
-		
-	}
-	
+
 	@Override
 	public String toString() {
 		return "Enemy";
@@ -61,7 +68,6 @@ public class EnemyTile extends CharacterTile{
 
 	@Override
 	public String getFileName() {
-		// TODO Auto-generated method stub
 		return file;
 	}
 
