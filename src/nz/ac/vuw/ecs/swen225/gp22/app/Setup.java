@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
 
 /**
  * Setup screen for Chap's Challenge. User can create a game, load a saved game, check instructions,
- * go back to main menu after reading the instructions, or quit.
+ * or quit.
  * 
  * @author Carlo Cigaral - 300572686
  *
@@ -23,35 +23,38 @@ import javax.imageio.ImageIO;
 public class Setup extends JFrame implements MouseListener{
 	
 	/**
-	 * 
+	 * Identifier used to serialize and deserialize Game class
 	 */
 	private static final long serialVersionUID = 1L;
-	JButton newGame;
-	JButton loadGame;
-	JButton instructions;
-	JButton quit;
-	JPanel panel;
 	
-	Runnable clearPanel = ()->{
+	private JPanel panel;
+	private Runnable clearPanel = ()->{
 		panel.removeAll();
 		remove(panel);
 	};
 	
+	/**
+	 * Constructor for Setup - Initializes swing configs and calls method to display MainMenu
+	 */
 	public Setup() {
 		assert SwingUtilities.isEventDispatchThread();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setLocationRelativeTo(null);
 		mainMenu();
 		setVisible(true);
 	}
 	
+	/**
+	 * Displays main menu by drawing the Main Menu image in graphics folder
+	 */
 	public void mainMenu() {
+		//Sets window settings
 		setResizable(false);
 		setSize(new Dimension(650, 450));
 		setMinimumSize(new Dimension(650, 450));
-		
 		panel = new JPanel();
 		addMouseListener(this);
+		
+		//Loads in Main Menu screen image
 		try {
 			BufferedImage image = ImageIO.read(new File("res/graphics/MenuScreen.png"));
 			JLabel menuScreen = new JLabel(new ImageIcon(image));
@@ -62,9 +65,15 @@ public class Setup extends JFrame implements MouseListener{
 		
 		add(panel);
 		pack();
-		
+		setLocationRelativeTo(null);
+
 	}
 	
+	/**
+	 * Listens for mouse click events, runs code for corresponding "button image" clicked 
+	 * 
+	 * @param e mouse event detected
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -72,22 +81,24 @@ public class Setup extends JFrame implements MouseListener{
 		int mouseX = e.getX();
 		int mouseY = e.getY();
 
+		//User clicks on the Start Button
 		if(mouseX >= 305 && mouseX <= 375 && mouseY >= 276 && mouseY <= 305) {
-			System.out.println("New Game");
 			this.dispose();
 			new Game(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/Levels/1.xml"));
 		}
 		
+		//User clicks on Load button
 		else if (mouseX >= 305 && mouseX <= 370 && mouseY >= 322 && mouseY <= 346) {
-			System.out.println("Load Game");
 			this.dispose();
-			//replace this with a file selector eventually
+			
+			//Runs a file chooser for user to select a saved game
 			JFileChooser chooser = new JFileChooser(new File("src/nz/ac/vuw/ecs/swen225/gp22/recorder/SavedGame"));
 			int j = chooser.showOpenDialog(null);
 			if(j == JFileChooser.APPROVE_OPTION) {
 				try {
 					File f = chooser.getSelectedFile();
 					this.dispose();
+					//Creates new game based on selected file
 					new Game(Recorder.LoadSave(f));
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -95,13 +106,14 @@ public class Setup extends JFrame implements MouseListener{
 			}
 		}
 		
+		//User clicks on the Info button
 		else if (mouseX >= 310 && mouseX <= 365 && mouseY >= 364 && mouseY <= 387) {
-			System.out.println("Instructions");
 			clearPanel.run();
 			this.dispose();
 			new Instructions();
 		}
 
+		//User clicks on Quit and option pop up box will appear
 		else if (mouseX >= 310 && mouseX <= 365 && mouseY >= 410 && mouseY <= 432) {
 			System.out.println("Quit");
 			clearPanel.run();

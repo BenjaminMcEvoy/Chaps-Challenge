@@ -1,21 +1,24 @@
 package nz.ac.vuw.ecs.swen225.gp22.app;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 /**
  * Class to display instructions window - shows key binds
- * @author CarloC
+ * 
+ * @author Carlo Cigaral - 300572686
  *
  */
 public class Instructions extends JFrame implements ActionListener{
 
 	/**
-	 * 
+	 * Identifier used to serialize and deserialize Game class
 	 */
 	private static final long serialVersionUID = 1L;
 	JButton back;
@@ -27,16 +30,20 @@ public class Instructions extends JFrame implements ActionListener{
 	};
 	
 	/**
-	 * Constructor for instructions - Initializes swing configurations
+	 * Constructor for instructions - Initializes swing configurations and calls method to display Instructions
 	 */
 	public Instructions() {
 		assert SwingUtilities.isEventDispatchThread();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setLocationRelativeTo(null);
 		instructions();
 		setVisible(true);
 	}
 
+	/**
+	 * Listens for action event, brings user back to main menu if button click is detected
+	 * 
+	 * @param e Action Event detected
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(back)) {
@@ -47,35 +54,32 @@ public class Instructions extends JFrame implements ActionListener{
 	}
 
 	/**
-	 * Displays JLabels to show controls
+	 * Displays image to show controls
 	 */
 	public void instructions() {
+		//Sets window settings
 		setResizable(false);
 		setSize(new Dimension(650, 450));
 		setMinimumSize(new Dimension(650, 450));
-		panel = new JPanel(new GridLayout(6, 2));
-		panel.add(new JLabel("Up = Up arrow key"));
+		panel = new JPanel();
 		
-		panel.add(new JLabel("Up = Up arrow key"));
-		panel.add(new JLabel("Down = Down arrow key"));
-		panel.add(new JLabel("Left = Left arrow key"));
-		panel.add(new JLabel("Right = Right arrow key"));
-		panel.add(new JLabel("Pause = Space key"));
-		panel.add(new JLabel("Unpause = Escape key"));
-		panel.add(new JLabel("Exit without saving = CTRL + X"));
-		panel.add(new JLabel("Exit and save = CTRL + S"));
-		panel.add(new JLabel("Reload saved game = CTRL + R"));
-		panel.add(new JLabel("Start new game at Lvl 1 = CTRL + 1"));
-		panel.add(new JLabel("Start new game at Lvl 2 = CTRL + 2"));
+		//Loads in Info Screen image
+		try {
+			BufferedImage image = ImageIO.read(new File("res/graphics/InfoScreen.png"));
+			JLabel infoScreen = new JLabel(new ImageIcon(image));
+			panel.add(infoScreen);
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
 		
 		back = new JButton("Back");
 		back.addActionListener(this);
-		panel.add(back);
 		
-		add(BorderLayout.CENTER, panel);
 		add(BorderLayout.SOUTH, back);
 		add(panel);
 		pack();
+		setLocationRelativeTo(null);
+
 	}
 	
 	
